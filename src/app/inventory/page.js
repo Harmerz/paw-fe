@@ -44,33 +44,41 @@ export default function Inventory() {
             </div>
           ))}
         </div>
-        <table className="table mt-5 text-left w-full">
+        <table className="table mt-5 text-left w-full mx-2">
             <thead>
               <tr className="bg-green-100 font-poppins text-green-700">
-                <th className="py-2">id</th>
-                <th className="py-2">Name</th>
-                <th className="py-2">Description</th>
-                <th className="py-2">Type</th>
-                <th className="py-2">Qty</th>
-                <th className="py-2">Unit</th>
-                <th className="py-2">Price</th>
-                <th className="py-2 text-green-100">Edit</th>
-                <th className="py-2 text-green-100">Delete</th>
+                <th className="py-2 pl-3">id</th>
+                <th className="py-2 pl-3">Name</th>
+                <th className="py-2 pl-3">Description</th>
+                <th className="py-2 pl-3">Type</th>
+                <th className="py-2 pl-3">Qty</th>
+                <th className="py-2 pl-3">Unit</th>
+                <th className="py-2 pl-3">Price</th>
+                <th className="py-2 pl-3 text-green-100">Edit</th>
+                <th className="py-2 pl-3 text-green-100">Delete</th>
               </tr>
             </thead>
+
             <tbody>
               {tableData.map((data) => (
                 <tr key={data.id} className="text-black font-bold">
-                  <td className="py-2">{data.id}</td>
-                  <td className="py-2">{data.name}</td>
-                  <td className="py-2">{data.description}</td>
-                  <td className="py-2">{data.type}</td>
-                  <td className="py-2">{data.qty}</td>
-                  <td className="py-2">{data.unit}</td>
-                  <td className="py-2">{data.price}</td>
+                  <td className="py-4 pl-3">{data.id}</td>
+                  <td className="py-2 pl-3">{data.name}</td>
+                  <td className="py-2 pl-3">{data.description}</td>
+                  <td className="py-2 pl-3">{data.type}</td>
+                  <td className="py-2 pl-3">{data.qty}</td>
+                  <td className="py-2 pl-3">{data.unit}</td>
+                  <td className="py-2 pl-3">{data.price}</td>
+                  <td className="py-2 pl-3">
+                    <button className="bg-green-400 text-white px-4 py-2 rounded cursor-pointer">Edit</button>
+                  </td>
+                  <td className="py-2 pl-3">
+                    <button className="bg-red-500 text-white px-4 py-2 rounded cursor-pointer">Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
+
 
         </table>
       </div>
