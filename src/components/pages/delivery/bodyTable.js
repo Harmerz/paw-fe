@@ -6,58 +6,58 @@ export function BodyTable() {
     {
       id: 1,
       recipient: 'Dadang',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      items: 'tempe, tahu, rendang',
+      courier: 'Dudung',
+      estimedtime: '22-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 2,
+      recipient: 'Roy',
+      items: 'rendang, tomat, tempe',
+      courier: 'Dudung',
+      estimedtime: '23-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 3,
+      recipient: 'Glory',
+      items: 'Tempe Pindang, rendang goreng',
+      courier: 'Dudung',
+      estimedtime: '24-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 4,
+      recipient: 'Adit',
+      items: 'Santan goreng',
+      courier: 'Dudung',
+      estimedtime: '27-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 5,
+      recipient: 'Natasha',
+      items: 'Ikan Pindang',
+      courier: 'Dudung',
+      estimedtime: '27-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 6,
+      recipient: 'Bella',
+      items: 'Rendang Pindang yang dikukus',
+      courier: 'Dudung',
+      estimedtime: '28-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 7,
+      recipient: 'Dina',
+      items: 'Es teh panas',
+      courier: 'Dudung',
+      estimedtime: '29-11-2023',
     },
     {
-      id: 1,
-      recipient: 'Product 1',
-      items: 'Description 1',
-      courier: 'Type 1',
-      estimedtime: 10,
+      id: 8,
+      recipient: 'Dona',
+      items: 'Sate goreng krispi kuah',
+      courier: 'Kasian Dudung kerja Rodi',
+      estimedtime: '30-11-2023',
     },
   ]
 
@@ -73,7 +73,7 @@ export function BodyTable() {
           <td className="py-2 pl-3">
             <button
               type="button"
-              className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
+              className="bg-ijo3 flex cursor-pointer items-center rounded px-4 py-2 text-white"
             >
               <IoColorWandSharp className="mr-2" /> Edit
             </button>
@@ -81,7 +81,7 @@ export function BodyTable() {
           <td className="py-2 pl-3">
             <button
               type="button"
-              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
+              className="bg-merah-tumbas flex cursor-pointer items-center rounded px-4 py-2 text-white"
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
