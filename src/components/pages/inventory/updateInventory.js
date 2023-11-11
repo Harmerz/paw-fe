@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5'
 
-export default function Update() {
+export function Update() {
   const [quantity, setQuantity] = useState(false)
   const [typeQty, setTypeQty] = useState(' ')
   return (
@@ -106,3 +106,5 @@ export default function Update() {
     </div>
   )
 }
+
+export default Update

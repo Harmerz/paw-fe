@@ -1,5 +1,5 @@
-import Create from '@/components/pages/inventory/updateInventory'
+import { Update } from '@/components/pages/inventory'
 
-export default function Update() {
-  return <Create />
+export default function updateInventory() {
+  return <Update />
 }

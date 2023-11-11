@@ -1,5 +1,9 @@
-import Create from '@/components/pages/inventory/showInventory'
+import { BodyTable, Inventory } from '@/components/pages/inventory'
 
-export default function Inventory() {
-  return <Create />
+export default function ShowInventory() {
+  return (
+    <Inventory>
+      <BodyTable />
+    </Inventory>
+  )
 }

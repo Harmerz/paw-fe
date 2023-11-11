@@ -1,9 +1,7 @@
-'use client'
-
 import { useState } from 'react'
 import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5'
 
-export default function Create() {
+export function Create() {
   const [quantity, setQuantity] = useState(false)
   const [typeQty, setTypeQty] = useState(' ')
   return (
@@ -106,3 +104,5 @@ export default function Create() {
     </div>
   )
 }
+
+export default Create
