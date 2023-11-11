@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 
 export default function Order() {
-  const [quantity, setQuantity] = useState(false)
-
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)
     const day = date.getDate()
@@ -16,7 +14,7 @@ export default function Order() {
     return `${day}-${month}-${year}`
   }
 
-  function formatCurrency(amount) {
+  const formatCurrency = (amount) => {
     const formattedAmount = new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
@@ -319,7 +317,7 @@ export default function Order() {
   ]
 
   return (
-    <div style={{ backgroundColor: '#FCFFFA' }} className="bg-white bg-contain">
+    <div className="min-h-screen bg-white bg-contain">
       <NavBar />
       <div className="p-8">
         <div className="flex flex-col items-start">
@@ -338,96 +336,47 @@ export default function Order() {
               placeholder="Search..."
             />
           </div>
-        </div>
-        <table className="mx-2 mt-5 table w-full text-left">
-          <thead>
-            <tr className="font-poppins bg-ijo4 text-ijo1">
-              <th className="py-2 pl-3">id</th>
-              <th className="py-2 pl-3">Date</th>
-              <th className="py-2 pl-3">Total Price</th>
-              <th className="py-2 pl-3">Items</th>
-              <th className="py-2 pl-3 text-ijo4">Edit</th>
-              <th className="py-2 pl-3 text-ijo4">Delete</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {tableData.map((data) => (
-              <tr key={data.id} className="font-medium text-black">
-                <td className="py-4 pl-3 font-bold">{data.id}</td>
-                <td className="py-2 pl-3">{formatDate(data.date)}</td>
-                <td className="py-2 pl-3">{formatCurrency(data.totalPrice)}</td>
-                <td className="text-overflow-ellipsis overflow-hidden whitespace-nowrap py-2 pl-3">
-                  {data.items.map((item) => item.name).join(', ')}
-                </td>
-                <td className="py-2 pl-3">
-                  <button
-                    type="button"
-                    className="cursor-pointer rounded bg-ijo3 px-4 py-2 text-white"
-                  >
-                    Edit
-                  </button>
-                </td>
-                <td className="py-2 pl-3">
-                  <button
-                    type="button"
-                    className="cursor-pointer rounded bg-merah-tumbas px-4 py-2 text-white"
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="mx-2 mt-5 table w-full text-left">
+            <thead>
+              <tr className="font-poppins bg-ijo4 text-ijo1">
+                <th className="py-2 pl-3">id</th>
+                <th className="py-2 pl-3">Date</th>
+                <th className="py-2 pl-3">Total Price</th>
+                <th className="py-2 pl-3">Items</th>
+                <th className="py-2 pl-3 text-ijo4">Edit</th>
+                <th className="py-2 pl-3 text-ijo4">Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex">
-        <div className="w-1/6 flex-none bg-white" />
+            </thead>
 
-        <div className="w-2/3 flex-grow bg-white">
-          <div className="pb-6 pt-8 text-3xl font-bold text-black">Update Order</div>
-
-          <div className="pb-2 font-bold text-black">Date</div>
-          <div className="pb-4">
-            <input
-              type="text"
-              className="w-full rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-          </div>
-
-          <div className="pb-2 font-bold text-black">Items</div>
-          <div className="flex flex-row gap-2 pb-4">
-            <input
-              type="text"
-              className="w-32 rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-            <div className="relative">
-              <button
-                type="button"
-                className="w-44 cursor-pointer rounded bg-gray-200 px-4 py-2 text-white"
-                onClick={() => setQuantity(!quantity)}
-              >
-                Ganti
-              </button>
-              {quantity && <div className="absolute w-full bg-yellow-200 text-black">kg</div>}{' '}
-            </div>
-          </div>
-
-          <div className="pb-2 font-bold text-black">Total Price</div>
-          <div className="pb-12">
-            <input type="text" className="w-full rounded-md bg-gray-200 p-2 text-black" />
-          </div>
-        </div>
-
-        <div className="white relative w-1/6 flex-none">
-          <button
-            type="button"
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 transform cursor-pointer rounded bg-ijo3 px-4 py-2 font-bold text-white"
-          >
-            Save
-          </button>
+            <tbody>
+              {tableData.map((data) => (
+                <tr key={data.id} className="font-bold text-black">
+                  <td className="py-4 pl-3">{data.id}</td>
+                  <td className="py-2 pl-3">{formatDate(data.date)}</td>
+                  <td className="py-2 pl-3">{formatCurrency(data.totalPrice)}</td>
+                  <td className="text-overflow-ellipsis overflow-hidden whitespace-nowrap py-2 pl-3 font-medium">
+                    {data.items.map((item) => item.name).join(', ')}
+                  </td>
+                  <td className="py-2 pl-3">
+                    <button
+                      type="button"
+                      className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
+                    >
+                      <IoColorWandSharp className="mr-2" /> Edit
+                    </button>
+                  </td>
+                  <td className="py-2 pl-3">
+                    <button
+                      type="button"
+                      className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
+                    >
+                      <IoTrashBinSharp className="mr-2" /> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
