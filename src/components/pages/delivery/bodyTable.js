@@ -64,7 +64,7 @@ export function BodyTable() {
   return (
     <tbody>
       {tableData.map((data) => (
-        <tr key={data.id} className="font-bold text-black">
+        <tr key={data.id} className="text-xs font-bold text-black md:text-base lg:text-xl">
           <td className="py-2 pl-3">{data.id}</td>
           <td className="py-4 pl-3">{data.recipient}</td>
           <td className="py-2 pl-3">{data.items}</td>
@@ -73,7 +73,11 @@ export function BodyTable() {
           <td className="py-2 pl-3">
             <button
               type="button"
-              className="bg-ijo3 flex cursor-pointer items-center rounded px-4 py-2 text-white"
+              className="bg-ijo3 flex 
+              cursor-pointer items-center 
+              rounded 
+              px-4 py-2 
+              text-white"
             >
               <IoColorWandSharp className="mr-2" /> Edit
             </button>
