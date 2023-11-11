@@ -15,7 +15,8 @@ export default function Recipe() {
         <div className="mb-12 ml-auto">
           <button
             type="button"
-            className="btn-holder font-poppins cursor-pointer rounded bg-green-700 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
+            href="recipe/create"
+            className="btn-holder font-poppins bg-ijo1 cursor-pointer rounded px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
           >
             +Add Recipe
           </button>
@@ -29,7 +30,7 @@ export default function Recipe() {
             className="px-2"
           />
           <div>
-            <a href="recipe/more" className="font-poppins text-xl">
+            <a href="recipe/more" className="text-xl font-bold">
               Telur Balado Pedas Cabe Hijau
             </a>
             <p className="description">
