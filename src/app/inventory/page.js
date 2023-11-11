@@ -62,8 +62,8 @@ export default function Inventory() {
                   <th className="py-2 pl-3">Qty</th>
                   <th className="py-2 pl-3">Unit</th>
                   <th className="py-2 pl-3">Price</th>
-                  <th className="py-2 pl-3 text-green-100">Edit</th>
-                  <th className="py-2 pl-3 text-green-100">Delete</th>
+                  <th className="py-2 pl-3 text-ijo4">Edit</th>
+                  <th className="py-2 pl-3 text-ijo4">Delete</th>
                 </tr>
               </thead>
 
@@ -89,6 +89,81 @@ export default function Inventory() {
           </table>
         </div>
       </div>
+
+      <div className="flex">
+        <div className="flex-none w-1/6 bg-white"></div>
+  
+        <div className="flex-grow w-2/3 bg-white">
+          <div className="text-black font-bold text-3xl pt-8 pb-6">
+            Update Inventory
+          </div>
+
+          <div className="text-black font-bold pb-2">
+            Name
+          </div>
+          <div className="pb-4">
+          <input
+              type="text"
+              className="bg-gray-200 p-2 rounded-md w-full"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div className="text-black font-bold pb-2">
+            Description
+          </div>
+          <div className="pb-4">
+          <input
+              type="text"
+              className="bg-gray-200 p-2 pb-28 rounded-md w-full"
+              placeholder="Search..."
+            />
+          </div>
+          
+          <div className="text-black font-bold pb-2">
+            Quantity
+          </div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="bg-gray-200 p-2 rounded-md w-32"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div className="text-black font-bold pb-2">
+            Type
+          </div>
+          <div className="pb-4">
+          <input
+              type="text"
+              className="bg-gray-200 p-2 rounded-md w-full"
+              placeholder="Search..."
+            />
+          </div>
+
+          <div className="text-black font-bold pb-2">
+            Price
+          </div>
+          <div className="pb-12">
+          <input
+              type="text"
+              className="bg-gray-200 p-2 rounded-md w-full"
+              placeholder="Search..."
+            />
+          </div>
+
+        </div>
+        
+        <div className="relative flex-none w-1/6 white">
+          <button className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-ijo3 text-white px-4 py-2 rounded cursor-pointer font-bold">Save</button>
+        </div>
+
+
+      </div>
+
     </div>
+
+    
   );
 }
