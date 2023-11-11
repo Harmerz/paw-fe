@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+  Tumbas
+</h1>
+<p align="center">Web App Frontend | Pengembangan Aplikasi Web</p>
 
-## Getting Started
+## 📃 Table of Contents
 
-First, run the development server:
+- About
+- Features
+- Meet Our Team #8
+- Documentation
+- Set Up
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ⁉️ About
+
+Tumbas is a web app made specifically for grocery store, in which people can browse their needed goods with ease. Our Tumbas will have several features, such as: browsing grocery items, cart, recipe, and delivery. Users should sign in or sign up, if they don't have an account, then they can use the web app.
+
+## 😵‍💫 Features
+
+- ### Sign In dan Sign Up<br>
+  In this web app, there are user side and admin side with different authorization, therefore sign up and sign in are needed<br>
+- ### Choosing Groceries<br>
+  Users can browse and selecte grocery, this feature is stored as inventory in the folder<br>
+- ### Order Management<br>
+  After selecting several groceries, users can see the cart or the order they have made, this feature is stored as order in the folder<br>
+- ### Recipe Book<br>
+  This will provide users with comprehensive recipe using certain grocery items, this feature is stored as recipe in the folder<br>
+- ### Delivery Status<br>
+  Then, users can track the delivery status for their goods, this feature is stored as delivery in the folder<br>
+
+## 🫂 Meet Our Team #8
+
+- [Johanes de Britto Krisna Arianta (21/473893/TK/52247)](https://github.com/krisnaarianta) - Project Manager & Inventory Feature Programmer
+- [Haikal Hilmi (21/482625/TK/53328)](https://github.com/Harmerz) - Authentication Feature & Overall Web App Integration Programmer
+- [Muhammad Rizqi (21/478592/TK/52739)](https://github.com/m-rizqi) - Order Management (Cart) Feature Programmer
+- [Nafisa Ramadhania (21/478543/TK/52731)](https://github.com/nafisaramadhania) - Recipe Book Feature Programmer
+- [Yosep Engelbert Christo (19/446788/TK/49893)](https://github.com/YosepEChristo) - Delivery Status Feature Programmer
+
+## 📖 Documentation
+
+- [Swagger - /api-docs]
+- [Presentation]
+
+<hr/>
+
+## ⚙️ Set Up
+
+### Front End
+
+- Install required dependencies:
+
+```
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Run the program:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Preview:
 
-## Learn More
+```
+http://localhost:3000/
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Install required dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+npm install
+```
 
-## Deploy on Vercel
+- Run the program:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+npm start
+```
