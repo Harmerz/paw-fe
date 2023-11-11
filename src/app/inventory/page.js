@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 export default function Inventory() {
-  const [quantity, setQuantity] = useState(false)
   const categories = [
     'Meat & Egg',
     'Fruits',
@@ -112,7 +111,7 @@ export default function Inventory() {
   ]
 
   return (
-    <div className="bg-white bg-contain">
+    <div className="min-h-screen bg-white bg-contain">
       <div className="p-8">
         <div className="flex flex-col items-start">
           <div className="mb-12 ml-auto">
@@ -168,95 +167,23 @@ export default function Inventory() {
                   <td className="py-2 pl-3">
                     <button
                       type="button"
-                      className="cursor-pointer rounded bg-ijo3 px-4 py-2 text-white"
+                      className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
                     >
-                      Edit
+                      <IoColorWandSharp className="mr-2" /> Edit
                     </button>
                   </td>
                   <td className="py-2 pl-3">
                     <button
                       type="button"
-                      className="cursor-pointer rounded bg-merah-tumbas px-4 py-2 text-white"
+                      className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
                     >
-                      Delete
+                      <IoTrashBinSharp className="mr-2" /> Delete
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <div className="flex">
-        <div className="w-1/6 flex-none bg-white" />
-
-        <div className="w-2/3 flex-grow bg-white">
-          <div className="pb-6 pt-8 text-3xl font-bold text-black">Update Inventory</div>
-
-          <div className="pb-2 font-bold text-black">Name</div>
-          <div className="pb-4">
-            <input
-              type="text"
-              className="w-full rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-          </div>
-
-          <div className="pb-2 font-bold text-black">Description</div>
-          <div className="pb-4">
-            <input
-              type="text"
-              className="w-full rounded-md bg-gray-200 p-2 pb-28 text-black"
-              placeholder="Search..."
-            />
-          </div>
-
-          <div className="pb-2 font-bold text-black">Quantity</div>
-          <div className="flex flex-row gap-2 pb-4">
-            <input
-              type="text"
-              className="w-32 rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-            <div className="relative">
-              <button
-                type="button"
-                className="w-44 cursor-pointer rounded bg-gray-200 px-4 py-2 text-white"
-                onClick={() => setQuantity(!quantity)}
-              >
-                Ganti
-              </button>
-              {quantity && <div className="absolute w-full bg-yellow-200 text-black">kg</div>}{' '}
-            </div>
-          </div>
-
-          <div className="pb-2 font-bold text-black">Type</div>
-          <div className="pb-4">
-            <input
-              type="text"
-              className="w-full rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-          </div>
-
-          <div className="pb-2 font-bold text-black">Price</div>
-          <div className="pb-12">
-            <input
-              type="text"
-              className="w-full rounded-md bg-gray-200 p-2 text-black"
-              placeholder="Search..."
-            />
-          </div>
-        </div>
-
-        <div className="white relative w-1/6 flex-none">
-          <button
-            type="button"
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 transform cursor-pointer rounded bg-ijo3 px-4 py-2 font-bold text-white"
-          >
-            Save
-          </button>
         </div>
       </div>
     </div>
