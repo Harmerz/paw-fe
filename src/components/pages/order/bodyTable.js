@@ -19,7 +19,10 @@ export function BodyTable() {
   }
 
   const joinItemsToString = (items) => {
-    const displayedItems = items.slice(0, window.innerWidth <= 768 ? 3 : 6)
+    const displayedItems = items.slice(
+      0,
+      typeof window !== 'undefined' && window.innerWidth <= 768 ? 3 : 6,
+    )
 
     return displayedItems.map((item) => item.name).join(', ')
   }

@@ -155,7 +155,7 @@ export function Update() {
       <div className="flex min-h-screen">
         <div
           className={`${
-            window.innerWidth <= 768 ? 'ml-8 mr-8' : 'ml-20 mr-20'
+            typeof window !== 'undefined' && window.innerWidth <= 768 ? 'ml-8 mr-8' : 'ml-20 mr-20'
           } w-full flex-grow bg-white`}
         >
           <div className="pb-6 pt-8 text-3xl font-bold text-black">Update Order</div>
