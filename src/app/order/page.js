@@ -11,7 +11,7 @@ export default function Order() {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
 
-    return `${day}-${month}-${year}`
+    return `${day}/${month}/${year}`
   }
 
   const formatCurrency = (amount) => {
@@ -350,8 +350,8 @@ export default function Order() {
 
             <tbody>
               {tableData.map((data) => (
-                <tr key={data.id} className="font-bold text-black">
-                  <td className="py-4 pl-3">{data.id}</td>
+                <tr key={data.id} className="font-medium text-black">
+                  <td className="py-4 pl-3 font-bold">{data.id}</td>
                   <td className="py-2 pl-3">{formatDate(data.date)}</td>
                   <td className="py-2 pl-3">{formatCurrency(data.totalPrice)}</td>
                   <td className="text-overflow-ellipsis overflow-hidden whitespace-nowrap py-2 pl-3 font-medium">
