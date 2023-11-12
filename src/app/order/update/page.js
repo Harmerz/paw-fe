@@ -158,7 +158,7 @@ export default function Create() {
         <div className="white relative w-1/6 flex-none" />
 
         <div className="w-2/3 flex-grow bg-white">
-          <div className="pb-6 pt-8 text-3xl font-bold text-black">Create Order</div>
+          <div className="pb-6 pt-8 text-3xl font-bold text-black">Update Order</div>
 
           <div className="pb-2 font-bold text-black">Date</div>
           <div className="relative w-full pb-4">
