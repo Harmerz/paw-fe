@@ -18,6 +18,12 @@ export function BodyTable() {
     return formattedAmount
   }
 
+  const joinItemsToString = (items) => {
+    const displayedItems = items.slice(0, window.innerWidth <= 768 ? 3 : 6)
+
+    return displayedItems.map((item) => item.name).join(', ')
+  }
+
   const tableData = [
     {
       id: 1,
@@ -315,12 +321,12 @@ export function BodyTable() {
   return (
     <tbody>
       {tableData.map((data) => (
-        <tr key={data.id} className="font-medium text-black">
+        <tr key={data.id} className="text-xs font-medium text-black md:text-base lg:text-xl">
           <td className="py-4 pl-3 font-bold">{data.id}</td>
           <td className="py-2 pl-3">{formatDate(data.date)}</td>
           <td className="py-2 pl-3">{formatCurrency(data.totalPrice)}</td>
           <td className="text-overflow-ellipsis overflow-hidden whitespace-nowrap py-2 pl-3 font-medium">
-            {data.items.map((item) => item.name).join(', ')}
+            {joinItemsToString(data.items)}
           </td>
           <td className="py-2 pl-3">
             <button

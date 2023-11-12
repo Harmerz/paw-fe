@@ -153,9 +153,11 @@ export function Create() {
     <div className="min-h-screen bg-white">
       <NavBar />
       <div className="flex min-h-screen">
-        <div className="white relative w-1/6 flex-none" />
-
-        <div className="w-2/3 flex-grow bg-white">
+        <div
+          className={`${
+            window.innerWidth <= 768 ? 'ml-8 mr-8' : 'ml-20 mr-20'
+          } w-full flex-grow bg-white`}
+        >
           <div className="pb-6 pt-8 text-3xl font-bold text-black">Create Order</div>
 
           <div className="pb-2 font-bold text-black">Date</div>
@@ -277,15 +279,14 @@ export function Create() {
             {formatCurrency(calculateTotalPrice())}
           </div>
         </div>
-
-        <div className="white relative w-1/6 flex-none">
-          <button
-            type="button"
-            className="fixed bottom-8 right-8 flex h-[48px] -translate-x-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
-          >
-            <IoSaveSharp className="mr-2" /> Save
-          </button>
-        </div>
+      </div>
+      <div className="white relative w-1/6 flex-none">
+        <button
+          type="button"
+          className="fixed bottom-8 right-8 flex h-[48px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
+        >
+          <IoSaveSharp className="mr-2" /> Save
+        </button>
       </div>
     </div>
   )
