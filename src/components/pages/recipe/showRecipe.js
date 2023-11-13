@@ -1,10 +1,8 @@
-'use client'
-
 import Image from 'next/image'
 import { useState } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
-export default function Pretty() {
+export function OneRecipe() {
   const [data, setData] = useState([
     {
       img: 'https://th.bing.com/th/id/OIP.8kg0jQPbYYkcrYK9pJ1k8AAAAA?w=272&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
@@ -44,7 +42,6 @@ export default function Pretty() {
               <Image src={item.img} alt={item.name} width={240} height={180} className="mb-4" />
               <h2 className="mb-2 text-lg font-bold md:text-xl lg:text-2xl">{item.name}</h2>
               <p className="text-sm lg:text-base">{item.description}</p>
-              <br />
               <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Bahan-Bahan:</h3>
               <ul className="ml-8 list-disc text-left text-xs lg:text-base">
                 {item.ingredients.map((ingredient, i) => (
@@ -79,3 +76,5 @@ export default function Pretty() {
     </div>
   )
 }
+
+export default OneRecipe
