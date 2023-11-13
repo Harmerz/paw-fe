@@ -41,18 +41,18 @@ export default function Pretty() {
         <div className="mt-4 flex-col">
           {data.map((item, index) => (
             <div key={index} className="font-poppins my-2 p-4 text-base text-black">
-              <Image src={item.img} alt={item.name} width={300} height={225} className="mb-4" />
-              <h2 className="mb-2 text-2xl font-bold">{item.name}</h2>
-              <p>{item.description}</p>
+              <Image src={item.img} alt={item.name} width={240} height={180} className="mb-4" />
+              <h2 className="mb-2 text-lg font-bold md:text-xl lg:text-2xl">{item.name}</h2>
+              <p className="text-sm lg:text-base">{item.description}</p>
               <br />
-              <h3 className="mt-2 text-lg font-bold">Bahan-Bahan:</h3>
-              <ul className="ml-8 list-disc text-left">
+              <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Bahan-Bahan:</h3>
+              <ul className="ml-8 list-disc text-left text-xs lg:text-base">
                 {item.ingredients.map((ingredient, i) => (
                   <li key={i}>{ingredient}</li>
                 ))}
               </ul>
-              <h3 className="mt-2 text-lg font-bold">Langkah-Langkah:</h3>
-              <ol className="ml-8 list-decimal text-left">
+              <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg">Langkah-Langkah:</h3>
+              <ol className="ml-8 list-decimal text-left text-xs lg:text-base">
                 {item.steps.map((step, i) => (
                   <li key={i}>{step}</li>
                 ))}
@@ -62,13 +62,13 @@ export default function Pretty() {
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
             <button
               type="button"
-              className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
+              className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoColorWandSharp className="mr-2" /> Edit
             </button>
             <button
               type="button"
-              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
+              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>

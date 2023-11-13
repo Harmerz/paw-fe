@@ -26,7 +26,16 @@ export default function Pretty() {
           <button
             type="button"
             href="recipe/create"
-            className="btn-holder font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
+            className="font-poppins 
+            cursor-pointer 
+            rounded 
+            bg-ijo1 
+            px-4 
+            py-2 
+            text-xs 
+            text-white
+            md:text-base
+            lg:text-xl"
           >
             + Add Recipe
           </button>
@@ -34,9 +43,19 @@ export default function Pretty() {
         <div className="mt-4 flex">
           <div className="mt-4 flex-col">
             {data.map((item, index) => (
-              <div key={index} className="font-poppins my-2 flex p-4 text-base text-black">
-                <Image src={item.img} alt={item.name} width={200} height={150} />
-                <div className="ml-4">
+              <div key={index} className="font-poppins my-2 p-4 text-base text-black md:flex">
+                <Image
+                  src={item.img}
+                  alt={item.name}
+                  width={200}
+                  height={150}
+                  className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
+                  style={{
+                    height: '100%', // Set the image width to 100% on small screens
+                    maxHeight: '150px', // Set a maximum width for the image on larger screens
+                  }}
+                />
+                <div>
                   <h2 className="mb-2 text-xl font-bold">
                     <a
                       href={`#link-to-${index}`}
