@@ -2,14 +2,14 @@
 
 import { IoSaveSharp } from 'react-icons/io5'
 
-export default function Create() {
+export default function Update() {
   return (
     <div className="relative flex min-h-screen bg-white">
       <div className="w-1/6 flex-none" />
 
       <div className="w-2/3 flex-grow bg-white">
         <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
-          Create Recipe
+          Update Recipe
         </div>
 
         <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
