@@ -2,67 +2,72 @@ import { useAccessToken } from '@/hooks/auth'
 import { useApiMutation2 } from '@/hooks/useApiMutation'
 import { axios } from '@/lib/axios'
 
-export const useQuestions = () => {
+export const usePostInventory = () => {
   const { accessToken, headers } = useAccessToken()
 
-  const createQuestion = useApiMutation2({
+  return useApiMutation2({
+    queryKey: ['inventory'],
+    mutationFun: async (_, data) => {
+      if (!accessToken) {
+        return null
+      }
+      console.log(data)
+      const res = await axios.post('/inventory', data, {
+        headers,
+      })
+      return res?.data
+    },
+  })
+}
+
+export const useDeleteInvetory = () => {
+  const { accessToken, headers } = useAccessToken()
+  return useApiMutation2({
+    queryKey: ['inventory', 'delete'],
+    mutationFun: async (_, id) => {
+      if (!accessToken) {
+        return null
+      }
+      console.log("id", id)
+      const res = await axios.delete(`/inventory/${id}`,  {
+        headers,
+      })
+      return res?.data
+    },
+  })
+}
+
+export const useOCRQuestions = () => {
+  const { accessToken, headers } = useAccessToken()
+  return useApiMutation2({
     queryKey: ['questions'],
     mutationFun: async (_, data) => {
       if (!accessToken) {
         return null
       }
-      const res = await axios.post('/api/question', data, {
+      const res = await axios.post('/api/uploads', data, {
+        'Content-Type': 'multipart/form-data',
         headers,
       })
       return res?.data
     },
   })
-
-  const updateQuestion = useApiMutation2({
-    queryKey: ['questions'],
-    mutationFun: async (questionId, data) => {
-      if (!accessToken) {
-        return null
-      }
-      const res = await axios.put(`/api/question/${questionId}`, data, {
-        headers,
-      })
-      return res?.data
-    },
-  })
-
-  const deleteQuestion = useApiMutation2({
-    queryKey: ['questions'],
-    mutationFun: async (questionId) => {
-      if (!accessToken) {
-        return null
-      }
-      const res = await axios.delete(`/api/question/${questionId}`, {
-        headers,
-      })
-      return res?.data
-    },
-  })
-
-  const readQuestions = useApiMutation2({
-    queryKey: ['questions'],
-    mutationFun: async () => {
-      if (!accessToken) {
-        return null
-      }
-      const res = await axios.get('/api/questions', {
-        headers,
-      })
-      return res?.data
-    },
-  })
-
-  return {
-    createQuestion,
-    updateQuestion,
-    deleteQuestion,
-    readQuestions,
-  }
 }
 
-export default useQuestions
+export const useProcessQuestions = () => {
+  const { accessToken, headers } = useAccessToken()
+  return useApiMutation2({
+    queryKey: ['questions'],
+    mutationFun: async (_, data) => {
+      if (!accessToken) {
+        return null
+      }
+      const res = await axios.post('/api/question-process', data, {
+        headers,
+      })
+      return res
+    },
+  })
+}
+
+export default usePostInventory

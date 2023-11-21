@@ -5,12 +5,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useAccessToken } from '@/hooks/auth'
 import { axios } from '@/lib/axios'
 
-export const usePostInventory = () => {
+export const useGetInventory = () => {
   const { accessToken, headers } = useAccessToken()
   return useQuery({
-    queryKey: ['user'],
+    queryKey: ['inventory'],
     queryFn: async () => {
-      const res = await axios.get('/api/question', {
+      const res = await axios.get('/inventory', {
         headers,
       })
       return res.data
@@ -20,4 +20,4 @@ export const usePostInventory = () => {
   })
 }
 
-export default usePostInventory
+export default useGetInventory

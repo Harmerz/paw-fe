@@ -1,9 +1,10 @@
 import { IoSearch } from 'react-icons/io5'
-import { usePostInventory } from '@/hooks/inventory'
+import { usePostInventory, useGetInventory } from '@/hooks/inventory'
 
 export function Inventory({ children }) {
   const categories = [
     'Meat & Egg',
+    'Fish',
     'Fruits',
     'Vegetables',
     'Sauce',
@@ -16,11 +17,10 @@ export function Inventory({ children }) {
   ]
 
   const {mutate: addInventory} = usePostInventory()
-  const {data: DataKris} = useasdasda()
+  const {data: DataKris} = useGetInventory()
+  console.log(DataKris)
   function handleClick(){
-    addInventory({
-      
-    })
+    addInventory()
   }
   return (
     <div className="min-h-screen bg-white bg-contain">
@@ -55,10 +55,10 @@ export function Inventory({ children }) {
                 <th className="py-2 pl-3">id</th>
                 <th className="py-2 pl-3">Name</th>
                 <th className="py-2 pl-3">Description</th>
-                <th className="py-2 pl-3">Type</th>
+                <th className="py-2 pl-3">Price</th>
                 <th className="py-2 pl-3">Qty</th>
                 <th className="py-2 pl-3">Unit</th>
-                <th className="py-2 pl-3">Price</th>
+                <th className="py-2 pl-3">Type</th>
                 <th className="py-2 pl-3 text-ijo4">Edit</th>
                 <th className="py-2 pl-3 text-ijo4">Delete</th>
               </tr>
