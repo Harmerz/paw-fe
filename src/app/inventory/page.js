@@ -7,5 +7,3 @@ export default function ShowInventory() {
     </Inventory>
   )
 }
-
-export default Inventory
