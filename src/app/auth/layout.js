@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 
 export const metadata = {
-  title: 'LenSights - AI-Driven Credit Risk & Insurance Management',
-  description: 'AI-Driven Credit Risk & Insurance Management',
+  title: 'Tumbas',
+  description: 'Tumbas by us',
 }
 
 export default function RootLayout({ children }) {

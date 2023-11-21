@@ -27,9 +27,9 @@ export function LoginForm() {
   const [form] = Form.useForm()
   return (
     <Flex vertical justify="center">
-      <Typography.Title className=" font-dmsans">Log In to Your Account</Typography.Title>
-      <Typography.Text className="font-inter" type="secondary">
-        Welcome back! Enter your credentials to access your personalized experience.
+      <Typography.Title className=" font-dmsans">Welcome back!</Typography.Title>
+      <Typography.Text className="font-inter mb-10" type="secondary">
+        Please login to access Tumbas
       </Typography.Text>
       <Form
         form={form}
@@ -55,12 +55,18 @@ export function LoginForm() {
         >
           <Input.Password />
         </Form.Item>
+        <button
+          className="flex w-full justify-center rounded-lg bg-ijo1 py-3 text-center text-white"
+          type="submit"
+        >
+          Log In
+        </button>
       </Form>
       <Space direction="horizontal">
         <Typography.Text className="font-inter">Don’t have an Account?</Typography.Text>
-        <Link href="/signup">
+        <Link href="/auth/signup">
           <Typography.Text className="font-inter text-bluey-500" strong>
-            Register
+            Sign Up
           </Typography.Text>
         </Link>
       </Space>
