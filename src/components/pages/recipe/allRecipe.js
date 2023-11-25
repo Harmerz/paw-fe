@@ -3,15 +3,11 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-import { useGetRecipe, usePostRecipe } from '@/hooks/recipe'
+import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
   const router = useRouter()
   const { data: recipeData, isLoading } = useGetRecipe()
-  const { mutate: addRecipe } = usePostRecipe()
-  function handleClick() {
-    addRecipe()
-  }
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -25,9 +21,8 @@ export function AllRecipe() {
       <div className="flex flex-col items-start">
         <div className="mb-8 ml-auto">
           <button
-            onClick={handleClick}
+            onClick={() => router.push(`/recipe/create`)}
             type="button"
-            href="recipe/create"
             className="font-poppins 
             cursor-pointer 
             rounded 
