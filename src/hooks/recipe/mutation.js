@@ -22,7 +22,7 @@ export const usePostRecipe = () => {
 
 export const useDeleteRecipe = () => {
   const { accessToken, headers } = useAccessToken()
-  return useApiMutation2({
+  const deleteRecipeMutation = useApiMutation2({
     queryKey: ['recipe', 'delete'],
     mutationFun: async (_, id) => {
       if (!accessToken) {
@@ -35,6 +35,8 @@ export const useDeleteRecipe = () => {
       return res?.data
     },
   })
+
+  return deleteRecipeMutation
 }
 
 export const useOCRQuestions = () => {

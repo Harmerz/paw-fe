@@ -1,17 +1,21 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
-import { useGetOneRecipe } from '@/hooks/recipe'
+import { useDeleteRecipe, useGetOneRecipe } from '@/hooks/recipe'
 
 export function RecipeDetail({ params }) {
+  const router = useRouter()
   console.log(params.id)
   const { data: recipeData, isLoading, refetch } = useGetOneRecipe(params.id)
 
+  const { deleteRecipeMutation, mutate } = useDeleteRecipe()
+
   useEffect(() => {
-    refetch() // Call refetch when the component mounts or when params.id changes
+    refetch()
   }, [params.id, refetch])
 
   if (isLoading) {
@@ -20,6 +24,15 @@ export function RecipeDetail({ params }) {
 
   const recipeDetail = recipeData || []
   console.log(recipeDetail)
+
+  const handleDelete = async () => {
+    try {
+      await mutate(params.id)
+      router.push('/recipe')
+    } catch (error) {
+      console.error('Error deleting recipe:', error)
+    }
+  }
 
   return (
     <div className="relative flex bg-white pt-8">
@@ -52,7 +65,7 @@ export function RecipeDetail({ params }) {
             <button
               type="button"
               className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-xs text-white md:text-sm lg:text-base"
-              onClick={() => deleteRecipe(data.id)}
+              onClick={handleDelete}
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
