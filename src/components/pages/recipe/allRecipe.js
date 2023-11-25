@@ -1,14 +1,17 @@
-'use Client'
+'use client'
 
 import Image from 'next/image'
 
 import { useGetRecipe, usePostRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
-  const { data: recipeData } = useGetRecipe()
+  const { data: recipeData, isLoading } = useGetRecipe()
   const { mutate: addRecipe } = usePostRecipe()
   function handleClick() {
     addRecipe()
+  }
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   console.log(recipeData)
