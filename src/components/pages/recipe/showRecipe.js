@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 export function OneRecipe() {
-  const [data, setData] = useState([
+  const [data] = useState([
     {
       img: 'https://th.bing.com/th/id/OIP.8kg0jQPbYYkcrYK9pJ1k8AAAAA?w=272&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
       name: 'Telur Balado Pedas Cabe Hijau',
@@ -23,15 +23,18 @@ export function OneRecipe() {
         '10 buah cabai hijau besar atau berukuran kira-kira 150 gr tumbuk kasar',
         '5 buah cabai hijau keriting segar tumbuk kasar',
       ],
-      steps: [
-        'Tumis bawang merah, cabai hijau besar, cabai hijau keriting, serai, dan daun salam hingga tercium harum.',
-        'Selanjutnya masukkan tomat hijau, lalu tumis hingga layu.',
-        'Masukkan garam, telur, Royco ayam, dan gula pasir, lalu aduk hingga merata.',
-        'Tambahkan air asam Jawa dan masaklah sampai meresap.',
-        'Jika sudah meresap, Telur Balado Pedas Cabe Hijau siap dihidangkan.',
-      ],
     },
   ])
+
+  const deleteRecipe = async (recipeId) => {
+    try {
+      await axios.delete(`http://localhost:5000/recipe/${recipeId}`)
+      getRecipe()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="relative flex bg-white pt-8">
       <div className="w-1/6 flex-none" />
@@ -48,12 +51,6 @@ export function OneRecipe() {
                   <li key={i}>{ingredient}</li>
                 ))}
               </ul>
-              <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg">Langkah-Langkah:</h3>
-              <ol className="ml-8 list-decimal text-left text-xs lg:text-base">
-                {item.steps.map((step, i) => (
-                  <li key={i}>{step}</li>
-                ))}
-              </ol>
             </div>
           ))}
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
@@ -66,6 +63,7 @@ export function OneRecipe() {
             <button
               type="button"
               className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-xs text-white md:text-sm lg:text-base"
+              onClick={() => deleteRecipe(recipe.id)}
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
