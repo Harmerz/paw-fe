@@ -20,6 +20,31 @@ export const usePostRecipe = () => {
   })
 }
 
+export const usePutRecipe = () => {
+  const { accessToken, headers } = useAccessToken()
+
+  return useApiMutation2({
+    queryKey: ['recipe'],
+    mutationFun: async (recipeId, data) => {
+      if (!accessToken) {
+        return null
+      }
+
+      const url = `/recipe/${recipeId}`
+
+      try {
+        const res = await axios.put(url, data, {
+          headers,
+        })
+        return res?.data
+      } catch (error) {
+        console.error('Error updating recipe:', error)
+        throw error
+      }
+    },
+  })
+}
+
 export const useDeleteRecipe = () => {
   const { accessToken, headers } = useAccessToken()
   const deleteRecipeMutation = useApiMutation2({

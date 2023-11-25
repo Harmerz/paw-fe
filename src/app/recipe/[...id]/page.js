@@ -58,6 +58,7 @@ export function RecipeDetail({ params }) {
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
             <button
               type="button"
+              onClick={() => router.push(`/recipe/update`)}
               className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoColorWandSharp className="mr-2" /> Edit
