@@ -70,4 +70,6 @@ export const useProcessQuestions = () => {
   })
 }
 
-export default usePostRecipe
+const exportedFunctions = { usePostRecipe, useDeleteRecipe }
+
+export default exportedFunctions

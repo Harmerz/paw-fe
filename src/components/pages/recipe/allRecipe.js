@@ -1,10 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import { useGetRecipe, usePostRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
+  const router = useRouter()
   const { data: recipeData, isLoading } = useGetRecipe()
   const { mutate: addRecipe } = usePostRecipe()
   function handleClick() {
@@ -57,9 +59,13 @@ export function AllRecipe() {
                 />
                 <div>
                   <h2 className="mb-2 text-xl font-bold">
-                    <a href="link" className="duration-150 hover:text-green-700 hover:underline">
+                    <button
+                      onClick={() => router.push(`/recipe/${data._id}`)}
+                      type="button"
+                      className="duration-150 hover:text-green-700 hover:underline"
+                    >
                       {data.name}
-                    </a>
+                    </button>
                   </h2>
                   <p>{data.description}</p>
                 </div>
