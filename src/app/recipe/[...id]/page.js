@@ -26,8 +26,6 @@ export function RecipeDetail({ params }) {
       <div className="w-1/6 flex-none" />
       <div className="mt-4 flex">
         <div className="mt-4 flex-col">
-          {params.id}
-
           <div key={recipeDetail.name} className="font-poppins my-2 p-4 text-base text-black">
             <Image
               src="/assets/nasgor.webp"
