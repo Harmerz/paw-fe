@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
+// import { MdNavigateBefore } from 'react-icons/md'
 import { useDeleteRecipe, useGetOneRecipe } from '@/hooks/recipe'
 
 export function RecipeDetail({ params }) {
@@ -12,7 +13,7 @@ export function RecipeDetail({ params }) {
   console.log(params.id)
   const { data: recipeData, isLoading, refetch } = useGetOneRecipe(params.id)
 
-  const { deleteRecipeMutation, mutate } = useDeleteRecipe()
+  const { mutate } = useDeleteRecipe()
 
   useEffect(() => {
     refetch()
@@ -55,10 +56,18 @@ export function RecipeDetail({ params }) {
             </ul>
           </div>
 
+          {/* <button
+            type="button"
+            onClick={() => router.push(`/recipe`)}
+            className="flex cursor-pointer items-center rounded px-4 py-2 text-xs text-black duration-150 hover:font-bold hover:underline md:text-sm lg:text-base"
+          >
+            Back
+          </button> */}
+
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
             <button
               type="button"
-              onClick={() => router.push(`/recipe/update`)}
+              onClick={() => router.push(`/recipe/update${recipeDetail._id}`)}
               className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoColorWandSharp className="mr-2" /> Edit

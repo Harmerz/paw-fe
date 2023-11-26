@@ -20,17 +20,17 @@ export const usePostRecipe = () => {
   })
 }
 
-export const usePutRecipe = () => {
+export const usePutRecipe = (id) => {
   const { accessToken, headers } = useAccessToken()
 
   return useApiMutation2({
-    queryKey: ['recipe'],
+    queryKey: ['recipe', id],
     mutationFun: async (recipeId, data) => {
       if (!accessToken) {
         return null
       }
 
-      const url = `/recipe/${recipeId}`
+      const url = `/recipe/${id}`
 
       try {
         const res = await axios.put(url, data, {
@@ -97,6 +97,6 @@ export const useProcessQuestions = () => {
   })
 }
 
-const exportedFunctions = { usePostRecipe, useDeleteRecipe }
+const exportedFunctions = { usePostRecipe, useDeleteRecipe, usePutRecipe }
 
 export default exportedFunctions

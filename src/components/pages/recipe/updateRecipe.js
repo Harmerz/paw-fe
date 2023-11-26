@@ -1,25 +1,43 @@
+'use client'
+
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
-import { usePostRecipe } from '@/hooks/recipe'
+import { usePostRecipe, usePutRecipe } from '@/hooks/recipe'
 
-export function Create() {
+export function Update({ params }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [ingredient, setIngredient] = useState('')
   const [file, setFile] = useState('')
   const [preview, setPreview] = useState('')
   const router = useRouter()
-
+  console.log(params.id)
   const loadImage = (e) => {
     const image = e.target.files[0]
     setFile(image)
     setPreview(URL.createObjectURL(image))
   }
 
-  const { mutate: addRecipe } = usePostRecipe()
+  // const [editedRecipe, setEditedRecipe] = useState({
+  //   name: recipe.name,
+  //   description: recipe.description,
+  //   ingredient: recipe.ingredient,
+  //   file: recipe.file,
+  // })
+
+  const { mutate: editRecipe } = usePutRecipe(params.id)
+
+  // const handleInputChange = (e) => {
+  //   const { inputName, value } = e.target
+  //   setEditedRecipe({
+  //     ...editedRecipe,
+  //     [inputName]: value,
+  //   })
+  // }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
@@ -29,14 +47,14 @@ export function Create() {
     formData.append('file', file)
     const jsonObject = Object.fromEntries(formData)
     try {
-      await addRecipe(jsonObject)
-      router.push('/recipe')
+      await editRecipe(jsonObject)
+      router.push(`/recipe/${params.id}`)
     } catch (error) {
       console.log(error)
     }
   }
 
-  console.log(addRecipe)
+  console.log(editRecipe)
 
   return (
     <div className="relative flex min-h-screen bg-white">
@@ -44,7 +62,7 @@ export function Create() {
 
       <div className="w-2/3 flex-grow bg-white">
         <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
-          Create Recipe
+          Update Recipe
         </div>
 
         <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
@@ -125,4 +143,4 @@ export function Create() {
   )
 }
 
-export default Create
+export default Update

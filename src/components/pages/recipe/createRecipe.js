@@ -36,22 +36,6 @@ export function Create() {
     }
   }
 
-  //   function addRecipe() {
-  //     axios
-  //       .post(
-  //         ${process.env.NEXT_PUBLIC_BACKEND_URL}/recipe,
-  //         { cabang: namaCabang, tipeHarga: jenisHarga },
-  //         { withCredentials: true },
-  //       )
-  //       .then(() => {
-  //         setModalState(2)
-  //         setIsEdit(false)
-  //       })
-  //       .catch(() => {
-  //         setModalState(3)
-  //       })
-  //   }
-
   console.log(addRecipe)
 
   return (
@@ -114,9 +98,6 @@ export function Create() {
         <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
         <div className="relative pb-4">
           <input type="file" className="file-input" onChange={loadImage} />
-          <span className="file-cta">
-            <span className="file-label">Choose a file...</span>
-          </span>
         </div>
 
         {preview ? (
