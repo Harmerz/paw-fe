@@ -42,7 +42,7 @@ export function RecipeDetail({ params }) {
         <div className="mt-4 flex-col">
           <div key={recipeDetail.name} className="font-poppins my-2 p-4 text-base text-black">
             <Image
-              src="/assets/nasgor.webp"
+              src={recipeDetail.img_url[0]}
               alt={recipeDetail.name}
               width={240}
               height={180}
@@ -54,6 +54,10 @@ export function RecipeDetail({ params }) {
             <ul className="ml-8 list-disc text-left text-xs lg:text-base">
               <li>{recipeDetail.ingredient}</li>
             </ul>
+            <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Langkah-Langkah:</h3>
+            <ol className="ml-8 list-decimal text-left text-xs lg:text-base">
+              <li>{recipeDetail.instruction}</li>
+            </ol>
           </div>
 
           {/* <button
