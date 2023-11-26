@@ -42,7 +42,7 @@ export function AllRecipe() {
             {recipeCard.map((data) => (
               <div key={data.name} className="font-poppins my-2 p-4 text-base text-black md:flex">
                 <Image
-                  src="/assets/nasgor.webp"
+                  src={data.img_url[0]}
                   alt={data.name}
                   width={200}
                   height={150}
