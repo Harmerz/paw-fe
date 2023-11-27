@@ -30,7 +30,7 @@ export const usePutRecipe = (id) => {
         return null
       }
 
-      const url = `/recipe/${id}/update`
+      const url = `/recipe/${id}`
 
       try {
         const res = await axios.put(url, data, {

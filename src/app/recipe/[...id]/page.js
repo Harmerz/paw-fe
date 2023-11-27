@@ -35,6 +35,30 @@ export function RecipeDetail({ params }) {
     }
   }
 
+  const ingrArray = () => {
+    if (recipeDetail.ingredient && recipeDetail.ingredient.length > 0) {
+      const elements = recipeDetail.ingredient[0].split(',') // Memisahkan string menjadi array dengan satu elemen
+      const finalArray = elements.flatMap((item) =>
+        item.split(',').map((innerItem) => innerItem.trim()),
+      ) // Memisahkan setiap elemen menjadi array yang terpisah
+
+      return finalArray
+    }
+    return []
+  }
+
+  const insArray = () => {
+    if (recipeDetail.instruction && recipeDetail.instruction.length > 0) {
+      const elements = recipeDetail.instruction[0].split('.') // Memisahkan string menjadi array dengan satu elemen
+      const finalArray = elements.flatMap((item) =>
+        item.split('.').map((innerItem) => innerItem.trim()),
+      ) // Memisahkan setiap elemen menjadi array yang terpisah
+
+      return finalArray
+    }
+    return []
+  }
+
   return (
     <div className="relative flex bg-white pt-8">
       <div className="w-1/6 flex-none" />
@@ -42,7 +66,7 @@ export function RecipeDetail({ params }) {
         <div className="mt-4 flex-col">
           <div key={recipeDetail.name} className="font-poppins my-2 p-4 text-base text-black">
             <Image
-              src={recipeDetail.img_url[0]}
+              src="/assets/nasgor.webp"
               alt={recipeDetail.name}
               width={240}
               height={180}
@@ -52,12 +76,16 @@ export function RecipeDetail({ params }) {
             <p className="text-sm lg:text-base">{recipeDetail.description}</p>
             <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Bahan-Bahan:</h3>
             <ul className="ml-8 list-disc text-left text-xs lg:text-base">
-              <li>{recipeDetail.ingredient}</li>
+              {ingrArray().map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
             </ul>
             <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Langkah-Langkah:</h3>
-            <ol className="ml-8 list-decimal text-left text-xs lg:text-base">
-              <li>{recipeDetail.instruction}</li>
-            </ol>
+            <ul className="ml-8 list-decimal text-left text-xs lg:text-base">
+              {insArray().map((instruction, index) => (
+                <li key={index}>{instruction}</li>
+              ))}
+            </ul>
           </div>
 
           {/* <button
@@ -71,7 +99,7 @@ export function RecipeDetail({ params }) {
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
             <button
               type="button"
-              // onClick={() => router.push(`/recipe/${recipeDetail._id}/update`)}
+              onClick={() => router.push(`/recipe/update${recipeDetail._id}`)}
               className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoColorWandSharp className="mr-2" /> Edit

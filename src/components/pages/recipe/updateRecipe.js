@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
 import { usePutRecipe } from '@/hooks/recipe'
@@ -11,19 +11,11 @@ export function Update({ params }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [ingredient, setIngredient] = useState('')
+  const [instruction, setInstruction] = useState('')
   const [file, setFile] = useState('')
   const [preview, setPreview] = useState('')
-
   const router = useRouter()
-  const { mutate: editRecipe, data: recipeData, refetch } = usePutRecipe(params.id)
-  const recipeDetail = recipeData || []
-  console.log(recipeDetail)
-
-  useEffect(() => {
-    refetch()
-  }, [params.id, refetch])
   console.log(params.id)
-
   const loadImage = (e) => {
     const image = e.target.files[0]
     setFile(image)
@@ -36,6 +28,8 @@ export function Update({ params }) {
   //   ingredient: recipe.ingredient,
   //   file: recipe.file,
   // })
+
+  const { mutate: editRecipe } = usePutRecipe(params.id)
 
   // const handleInputChange = (e) => {
   //   const { inputName, value } = e.target
@@ -51,6 +45,7 @@ export function Update({ params }) {
     formData.append('name', name)
     formData.append('description', description)
     formData.append('ingredient', ingredient)
+    formData.append('instruction', instruction)
     formData.append('file', file)
     const jsonObject = Object.fromEntries(formData)
     try {
@@ -67,7 +62,7 @@ export function Update({ params }) {
     <div className="relative flex min-h-screen bg-white">
       <div className="w-1/6 flex-none" />
 
-      <div key={recipeDetail.name} className="w-2/3 flex-grow bg-white">
+      <div className="w-2/3 flex-grow bg-white">
         <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
           Update Recipe
         </div>
@@ -82,7 +77,9 @@ export function Update({ params }) {
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
+            value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Nama masakan"
           />
         </div>
 
@@ -96,7 +93,9 @@ export function Update({ params }) {
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder="Deskripsi dari masakan"
           />
         </div>
 
@@ -110,13 +109,34 @@ export function Update({ params }) {
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
+            value={ingredient}
             onChange={(e) => setIngredient(e.target.value)}
+            placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
+          />
+        </div>
+
+        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
+        <div className="pb-4">
+          <input
+            type="text"
+            className="h-[22px]  w-3/4 
+            rounded-md bg-gray-200 
+            p-3 text-xs
+            text-black
+            md:h-[44px] md:text-sm
+            lg:h-[66px] lg:text-base"
+            value={instruction}
+            onChange={(e) => setInstruction(e.target.value)}
+            placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
           />
         </div>
 
         <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
         <div className="relative pb-4">
           <input type="file" className="file-input" onChange={loadImage} />
+          <span className="file-cta">
+            <span className="file-label">Choose a file...</span>
+          </span>
         </div>
 
         {preview ? (

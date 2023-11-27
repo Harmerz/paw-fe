@@ -9,6 +9,7 @@ export function Create() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [ingredient, setIngredient] = useState('')
+  const [instruction, setInstruction] = useState('')
   const [file, setFile] = useState('')
   const [preview, setPreview] = useState('')
   const router = useRouter()
@@ -26,6 +27,7 @@ export function Create() {
     formData.append('name', name)
     formData.append('description', description)
     formData.append('ingredient', ingredient)
+    formData.append('instruction', instruction)
     formData.append('file', file)
     const jsonObject = Object.fromEntries(formData)
     try {
@@ -92,6 +94,22 @@ export function Create() {
             value={ingredient}
             onChange={(e) => setIngredient(e.target.value)}
             placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
+          />
+        </div>
+
+        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
+        <div className="pb-4">
+          <input
+            type="text"
+            className="h-[22px]  w-3/4 
+            rounded-md bg-gray-200 
+            p-3 text-xs
+            text-black
+            md:h-[44px] md:text-sm
+            lg:h-[66px] lg:text-base"
+            value={instruction}
+            onChange={(e) => setInstruction(e.target.value)}
+            placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
           />
         </div>
 
