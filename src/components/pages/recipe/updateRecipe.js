@@ -1,58 +1,43 @@
-'use client'
-
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
-import { usePutRecipe } from '@/hooks/recipe'
+import { useGetOneRecipe, usePutRecipe } from '@/hooks/recipe'
 
-export function Update({ params }) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [ingredient, setIngredient] = useState('')
-  const [instruction, setInstruction] = useState('')
+export function Update({ recipeData }) {
+  const router = useRouter()
   const [file, setFile] = useState('')
   const [preview, setPreview] = useState('')
-  const router = useRouter()
-  console.log(params.id)
+  const { id } = router.query
+  const recipeDetail = recipeData || []
+
+  const [formData, setFormData] = useState({
+    name: recipeDetail.name,
+    description: recipeDetail.description,
+    ingredient: recipeDetail.ingredient,
+    instruction: recipeDetail.instruction,
+  })
+
   const loadImage = (e) => {
     const image = e.target.files[0]
     setFile(image)
     setPreview(URL.createObjectURL(image))
   }
 
-  // const [editedRecipe, setEditedRecipe] = useState({
-  //   name: recipe.name,
-  //   description: recipe.description,
-  //   ingredient: recipe.ingredient,
-  //   file: recipe.file,
-  // })
-
-  const { mutate: editRecipe } = usePutRecipe(params.id)
-
-  // const handleInputChange = (e) => {
-  //   const { inputName, value } = e.target
-  //   setEditedRecipe({
-  //     ...editedRecipe,
-  //     [inputName]: value,
-  //   })
-  // }
+  const { mutate: editRecipe } = usePutRecipe()
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('description', description)
-    formData.append('ingredient', ingredient)
-    formData.append('instruction', instruction)
-    formData.append('file', file)
-    const jsonObject = Object.fromEntries(formData)
     try {
-      await editRecipe(jsonObject)
-      router.push(`/recipe/${params.id}`)
+      await editRecipe(id, formData)
+      router.push(`/recipe/${recipeDetail._id}`)
     } catch (error) {
-      console.log(error)
+      console.error('Error updating recipe:', error)
     }
   }
 
@@ -66,99 +51,120 @@ export function Update({ params }) {
         <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
           Update Recipe
         </div>
-
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+        <div onSubmit={handleSubmit}>
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Nama masakan"
-          />
-        </div>
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Nama masakan"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Description</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Description</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Deskripsi dari masakan"
-          />
-        </div>
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Deskripsi dari masakan"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Ingredients</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Ingredients</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}
-            placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
-          />
-        </div>
+              value={formData.ingredient}
+              onChange={handleChange}
+              placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={instruction}
-            onChange={(e) => setInstruction(e.target.value)}
-            placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
-          />
-        </div>
+              value={formData.instruction}
+              onChange={handleChange}
+              placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
-        <div className="relative pb-4">
-          <input type="file" className="file-input" onChange={loadImage} />
-          <span className="file-cta">
-            <span className="file-label">Choose a file...</span>
-          </span>
-        </div>
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
+          <div className="relative pb-4">
+            <input type="file" className="file-input" onChange={loadImage} />
+          </div>
 
-        {preview ? (
-          <figure className="image is-128x128">
-            <Image src={preview} alt="Preview Image" />
-          </figure>
-        ) : (
-          ''
-        )}
+          {preview ? (
+            <figure className="image is-128x128">
+              <Image src={preview} alt="Preview Image" />
+            </figure>
+          ) : (
+            ''
+          )}
 
-        <div className="white relative w-1/6 flex-none">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="bottom-0 right-0 mb-2 mr-2 flex cursor-pointer items-center justify-end space-x-2 rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
-          >
-            <IoSaveSharp className="mr-2" /> Save
-          </button>
+          <div className="white relative w-1/6 flex-none">
+            <button
+              type="submit"
+              className="bottom-0 right-0 mb-2 mr-2 flex cursor-pointer items-center justify-end space-x-2 rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
+            >
+              <IoSaveSharp className="mr-2" /> Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ params }) {
+  const { id } = params
+  try {
+    // Di sini Anda dapat menambahkan logika untuk menghubungkan dan mengambil resep dari MongoDB
+    const { mutate: recipe } = useGetOneRecipe(id)
+    // const recipe = await useGetOneRecipe(id) // Fungsi untuk mendapatkan resep dari MongoDB berdasarkan ID
+
+    // Mengembalikan data resep sebagai properti untuk komponen halaman
+    return {
+      props: {
+        recipe,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching recipe:', error)
+    // Jika terjadi kesalahan, mengembalikan properti resep kosong untuk menghindari kesalahan saat render
+    return {
+      props: {
+        recipe: {},
+      },
+    }
+  }
 }
 
 export default Update
