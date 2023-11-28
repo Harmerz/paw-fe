@@ -1,8 +1,10 @@
 import { IoSearch } from 'react-icons/io5'
+import { usePostInventory, useGetInventory } from '@/hooks/inventory'
 
 export function Inventory({ children }) {
   const categories = [
     'Meat & Egg',
+    'Fish',
     'Fruits',
     'Vegetables',
     'Sauce',
@@ -14,12 +16,19 @@ export function Inventory({ children }) {
     'Snack',
   ]
 
+  const {mutate: addInventory} = usePostInventory()
+  const {data: DataKris} = useGetInventory()
+  console.log(DataKris)
+  function handleClick(){
+    addInventory()
+  }
   return (
     <div className="min-h-screen bg-white bg-contain">
       <div className="p-8">
         <div className="flex flex-col items-start">
           <div className="mb-12 ml-auto">
             <button
+            onClick={handleClick}
               type="button"
               className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
             >
@@ -46,10 +55,10 @@ export function Inventory({ children }) {
                 <th className="py-2 pl-3">id</th>
                 <th className="py-2 pl-3">Name</th>
                 <th className="py-2 pl-3">Description</th>
-                <th className="py-2 pl-3">Type</th>
+                <th className="py-2 pl-3">Price</th>
                 <th className="py-2 pl-3">Qty</th>
                 <th className="py-2 pl-3">Unit</th>
-                <th className="py-2 pl-3">Price</th>
+                <th className="py-2 pl-3">Type</th>
                 <th className="py-2 pl-3 text-ijo4">Edit</th>
                 <th className="py-2 pl-3 text-ijo4">Delete</th>
               </tr>
