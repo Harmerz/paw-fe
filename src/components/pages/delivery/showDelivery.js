@@ -46,6 +46,7 @@ export function ShowDelivery() {
             <input
               type="text"
               className="
+              
             mx-2 
             h-[34px]
             w-[342px]

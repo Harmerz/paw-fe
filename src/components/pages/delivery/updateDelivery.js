@@ -6,7 +6,7 @@ import { IoSaveSharp } from 'react-icons/io5'
 
 import { useGetDeliveryById, usePutDelivery } from '@/hooks/delivery'
 
-export function UpdateDelivery({ deliveryData }) {
+export function Update({ deliveryData }) {
   const router = useRouter()
   const { id } = router.query
   const deliveryDetail = deliveryData || []
@@ -164,13 +164,10 @@ export function UpdateDelivery({ deliveryData }) {
   )
 }
 
+// need some fix
 export async function getServerSideProps() {
   try {
-    // Di sini Anda dapat menambahkan logika untuk menghubungkan dan mengambil resep dari MongoDB
     const { mutate: delivery } = useGetDeliveryById
-    // const recipe = await useGetOneRecipe(id) // Fungsi untuk mendapatkan resep dari MongoDB berdasarkan ID
-
-    // Mengembalikan data resep sebagai properti untuk komponen halaman
     return {
       props: {
         delivery,
@@ -178,7 +175,7 @@ export async function getServerSideProps() {
     }
   } catch (error) {
     console.error('Error fetching delivery:', error)
-    // Jika terjadi kesalahan, mengembalikan properti resep kosong untuk menghindari kesalahan saat render
+
     return {
       props: {
         delivery: {},
@@ -187,4 +184,4 @@ export async function getServerSideProps() {
   }
 }
 
-export default UpdateDelivery
+export default Update
