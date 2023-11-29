@@ -73,8 +73,8 @@ export function BodyTable() {
           <td className="py-2 pl-3">
             <button
               type="button"
-              className="bg-ijo3 flex 
-              cursor-pointer items-center 
+              className="flex items-center 
+              items-center rounded 
               rounded 
               px-4 py-2 
               text-white"
@@ -85,7 +85,11 @@ export function BodyTable() {
           <td className="py-2 pl-3">
             <button
               type="button"
-              className="bg-merah-tumbas flex cursor-pointer items-center rounded px-4 py-2 text-white"
+              className="cursor-pointer 
+              cursor-pointer items-center rounded 
+              rounded 
+              px-4 py-2 
+              text-white"
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
