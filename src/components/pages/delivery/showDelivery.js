@@ -46,7 +46,7 @@ export function ShowDelivery() {
             <input
               type="text"
               className="
-              
+
             mx-2 
             h-[34px]
             w-[342px]
@@ -109,7 +109,7 @@ export function ShowDelivery() {
                     <td className="py-2 pl-3">
                       <button
                         // eslint-disable-next-line no-underscore-dangle
-                        onClick={() => router.push(`/delivery/delete${data._id}`)}
+                        onClick={() => router.push(`/delivery/delete/${data._id}`)}
                         type="button"
                         className="duration-150 hover:text-green-700 hover:underline"
                       >
