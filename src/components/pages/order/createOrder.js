@@ -5,11 +5,123 @@ import DatePicker from 'react-datepicker'
 import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
+import { useGetInventory } from '@/hooks/inventory'
+import { usePostOrder } from '@/hooks/order'
 
 export function Create() {
   const [isShowItemDropdown, setShowItemDropdown] = useState(false)
   const [items, setItems] = useState([{}])
   const [selectedDate, setSelectedDate] = useState(null)
+
+  const { mutate: PostOrder } = usePostOrder()
+  
+  const { data: inventoryData, isLoading } = useGetInventory()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  const InventoryData = inventoryData || []
+
+  function handleAddData() {
+    PostOrder({
+      id: 1,
+      date: Date.now(),
+      totalPrice: 15000,
+      items: [
+        {
+          id: 1,
+          name: 'Product 1',
+          description: 'Description 1',
+          type: 'Type 1',
+          qty: 10,
+          unit: 'kg',
+          price: '$10.00',
+        },
+        {
+          id: 2,
+          name: 'Product 2',
+          description: 'Description 2',
+          type: 'Type 2',
+          qty: 20,
+          unit: 'pcs',
+          price: '$15.00',
+        },
+        {
+          id: 3,
+          name: 'Product 1',
+          description: 'Description 1',
+          type: 'Type 1',
+          qty: 10,
+          unit: 'kg',
+          price: '$10.00',
+        },
+        {
+          id: 4,
+          name: 'Product 2',
+          description: 'Description 2',
+          type: 'Type 2',
+          qty: 20,
+          unit: 'pcs',
+          price: '$15.00',
+        },
+        {
+          id: 5,
+          name: 'Product 1',
+          description: 'Description 1',
+          type: 'Type 1',
+          qty: 10,
+          unit: 'kg',
+          price: '$10.00',
+        },
+        {
+          id: 6,
+          name: 'Product 2',
+          description: 'Description 2',
+          type: 'Type 2',
+          qty: 20,
+          unit: 'pcs',
+          price: '$15.00',
+        },
+        {
+          id: 7,
+          name: 'Product 1',
+          description: 'Description 1',
+          type: 'Type 1',
+          qty: 10,
+          unit: 'kg',
+          price: '$10.00',
+        },
+        {
+          id: 8,
+          name: 'Product 2',
+          description: 'Description 2',
+          type: 'Type 2',
+          qty: 20,
+          unit: 'pcs',
+          price: '$15.00',
+        },
+        {
+          id: 9,
+          name: 'Product 1',
+          description: 'Description 1',
+          type: 'Type 1',
+          qty: 10,
+          unit: 'kg',
+          price: '$10.00',
+        },
+        {
+          id: 10,
+          name: 'Product 2',
+          description: 'Description 2',
+          type: 'Type 2',
+          qty: 20,
+          unit: 'pcs',
+          price: '$15.00',
+        },
+      ],
+    })
+  }
 
   const addItem = () => {
     setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])
@@ -55,99 +167,6 @@ export function Create() {
       return total + itemPrice
     }, 0)
   }
-
-  const InventoryData = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 3,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 4,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 5,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 6,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 7,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 8,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 9,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 10,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-  ]
 
   return (
     <div className="min-h-screen bg-white">
@@ -284,6 +303,7 @@ export function Create() {
         <button
           type="button"
           className="fixed bottom-8 right-8 flex h-[48px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
+          onClick={handleAddData}
         >
           <IoSaveSharp className="mr-2" /> Save
         </button>
