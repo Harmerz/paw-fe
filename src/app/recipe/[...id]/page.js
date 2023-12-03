@@ -2,17 +2,18 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
+import Modal from '@/components/pages/recipe/modal'
 // import { MdNavigateBefore } from 'react-icons/md'
 import { useDeleteRecipe, useGetOneRecipe } from '@/hooks/recipe'
 
 export function RecipeDetail({ params }) {
   const router = useRouter()
-  console.log(params.id)
   const { data: recipeData, isLoading, refetch } = useGetOneRecipe(params.id)
 
+  const [showModal, setShowModal] = useState(false)
   const { mutate } = useDeleteRecipe()
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export function RecipeDetail({ params }) {
     }
     return []
   }
+  console.log(recipeDetail)
 
   return (
     <div className="relative flex bg-white pt-8">
@@ -99,7 +101,8 @@ export function RecipeDetail({ params }) {
           <div className="relative bottom-0 right-0 mb-2 mr-2 flex items-center justify-end space-x-2">
             <button
               type="button"
-              onClick={() => router.push(`/recipe/update${recipeDetail._id}`)}
+              onClick={() => setShowModal(true)}
+              // onClick={() => router.push(`/recipe/update${recipeDetail._id}`)}
               className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
             >
               <IoColorWandSharp className="mr-2" /> Edit
@@ -111,6 +114,7 @@ export function RecipeDetail({ params }) {
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
+            <Modal data={recipeDetail} show={showModal} onClose={() => setShowModal(false)} />
           </div>
         </div>
       </div>
