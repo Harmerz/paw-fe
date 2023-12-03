@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
+import { NavBar } from '@/components/elements/navbar'
 import { usePostRecipe } from '@/hooks/recipe'
 
 export function Create() {
@@ -10,15 +10,8 @@ export function Create() {
   const [description, setDescription] = useState('')
   const [ingredient, setIngredient] = useState('')
   const [instruction, setInstruction] = useState('')
-  const [file, setFile] = useState('')
-  const [preview, setPreview] = useState('')
+  const [imgUrl, setImgUrl] = useState('')
   const router = useRouter()
-
-  const loadImage = (e) => {
-    const image = e.target.files[0]
-    setFile(image)
-    setPreview(URL.createObjectURL(image))
-  }
 
   const { mutate: addRecipe } = usePostRecipe()
   const handleSubmit = async (e) => {
@@ -28,7 +21,7 @@ export function Create() {
     formData.append('description', description)
     formData.append('ingredient', ingredient)
     formData.append('instruction', instruction)
-    formData.append('file', file)
+    formData.append('imgUrl', imgUrl)
     const jsonObject = Object.fromEntries(formData)
     try {
       await addRecipe(jsonObject)
@@ -42,6 +35,7 @@ export function Create() {
 
   return (
     <div className="relative flex min-h-screen bg-white">
+      <NavBar />
       <div className="w-1/6 flex-none" />
 
       <div className="w-2/3 flex-grow bg-white">
@@ -114,17 +108,20 @@ export function Create() {
         </div>
 
         <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
-        <div className="relative pb-4">
-          <input type="file" className="file-input" onChange={loadImage} />
+        <div className="pb-4">
+          <input
+            type="text"
+            className="h-[22px]  w-3/4 
+            rounded-md bg-gray-200 
+            p-3 text-xs
+            text-black
+            md:h-[44px] md:text-sm
+            lg:h-[66px] lg:text-base"
+            value={imgUrl}
+            onChange={(e) => setImgUrl(e.target.value)}
+            placeholder="Gambar masakan"
+          />
         </div>
-
-        {preview ? (
-          <figure className="image is-128x128">
-            <Image src={preview} alt="Preview Image" />
-          </figure>
-        ) : (
-          ''
-        )}
 
         <div className="white relative w-1/6 flex-none">
           <button

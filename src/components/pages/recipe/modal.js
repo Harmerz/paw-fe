@@ -12,8 +12,7 @@ export default function Modal({ data, show, onClose, children }) {
   const [description, setDescription] = useState(data.description)
   const [ingredient, setIngredient] = useState(data.ingredient)
   const [instruction, setInstruction] = useState(data.instruction)
-  const [file, setFile] = useState('')
-  const [preview, setPreview] = useState('')
+  const [imgUrl, setImgUrl] = useState(data.imgUrl)
   const router = useRouter()
 
   useEffect(() => {
@@ -26,12 +25,6 @@ export default function Modal({ data, show, onClose, children }) {
     }
   }, [])
 
-  const loadImage = (e) => {
-    const image = e.target.files[0]
-    setFile(image)
-    setPreview(URL.createObjectURL(image))
-  }
-
   const { mutate: editRecipe } = usePutRecipe(data._id)
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -40,7 +33,7 @@ export default function Modal({ data, show, onClose, children }) {
     formData.append('description', description)
     formData.append('ingredient', ingredient)
     formData.append('instruction', instruction)
-    formData.append('file', file)
+    formData.append('imgUrl', imgUrl)
     const jsonObject = Object.fromEntries(formData)
     try {
       await editRecipe(jsonObject)
@@ -115,6 +108,17 @@ export default function Modal({ data, show, onClose, children }) {
                   value={instruction}
                   onChange={(e) => setInstruction(e.target.value)}
                   placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
+                />
+              </div>
+
+              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
+              <div className="pb-4">
+                <input
+                  type="text"
+                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  value={imgUrl}
+                  onChange={(e) => setImgUrl(e.target.value)}
+                  placeholder="Gambar masakan"
                 />
               </div>
 

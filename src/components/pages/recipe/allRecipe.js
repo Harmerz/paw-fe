@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
+import { NavBar } from '@/components/elements/navbar'
 import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
@@ -18,6 +19,7 @@ export function AllRecipe() {
 
   return (
     <div className="bg-white p-8">
+      <NavBar />
       <div className="flex flex-col items-start">
         <div className="mb-8 ml-auto">
           <button
@@ -42,8 +44,7 @@ export function AllRecipe() {
             {recipeCard.map((data) => (
               <div key={data.name} className="font-poppins my-2 p-4 text-base text-black md:flex">
                 <Image
-                  // src={data.img_url[0]}
-                  src="/assets/nasgor.webp"
+                  src={data.imgUrl}
                   alt={data.name}
                   width={200}
                   height={150}

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
+import { NavBar } from '@/components/elements/navbar'
 import Modal from '@/components/pages/recipe/modal'
 // import { MdNavigateBefore } from 'react-icons/md'
 import { useDeleteRecipe, useGetOneRecipe } from '@/hooks/recipe'
@@ -63,12 +64,13 @@ export function RecipeDetail({ params }) {
 
   return (
     <div className="relative flex bg-white pt-8">
+      <NavBar />
       <div className="w-1/6 flex-none" />
       <div className="mt-4 flex">
         <div className="mt-4 flex-col">
           <div key={recipeDetail.name} className="font-poppins my-2 p-4 text-base text-black">
             <Image
-              src="/assets/nasgor.webp"
+              src={recipeDetail.imgUrl}
               alt={recipeDetail.name}
               width={240}
               height={180}
