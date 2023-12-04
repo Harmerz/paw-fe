@@ -108,8 +108,8 @@ export function Create() {
         <button
           type="button"
           className="absolute bottom-12  left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer 
-          items-center rounded bg-ijo3 px-4 py-2 font-bold text-white
-          text-xs
+          items-center rounded bg-ijo3 px-4 py-2 text-xs font-bold
+          text-white
           md:text-sm
           lg:text-base"
         >

@@ -2,17 +2,16 @@ import { useAccessToken } from '@/hooks/auth'
 import { useApiMutation2 } from '@/hooks/useApiMutation'
 import { axios } from '@/lib/axios'
 
-export const usePostInventory = () => {
+export const useQuestions = () => {
   const { accessToken, headers } = useAccessToken()
 
   return useApiMutation2({
-    queryKey: ['inventory'],
+    queryKey: ['questions'],
     mutationFun: async (_, data) => {
       if (!accessToken) {
         return null
       }
-      console.log(data)
-      const res = await axios.post('/inventory', data, {
+      const res = await axios.post('/api/question', data, {
         headers,
       })
       return res?.data
@@ -20,16 +19,15 @@ export const usePostInventory = () => {
   })
 }
 
-export const useDeleteInvetory = () => {
+export const useNewQuestions = () => {
   const { accessToken, headers } = useAccessToken()
   return useApiMutation2({
-    queryKey: ['inventory', 'delete'],
-    mutationFun: async (_, id) => {
+    queryKey: ['questions'],
+    mutationFun: async (_, data) => {
       if (!accessToken) {
         return null
       }
-      console.log("id", id)
-      const res = await axios.delete(`/inventory/${id}`,  {
+      const res = await axios.post('/api/question-new', data, {
         headers,
       })
       return res?.data
@@ -70,4 +68,4 @@ export const useProcessQuestions = () => {
   })
 }
 
-export default usePostInventory
+export default useQuestions

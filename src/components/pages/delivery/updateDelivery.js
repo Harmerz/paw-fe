@@ -1,8 +1,41 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
-export function Update() {
+import { useGetDeliveryById, usePutDelivery } from '@/hooks/delivery'
+
+export function Update({ deliveryData }) {
+  const router = useRouter()
+  const { id } = router.query
+  const deliveryDetail = deliveryData || []
+
+  const [formData, setFormData] = useState({
+    name: deliveryDetail.recpient,
+    description: deliveryDetail.items,
+    ingredient: deliveryDetail.courier,
+    instruction: deliveryDetail.estimedtime,
+  })
+
+  const { mutate: editDelivery } = usePutDelivery()
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await editDelivery(id, formData)
+      // eslint-disable-next-line no-underscore-dangle
+      router.push(`/delivery/${deliveryDetail._id}`)
+    } catch (error) {
+      console.error('Error updating recipe:', error)
+    }
+  }
+  console.log(editDelivery)
+
   return (
     <div className="flex min-h-screen bg-white">
       <div className="w-1/6 flex-none" />
@@ -16,110 +49,139 @@ export function Update() {
         >
           Update Delivery
         </div>
-
-        <div
-          className="pb-2 text-xs 
-      font-bold
-      text-black
-      md:text-sm
-      lg:text-base"
-        >
-          Recipient Name
-        </div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-full 
-          rounded-md bg-gray-200 
+        <div onSubmit={handleSubmit}>
+          <div
+            className="pb-2 text-xs 
+             font-bold
+            text-black
+            md:text-sm
+            lg:text-base"
+          >
+            Recipient Name
+          </div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-full 
+              rounded-md bg-gray-200 
           p-3 text-xs
           text-black
           md:h-[44px] md:text-sm
           lg:h-[66px] lg:text-base"
-            placeholder="Tono"
-          />
-        </div>
+              value={formData.recpient}
+              onChange={handleChange}
+              placeholder="Recipient Name"
+            />
+          </div>
 
-        <div
-          className="pb-2 text-xs 
+          <div
+            className="pb-2 text-xs 
       font-bold
       text-black
       md:text-sm
       lg:text-base"
-        >
-          Ordered Items
-        </div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px] w-full
+          >
+            Ordered Items
+          </div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px] w-full
           rounded-md bg-gray-200 
           p-3 text-xs 
           text-black 
           md:h-[44px] md:text-sm
           lg:h-[66px] lg:text-base"
-            placeholder="Sate rendang Kukus"
-          />
-        </div>
+              value={formData.items}
+              onChange={handleChange}
+              placeholder="Ordered Items"
+            />
+          </div>
 
-        <div
-          className="pb-2 text-xs 
+          <div
+            className="pb-2 text-xs 
       font-bold
       text-black
       md:text-sm
       lg:text-base"
-        >
-          Courier Name
-        </div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px] w-full
+          >
+            Courier Name
+          </div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px] w-full
           rounded-md bg-gray-200 
           p-3 text-xs 
           text-black 
           md:h-[44px] md:text-sm
           lg:h-[66px] lg:text-base"
-            placeholder="Dudung"
-          />
-        </div>
+              value={formData.courier}
+              onChange={handleChange}
+              placeholder="Courier Name"
+            />
+          </div>
 
-        <div
-          className="pb-2 text-xs 
+          <div
+            className="pb-2 text-xs 
       font-bold
       text-black
       md:text-sm
       lg:text-base"
-        >
-          Estimed Time
-        </div>
-        <div className="pb-12">
-          <input
-            type="text"
-            className="h-[22px] w-full
+          >
+            Estimed Time
+          </div>
+          <div className="pb-12">
+            <input
+              type="text"
+              className="h-[22px] w-full
           rounded-md bg-gray-200 
           p-3 text-xs 
           text-black 
           md:h-[44px] md:text-sm
           lg:h-[66px] lg:text-base"
-            placeholder="23-11-2023"
-          />
+              value={formData.estimedtime}
+              onChange={handleSubmit}
+              placeholder="Estimed Time"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="white relative w-1/6 flex-none">
-        <button
-          type="button"
-          className="absolute bottom-12  left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer 
+        <div className="white relative w-1/6 flex-none">
+          <button
+            type="submit"
+            className="absolute bottom-12  left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer 
         items-center rounded bg-ijo3 px-4 py-2 text-xs font-bold
         text-white
         md:text-sm
         lg:text-base"
-        >
-          <IoSaveSharp className="mr-2" /> Save
-        </button>
+          >
+            <IoSaveSharp className="mr-2" /> Save
+          </button>
+        </div>
       </div>
     </div>
   )
+}
+
+// need some fix
+export async function getServerSideProps() {
+  try {
+    const { mutate: delivery } = useGetDeliveryById
+    return {
+      props: {
+        delivery,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching delivery:', error)
+
+    return {
+      props: {
+        delivery: {},
+      },
+    }
+  }
 }
 
 export default Update
