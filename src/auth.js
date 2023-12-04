@@ -26,20 +26,22 @@ export const options = {
                 'Content-Type': 'application/json',
               },
             },
-          )
-          // const user = await axios.get('/api/user', {
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //     Authorization: `Bearer ${res.data.accessToken}`,
-          //   },
-          // })
+            )
+          const user = await axios.get('/api/user', {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${res.data.accessToken}`,
+            },
+          })
           const { data } = res
-
           return {
+            id: user.data.id,
+            email: user.data.email,
+            name: user.data.name ?? '',
+            role: user.data.roles[0],
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
             accessTokenExpires: Date.now() + ACCESS_TOKEN_EXP_AUTH_OPTION_IN_MS,
-            verify: data.isVerified,
           }
         } catch (err) {
           // console.log(err)
