@@ -1,5 +1,6 @@
 import { IoSearch } from 'react-icons/io5'
-import { usePostInventory, useGetInventory } from '@/hooks/inventory'
+
+import { useGetInventory, usePostInventory } from '@/hooks/inventory'
 
 export function Inventory({ children }) {
   const categories = [
@@ -16,10 +17,10 @@ export function Inventory({ children }) {
     'Snack',
   ]
 
-  const {mutate: addInventory} = usePostInventory()
-  const {data: DataKris} = useGetInventory()
+  const { mutate: addInventory } = usePostInventory()
+  const { data: DataKris } = useGetInventory()
   console.log(DataKris)
-  function handleClick(){
+  function handleClick() {
     addInventory()
   }
   return (
@@ -28,7 +29,7 @@ export function Inventory({ children }) {
         <div className="flex flex-col items-start">
           <div className="mb-12 ml-auto">
             <button
-            onClick={handleClick}
+              onClick={handleClick}
               type="button"
               className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
             >
