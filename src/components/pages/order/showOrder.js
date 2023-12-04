@@ -1,8 +1,15 @@
+import { useRouter } from 'next/navigation'
 import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 
 export function Order({ children }) {
+  const router = useRouter()
+
+  const handleAddOrderClick = () => {
+    router.push('/order/create')
+  }
+
   return (
     <div className="min-h-screen bg-white bg-contain">
       <NavBar />
@@ -12,6 +19,7 @@ export function Order({ children }) {
             <button
               type="button"
               className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
+              onClick={handleAddOrderClick}
             >
               +Add Order
             </button>
