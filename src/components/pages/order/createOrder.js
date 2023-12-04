@@ -14,7 +14,7 @@ export function Create() {
   const [selectedDate, setSelectedDate] = useState(null)
 
   const { mutate: PostOrder } = usePostOrder()
-  
+
   const { data: inventoryData, isLoading } = useGetInventory()
 
   if (isLoading) {

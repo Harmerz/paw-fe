@@ -80,14 +80,14 @@ export function RecipeDetail({ params }) {
             <p className="text-sm lg:text-base">{recipeDetail.description}</p>
             <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Bahan-Bahan:</h3>
             <ul className="ml-8 list-disc text-left text-xs lg:text-base">
-              {ingrArray().map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+              {ingrArray().map((ingredient) => (
+                <li key={ingredient}>{ingredient}</li>
               ))}
             </ul>
             <h3 className="md:text-md mt-2 text-sm font-bold lg:text-lg ">Langkah-Langkah:</h3>
             <ul className="ml-8 list-decimal text-left text-xs lg:text-base">
-              {insArray().map((instruction, index) => (
-                <li key={index}>{instruction}</li>
+              {insArray().map((instruction) => (
+                <li key={instruction}>{instruction}</li>
               ))}
             </ul>
           </div>

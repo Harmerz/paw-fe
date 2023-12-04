@@ -1,6 +1,7 @@
+
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
-import { useDeleteOrder, useGetOrder, usePostOrder } from '@/hooks/order'
+import { useDeleteOrder, useGetOrder } from '@/hooks/order'
 
 export function BodyTable() {
   // GET
@@ -8,7 +9,7 @@ export function BodyTable() {
 
   // Post and Delete
   const { mutate: OrderDelete, isError } = useDeleteOrder()
-  const { mutate: PostOrder } = usePostOrder()
+  // const { mutate: PostOrder } = usePostOrder()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -23,105 +24,105 @@ export function BodyTable() {
     OrderDelete(id)
   }
 
-  function handleAddData() {
-    PostOrder({
-      id: 1,
-      date: Date.now(),
-      totalPrice: 15000,
-      items: [
-        {
-          id: 1,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 2,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 3,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 4,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 5,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 6,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 7,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 8,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 9,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 10,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-      ],
-    })
-  }
+  // function handleAddData() {
+  //   PostOrder({
+  //     id: 1,
+  //     date: Date.now(),
+  //     totalPrice: 15000,
+  //     items: [
+  //       {
+  //         id: 1,
+  //         name: 'Product 1',
+  //         description: 'Description 1',
+  //         type: 'Type 1',
+  //         qty: 10,
+  //         unit: 'kg',
+  //         price: '$10.00',
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'Product 2',
+  //         description: 'Description 2',
+  //         type: 'Type 2',
+  //         qty: 20,
+  //         unit: 'pcs',
+  //         price: '$15.00',
+  //       },
+  //       {
+  //         id: 3,
+  //         name: 'Product 1',
+  //         description: 'Description 1',
+  //         type: 'Type 1',
+  //         qty: 10,
+  //         unit: 'kg',
+  //         price: '$10.00',
+  //       },
+  //       {
+  //         id: 4,
+  //         name: 'Product 2',
+  //         description: 'Description 2',
+  //         type: 'Type 2',
+  //         qty: 20,
+  //         unit: 'pcs',
+  //         price: '$15.00',
+  //       },
+  //       {
+  //         id: 5,
+  //         name: 'Product 1',
+  //         description: 'Description 1',
+  //         type: 'Type 1',
+  //         qty: 10,
+  //         unit: 'kg',
+  //         price: '$10.00',
+  //       },
+  //       {
+  //         id: 6,
+  //         name: 'Product 2',
+  //         description: 'Description 2',
+  //         type: 'Type 2',
+  //         qty: 20,
+  //         unit: 'pcs',
+  //         price: '$15.00',
+  //       },
+  //       {
+  //         id: 7,
+  //         name: 'Product 1',
+  //         description: 'Description 1',
+  //         type: 'Type 1',
+  //         qty: 10,
+  //         unit: 'kg',
+  //         price: '$10.00',
+  //       },
+  //       {
+  //         id: 8,
+  //         name: 'Product 2',
+  //         description: 'Description 2',
+  //         type: 'Type 2',
+  //         qty: 20,
+  //         unit: 'pcs',
+  //         price: '$15.00',
+  //       },
+  //       {
+  //         id: 9,
+  //         name: 'Product 1',
+  //         description: 'Description 1',
+  //         type: 'Type 1',
+  //         qty: 10,
+  //         unit: 'kg',
+  //         price: '$10.00',
+  //       },
+  //       {
+  //         id: 10,
+  //         name: 'Product 2',
+  //         description: 'Description 2',
+  //         type: 'Type 2',
+  //         qty: 20,
+  //         unit: 'pcs',
+  //         price: '$15.00',
+  //       },
+  //     ],
+  //   })
+  // }
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)

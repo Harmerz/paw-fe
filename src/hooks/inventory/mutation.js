@@ -28,8 +28,8 @@ export const useDeleteInvetory = () => {
       if (!accessToken) {
         return null
       }
-      console.log("id", id)
-      const res = await axios.delete(`/inventory/${id}`,  {
+      console.log('id', id)
+      const res = await axios.delete(`/inventory/${id}`, {
         headers,
       })
       return res?.data
