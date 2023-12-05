@@ -55,21 +55,4 @@ export const useDeleteInvetory = () => {
   })
 }
 
-export const useOCRQuestions = () => {
-  const { accessToken, headers } = useAccessToken()
-  return useApiMutation2({
-    queryKey: ['questions'],
-    mutationFun: async (_, data) => {
-      if (!accessToken) {
-        return null
-      }
-      const res = await axios.post('/api/uploads', data, {
-        'Content-Type': 'multipart/form-data',
-        headers,
-      })
-      return res?.data
-    },
-  })
-}
-
 export default usePostInventory
