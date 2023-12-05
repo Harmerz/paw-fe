@@ -23,11 +23,12 @@ export function Inventory({ children }) {
   function handleClick() {
     addInventory()
   }
+
   return (
     <div className="min-h-screen bg-white bg-contain">
       <div className="p-8">
         <div className="flex flex-col items-start">
-          <div className="mb-12 ml-auto">
+          <div className="mb-4 ml-auto sm:mb-12">
             <button
               onClick={handleClick}
               type="button"
@@ -36,23 +37,26 @@ export function Inventory({ children }) {
               +Add Inventory
             </button>
           </div>
-          <div className="flex items-center">
+          <div className="mb-4 flex items-center sm:mb-8">
             <IoSearch className="absolute mx-4 mr-2 text-black" />
-            <input type="text" className="mx-2 w-96 rounded-md bg-gray-200 p-2 pl-8 text-black" />
+            <input
+              type="text"
+              className="mx-2 w-full rounded-md bg-gray-200 p-2 pl-8 text-black sm:w-96"
+            />
           </div>
-          <div className="mt-4 flex">
+          <div className="mt-4 flex flex-wrap">
             {categories.map((category) => (
               <div
                 key={category}
-                className="font-poppins mx-2 cursor-pointer rounded-full border border-black bg-gray-200 p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white"
+                className="font-poppins mx-2 my-2 cursor-pointer rounded-full border border-black bg-gray-200 p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white sm:my-0"
               >
                 {category}
               </div>
             ))}
           </div>
-          <table className="mx-2 mt-5 table w-full text-left">
-            <thead>
-              <tr className="font-poppins bg-ijo4 text-ijo1">
+          <table className="mx-2 mt-5 table w-full overflow-x-auto text-left">
+            <thead className="font-poppins bg-ijo4 text-ijo1">
+              <tr>
                 <th className="py-2 pl-3">id</th>
                 <th className="py-2 pl-3">Name</th>
                 <th className="py-2 pl-3">Description</th>

@@ -1,29 +1,30 @@
+'use client'
+
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+import { NavBar } from '@/components/elements/navbar'
+import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
-  const [data, setData] = useState([
-    {
-      img: 'https://th.bing.com/th/id/OIP.8kg0jQPbYYkcrYK9pJ1k8AAAAA?w=272&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      name: 'Telur Balado Pedas Cabe Hijau',
-      description:
-        'Telur Balado Pedas Cabe Hijau adalah hidangan lezat dan pedas yang terdiri dari telur rebus yang dimasak dengan bumbu balado khas Indonesia. Telur Balado Pedas Cabe Hijau sering dihidangkan sebagai lauk pendamping nasi putih hangat. Rasanya yang pedas dan sedikit manis membuat hidangan ini menjadi pilihan yang populer di berbagai acara makan, baik sehari-hari maupun pada kesempatan khusus.',
-    },
-    {
-      img: 'https://live.staticflickr.com/5163/5330506374_1ea38e8783_b.jpg',
-      name: 'Nasi Goreng Special',
-      description:
-        'Nasi Goreng Special adalah hidangan nasi yang digoreng dengan bumbu-bumbu khusus dan dicampur dengan daging ayam, udang, dan sayuran. Rasanya yang gurih dan sedikit pedas membuat nasi goreng ini menjadi favorit banyak orang.',
-    },
-  ])
+  const router = useRouter()
+  const { data: recipeData, isLoading } = useGetRecipe()
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  console.log(recipeData)
+
+  const recipeCard = recipeData || []
 
   return (
     <div className="bg-white p-8">
+      <NavBar />
       <div className="flex flex-col items-start">
         <div className="mb-8 ml-auto">
           <button
+            onClick={() => router.push(`/recipe/create`)}
             type="button"
-            href="recipe/create"
             className="font-poppins 
             cursor-pointer 
             rounded 
@@ -40,11 +41,11 @@ export function AllRecipe() {
         </div>
         <div className="mt-4 flex">
           <div className="mt-4 flex-col">
-            {data.map((item, index) => (
-              <div key={index} className="font-poppins my-2 p-4 text-base text-black md:flex">
+            {recipeCard.map((data) => (
+              <div key={data.name} className="font-poppins my-2 p-4 text-base text-black md:flex">
                 <Image
-                  src={item.img}
-                  alt={item.name}
+                  src={data.imgUrl}
+                  alt={data.name}
                   width={200}
                   height={150}
                   className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
@@ -55,14 +56,15 @@ export function AllRecipe() {
                 />
                 <div>
                   <h2 className="mb-2 text-xl font-bold">
-                    <a
-                      href={`#link-to-${index}`}
+                    <button
+                      onClick={() => router.push(`/recipe/${data._id}`)}
+                      type="button"
                       className="duration-150 hover:text-green-700 hover:underline"
                     >
-                      {item.name}
-                    </a>
+                      {data.name}
+                    </button>
                   </h2>
-                  <p>{item.description}</p>
+                  <p>{data.description}</p>
                 </div>
               </div>
             ))}
