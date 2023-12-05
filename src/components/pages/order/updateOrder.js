@@ -1,17 +1,38 @@
-import 'react-datepicker/dist/react-datepicker.css'
-
-import { useState } from 'react'
-import DatePicker from 'react-datepicker'
-import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
+import { DatePicker } from 'antd'
+import { useEffect, useState } from 'react'
+import { IoAdd, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory } from '@/hooks/inventory'
 import { useGetOneOrder, usePutOrder } from '@/hooks/order'
 
-export function Update() {
+export function Update({ id }) {
   const [isShowItemDropdown, setShowItemDropdown] = useState(false)
   const [items, setItems] = useState([{}])
   const [selectedDate, setSelectedDate] = useState(null)
+  const [totalPrice, setTotalPrice] = useState(null)
+  const { mutate: UpdateOrder } = usePutOrder()
+
+  const { data } = useGetOneOrder(id)
+  console.log(data)
+  console.log(selectedDate)
+  console.log(new Date(data?.date))
+  console.log(items)
+
+  useEffect(() => {
+    // setSelectedDate(new Date(data?.date))
+    setItems(data?.items)
+    setTotalPrice(data?.totalPrice)
+  }, [data])
+
+  const { data: inventoryData, isLoading } = useGetInventory()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  const InventoryData = inventoryData || []
+  // console.log(InventoryData)
 
   const addItem = () => {
     setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])
@@ -38,118 +59,48 @@ export function Update() {
   }
 
   const calculatePrice = (item) => {
-    if (!item.item || !item.item.price || Number.isNaN(item.quantity)) {
+    if (!item || !item.price || Number.isNaN(item.quantity)) {
       return 'Rp 0,00'
     }
 
-    const totalPrice = item.item.price * item.quantity
-    return formatCurrency(totalPrice)
+    const total = item.price * item.quantity
+    return formatCurrency(total)
   }
 
   const updateQuantityAndRecalculate = (index, newQuantity) => {
     const newItem = { ...items[index], quantity: newQuantity }
     updateItem(index, newItem)
   }
+  const updateName = (index, _id, _name) => {
+    const newItem = { ...items[index], inventory: { id: _id, name: _name } }
+    updateItem(index, newItem)
+  }
 
   const calculateTotalPrice = () => {
     return items.reduce((total, item) => {
-      const itemPrice = item.item ? item.item.price * item.quantity : 0
+      const itemPrice = item ? item.price * item.quantity : 0
       return total + itemPrice
     }, 0)
   }
 
-  const InventoryData = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 3,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 4,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 5,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 6,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 7,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 8,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 9,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 10,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-  ]
+  function handleUpdateData() {
+    const orderData = {
+      id: data?._id,
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      items: items.map((item) => ({
+        inventory: {
+          inventoryId: item.inventory.id,
+          name: item.inventory.name,
+        },
+        inventoryId: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      totalPrice: calculateTotalPrice(),
+    }
+
+    UpdateOrder(orderData.id, orderData)
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -165,38 +116,29 @@ export function Update() {
           <div className="pb-2 font-bold text-black">Date</div>
           <div className="relative w-full pb-4">
             <DatePicker
-              selected={selectedDate}
+              defaultValue={selectedDate}
               onChange={(date) => setSelectedDate(date)}
-              dateFormat="dd-MM-yyyy"
               className="w-full rounded-md bg-gray-200 text-black"
               placeholderText="Select Date"
-              customInput={
-                <div className="relative w-full">
-                  <input
-                    className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
-                    value={selectedDate ? selectedDate.toLocaleDateString('id-ID') : ''}
-                    placeholder="Select Date"
-                    readOnly
-                  />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
-                    <IoCalendarSharp className="text-black" />
-                  </div>
-                </div>
-              }
             />
           </div>
 
           <div className="pb-2 font-bold text-black">Items</div>
           <div className="flex flex-col gap-2 pb-4" style={{ width: '100%' }}>
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
               <div key={item.id} className="relative flex flex-row items-center gap-2">
                 <button
                   type="button"
                   className="flex h-[66px] cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
-                  onClick={() => setShowItemDropdown(!isShowItemDropdown)}
+                  onClick={() => {
+                    setShowItemDropdown(!isShowItemDropdown)
+                    updateName(index, item.inventory.id, item.inventory.name)
+                  }}
                 >
                   <div />
-                  {item.item && <span className="text-left text-black">{item.item.name}</span>}
+                  {item.inventory && (
+                    <span className="text-left text-black">{item.inventory.name}</span>
+                  )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
                 {isShowItemDropdown && (
@@ -246,7 +188,7 @@ export function Update() {
                     }}
                   />
                   <span className="ml-2 font-medium text-black">
-                    {item.item ? item.item.unit : 'Unit'}
+                    @Rp {item ? item.price : ''}/{item.inventory ? item.inventory.qtype : 'Unit'}
                   </span>
                 </div>
 
@@ -278,7 +220,7 @@ export function Update() {
 
           <div className="pb-2 font-bold text-black">Total Price</div>
           <div className="flex h-[66px] w-full items-center rounded-md bg-gray-200 p-3 text-black">
-            {formatCurrency(calculateTotalPrice())}
+            {formatCurrency(totalPrice)}
           </div>
         </div>
       </div>
@@ -286,6 +228,7 @@ export function Update() {
         <button
           type="button"
           className="fixed bottom-8 right-8 flex h-[48px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
+          onClick={handleUpdateData}
         >
           <IoSaveSharp className="mr-2" /> Save
         </button>
