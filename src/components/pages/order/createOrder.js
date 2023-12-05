@@ -1,5 +1,6 @@
 import 'react-datepicker/dist/react-datepicker.css'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
@@ -9,6 +10,8 @@ import { useGetInventory } from '@/hooks/inventory'
 import { usePostOrder } from '@/hooks/order'
 
 export function Create() {
+  const router = useRouter()
+
   const [isShowItemDropdown, setShowItemDropdown] = useState(false)
   const [items, setItems] = useState([{}])
   const [selectedDate, setSelectedDate] = useState(null)
@@ -22,106 +25,7 @@ export function Create() {
   }
 
   const InventoryData = inventoryData || []
-
-  function handleAddData() {
-    PostOrder({
-      id: 1,
-      date: Date.now(),
-      totalPrice: 15000,
-      items: [
-        {
-          id: 1,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 2,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 3,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 4,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 5,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 6,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 7,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 8,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-        {
-          id: 9,
-          name: 'Product 1',
-          description: 'Description 1',
-          type: 'Type 1',
-          qty: 10,
-          unit: 'kg',
-          price: '$10.00',
-        },
-        {
-          id: 10,
-          name: 'Product 2',
-          description: 'Description 2',
-          type: 'Type 2',
-          qty: 20,
-          unit: 'pcs',
-          price: '$15.00',
-        },
-      ],
-    })
-  }
+  console.log(InventoryData)
 
   const addItem = () => {
     setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])
@@ -166,6 +70,26 @@ export function Create() {
       const itemPrice = item.item ? item.item.price * item.quantity : 0
       return total + itemPrice
     }, 0)
+  }
+
+  function handleAddData() {
+    const orderData = {
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      items: items.map((item) => ({
+        inventory: {
+          inventoryId: item.item._id,
+          name: item.item.name,
+        },
+        inventoryId: item.id,
+        quantity: item.quantity,
+        price: item.item.price,
+      })),
+      totalPrice: calculateTotalPrice(),
+    }
+
+    PostOrder(orderData)
+
+    router.replace('/order')
   }
 
   return (
@@ -220,13 +144,13 @@ export function Create() {
                   <div className="absolute mt-1 w-full rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (
                       <div
-                        key={inventoryItem.id}
+                        key={inventoryItem._id}
                         className="cursor-pointer p-2 hover:bg-gray-200"
                         onClick={() => {
                           updateItem(index, {
                             ...item,
                             item: inventoryItem,
-                            id: inventoryItem.id,
+                            id: inventoryItem._id,
                             quantity: 1,
                           })
                           setShowItemDropdown(false)
@@ -236,7 +160,7 @@ export function Create() {
                             updateItem(index, {
                               ...item,
                               item: inventoryItem,
-                              id: inventoryItem.id,
+                              id: inventoryItem._id,
                               quantity: 1,
                             })
                             setShowItemDropdown(false)
@@ -263,7 +187,7 @@ export function Create() {
                     }}
                   />
                   <span className="ml-2 font-medium text-black">
-                    {item.item ? item.item.unit : 'Unit'}
+                    @Rp {item.item ? item.item.price : ''}/{item.item ? item.item.qtype : 'Unit'}
                   </span>
                 </div>
 

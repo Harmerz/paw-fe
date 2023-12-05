@@ -5,6 +5,8 @@ import DatePicker from 'react-datepicker'
 import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
+import { useGetInventory } from '@/hooks/inventory'
+import { useGetOneOrder, usePutOrder } from '@/hooks/order'
 
 export function Update() {
   const [isShowItemDropdown, setShowItemDropdown] = useState(false)

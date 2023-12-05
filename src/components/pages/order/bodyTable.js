@@ -1,15 +1,10 @@
-
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 import { useDeleteOrder, useGetOrder } from '@/hooks/order'
 
 export function BodyTable() {
-  // GET
   const { data: orderData, isLoading } = useGetOrder()
-
-  // Post and Delete
   const { mutate: OrderDelete, isError } = useDeleteOrder()
-  // const { mutate: PostOrder } = usePostOrder()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -18,111 +13,13 @@ export function BodyTable() {
   if (isError) {
     return <div>Error loading data</div>
   }
+  console.log(orderData)
 
-  const tableData = orderData || []
   function handleDelete(id) {
+    console.log('delete', id)
     OrderDelete(id)
   }
-
-  // function handleAddData() {
-  //   PostOrder({
-  //     id: 1,
-  //     date: Date.now(),
-  //     totalPrice: 15000,
-  //     items: [
-  //       {
-  //         id: 1,
-  //         name: 'Product 1',
-  //         description: 'Description 1',
-  //         type: 'Type 1',
-  //         qty: 10,
-  //         unit: 'kg',
-  //         price: '$10.00',
-  //       },
-  //       {
-  //         id: 2,
-  //         name: 'Product 2',
-  //         description: 'Description 2',
-  //         type: 'Type 2',
-  //         qty: 20,
-  //         unit: 'pcs',
-  //         price: '$15.00',
-  //       },
-  //       {
-  //         id: 3,
-  //         name: 'Product 1',
-  //         description: 'Description 1',
-  //         type: 'Type 1',
-  //         qty: 10,
-  //         unit: 'kg',
-  //         price: '$10.00',
-  //       },
-  //       {
-  //         id: 4,
-  //         name: 'Product 2',
-  //         description: 'Description 2',
-  //         type: 'Type 2',
-  //         qty: 20,
-  //         unit: 'pcs',
-  //         price: '$15.00',
-  //       },
-  //       {
-  //         id: 5,
-  //         name: 'Product 1',
-  //         description: 'Description 1',
-  //         type: 'Type 1',
-  //         qty: 10,
-  //         unit: 'kg',
-  //         price: '$10.00',
-  //       },
-  //       {
-  //         id: 6,
-  //         name: 'Product 2',
-  //         description: 'Description 2',
-  //         type: 'Type 2',
-  //         qty: 20,
-  //         unit: 'pcs',
-  //         price: '$15.00',
-  //       },
-  //       {
-  //         id: 7,
-  //         name: 'Product 1',
-  //         description: 'Description 1',
-  //         type: 'Type 1',
-  //         qty: 10,
-  //         unit: 'kg',
-  //         price: '$10.00',
-  //       },
-  //       {
-  //         id: 8,
-  //         name: 'Product 2',
-  //         description: 'Description 2',
-  //         type: 'Type 2',
-  //         qty: 20,
-  //         unit: 'pcs',
-  //         price: '$15.00',
-  //       },
-  //       {
-  //         id: 9,
-  //         name: 'Product 1',
-  //         description: 'Description 1',
-  //         type: 'Type 1',
-  //         qty: 10,
-  //         unit: 'kg',
-  //         price: '$10.00',
-  //       },
-  //       {
-  //         id: 10,
-  //         name: 'Product 2',
-  //         description: 'Description 2',
-  //         type: 'Type 2',
-  //         qty: 20,
-  //         unit: 'pcs',
-  //         price: '$15.00',
-  //       },
-  //     ],
-  //   })
-  // }
+  console.log(isError)
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)
@@ -147,12 +44,12 @@ export function BodyTable() {
       typeof window !== 'undefined' && window.innerWidth <= 768 ? 3 : 6,
     )
 
-    return displayedItems.map((item) => item.name).join(', ')
+    return displayedItems.map((item) => item.inventory.name).join(', ')
   }
-
+  console.log(orderData)
   return (
     <tbody>
-      {tableData.map((data, index) => (
+      {orderData?.map((data, index) => (
         <tr key={data.id} className="text-xs font-medium text-black md:text-base lg:text-xl">
           <td className="py-4 pl-3 font-bold">{index + 1}</td>
           <td className="py-2 pl-3">{formatDate(data.date)}</td>
