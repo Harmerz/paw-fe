@@ -1,6 +1,6 @@
-import { IoSearch } from 'react-icons/io5'
+import { IoSearch } from 'react-icons/io5';
 
-import { useGetInventory, usePostInventory } from '@/hooks/inventory'
+import { useGetInventory, usePostInventory } from '@/hooks/inventory';
 
 export function Inventory({ children }) {
   const categories = [
@@ -15,19 +15,20 @@ export function Inventory({ children }) {
     'Herbs',
     'Bakery',
     'Snack',
-  ]
+  ];
 
-  const { mutate: addInventory } = usePostInventory()
-  const { data: DataKris } = useGetInventory()
+  const { mutate: addInventory } = usePostInventory();
+  const { data: DataKris } = useGetInventory();
   console.log(DataKris)
   function handleClick() {
-    addInventory()
+    addInventory();
   }
+
   return (
     <div className="min-h-screen bg-white bg-contain">
       <div className="p-8">
         <div className="flex flex-col items-start">
-          <div className="mb-12 ml-auto">
+          <div className="mb-4 sm:mb-12 ml-auto">
             <button
               onClick={handleClick}
               type="button"
@@ -36,23 +37,26 @@ export function Inventory({ children }) {
               +Add Inventory
             </button>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mb-4 sm:mb-8">
             <IoSearch className="absolute mx-4 mr-2 text-black" />
-            <input type="text" className="mx-2 w-96 rounded-md bg-gray-200 p-2 pl-8 text-black" />
+            <input
+              type="text"
+              className="mx-2 w-full sm:w-96 rounded-md bg-gray-200 p-2 pl-8 text-black"
+            />
           </div>
-          <div className="mt-4 flex">
+          <div className="flex flex-wrap mt-4">
             {categories.map((category) => (
               <div
                 key={category}
-                className="font-poppins mx-2 cursor-pointer rounded-full border border-black bg-gray-200 p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white"
+                className="font-poppins mx-2 my-2 sm:my-0 cursor-pointer rounded-full border border-black bg-gray-200 p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white"
               >
                 {category}
               </div>
             ))}
           </div>
-          <table className="mx-2 mt-5 table w-full text-left">
-            <thead>
-              <tr className="font-poppins bg-ijo4 text-ijo1">
+          <table className="mx-2 mt-5 table w-full text-left overflow-x-auto">
+            <thead className="font-poppins bg-ijo4 text-ijo1">
+              <tr>
                 <th className="py-2 pl-3">id</th>
                 <th className="py-2 pl-3">Name</th>
                 <th className="py-2 pl-3">Description</th>
@@ -69,7 +73,7 @@ export function Inventory({ children }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Inventory
+export default Inventory;

@@ -20,6 +20,24 @@ export const usePostInventory = () => {
   })
 }
 
+export const useUpdateInventory = () => {
+  const { accessToken, headers } = useAccessToken();
+
+  return useApiMutation2({
+    queryKey: ['inventory', 'update'],
+    mutationFun: async (_, { id, data }) => {
+      if (!accessToken) {
+        return null;
+      }
+      console.log('id', id);
+      const res = await axios.put(`/inventory/${id}`, data, {
+        headers,
+      });
+      return res?.data;
+    },
+  });
+};
+
 export const useDeleteInvetory = () => {
   const { accessToken, headers } = useAccessToken()
   return useApiMutation2({
@@ -50,22 +68,6 @@ export const useOCRQuestions = () => {
         headers,
       })
       return res?.data
-    },
-  })
-}
-
-export const useProcessQuestions = () => {
-  const { accessToken, headers } = useAccessToken()
-  return useApiMutation2({
-    queryKey: ['questions'],
-    mutationFun: async (_, data) => {
-      if (!accessToken) {
-        return null
-      }
-      const res = await axios.post('/api/question-process', data, {
-        headers,
-      })
-      return res
     },
   })
 }

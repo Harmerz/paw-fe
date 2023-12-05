@@ -1,61 +1,75 @@
-import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
+'use client'
 
-import { useDeleteInvetory, useGetInventory, usePostInventory } from '@/hooks/inventory'
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5';
+
+import {
+  useDeleteInvetory,
+  useGetInventory,
+} from '@/hooks/inventory';
 
 export function BodyTable() {
-  const { data: inventoryData, isLoading } = useGetInventory()
-  const { mutate: InventoryDelete, isError } = useDeleteInvetory()
-  const { mutate: PostInvetory } = usePostInventory()
+  const { data: inventoryData, isLoading, refetch } = useGetInventory();
+  const { mutate: InventoryDelete, isError } = useDeleteInvetory();
+  const [tableData, setTableData] = useState(inventoryData ?? [])
+  // const { mutate: PostInventory } = usePostInventory();
+  useEffect(()=>{
+
+    setTableData(inventoryData)
+  },[inventoryData])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error loading data</div>
+    return <div>Error loading data</div>;
   }
-  console.log(inventoryData)
 
-  const tableData = inventoryData || []
 
   function handleDelete(id) {
-    console.log('delete', id)
-    InventoryDelete({ id })
-    PostInvetory({
-      desc: 'Ikan yang ada di promosi KFC Malaysia',
-      name: 'Ikan Bilis',
-      price: 2.2,
-      qtype: 'kg',
-      quantity: 98,
-      type: 'fish',
-    })
+    console.log('delete', id);
+    InventoryDelete(id);
+    refetch()
   }
-  console.log(isError)
+  
+    // PostInventory({
+    //   desc: 'Ikan yang ada di promosi KFC Malaysia',
+    //   name: 'Ikan Bilis',
+    //   price: 2.2,
+    //   qtype: 'kg',
+    //   quantity: 98,
+    //   type: 'fish',
+    // });
+  
 
   return (
     <tbody>
-      {tableData.map((data, index) => (
+      {tableData?.map((data, index) => (
         <tr key={data.id} className="font-bold text-black">
-          <td className="py-4 pl-3">{index + 1}</td>
-          <td className="py-2 pl-3">{data.name}</td>
-          <td className="py-2 pl-3">{data.desc}</td>
-          <td className="py-2 pl-3">{data.price}</td>
-          <td className="py-2 pl-3">{data.quantity}</td>
-          <td className="py-2 pl-3">{data.qtype}</td>
-          <td className="py-2 pl-3">{data.type}</td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
-            >
-              <IoColorWandSharp className="mr-2" /> Edit
-            </button>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{index + 1}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.name}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.desc}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.price}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.quantity}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.qtype}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.type}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">
+            <Link href={`/updateInventory/${data.id}`} passHref>
+              <button
+                type="button"
+                className="flex cursor-pointer items-center rounded bg-ijo3 px-2 py-1 text-white sm:px-4 sm:py-2 mb-2 sm:mb-0"
+                >
+                <IoColorWandSharp className="mr-2" /> Edit
+              </button>
+            </Link>
           </td>
-          <td className="py-2 pl-3">
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">
             <button
               onClick={() => handleDelete(data._id)}
               type="button"
-              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
+              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-2 py-1 text-white sm:px-4 sm:py-2"
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>
@@ -63,7 +77,7 @@ export function BodyTable() {
         </tr>
       ))}
     </tbody>
-  )
+  );
 }
 
-export default BodyTable
+export default BodyTable;
