@@ -10,15 +10,17 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
   const categories = [
     'Meat',
     'Fish',
-    'Fruits',
+    'Fruit',
     'Vegetables',
     'Sauce',
-    'Grain',
+    'Grains',
     'Spices',
     'Dairy',
     'Herbs',
     'Bakery',
     'Snack',
+    'Noodles',
+    'Others',
   ];
 
   const { mutate: addInventory } = usePostInventory();
@@ -27,6 +29,15 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
   function handleClick() {
     addInventory();
   }
+
+  const handleClickFilter = (category) => {
+    // Toggle the category filter
+    if (selectedCategory && selectedCategory.toLowerCase() === category.toLowerCase()) {
+      setSelectedCategory(null); // Turn off the filter if the same category is clicked again
+    } else {
+      setSelectedCategory(category);
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -78,7 +89,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
                   ? 'border-white bg-orange-tumbas text-white'
                   : 'border-black bg-gray-200 text-black'
                 } p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white`}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => handleClickFilter(category)}
               >
                 {category}
               </button>

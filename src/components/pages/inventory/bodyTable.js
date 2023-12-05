@@ -13,7 +13,6 @@ export function BodyTable({category, search}) {
   const { data: inventoryData, isLoading, refetch } = useGetInventory();
   const { mutate: InventoryDelete, isError } = useDeleteInvetory();
   const [tableData, setTableData] = useState(inventoryData ?? []);
-  // const { mutate: PostInventory } = usePostInventory();
   console.log(inventoryData)
   console.log(tableData, category)
 
@@ -26,7 +25,6 @@ if (category) {
 
 if (search) {
   const regex = new RegExp(search, 'i');
-  console.log(regex.test("Salmonela"))
   filteredData = filteredData.filter((e) => regex.test(e.name));
 }
 
@@ -47,16 +45,6 @@ setTableData(filteredData);
     InventoryDelete(id);
     refetch()
   }
-  
-    // PostInventory({
-    //   desc: 'Ikan yang ada di promosi KFC Malaysia',
-    //   name: 'Ikan Bilis',
-    //   price: 2.2,
-    //   qtype: 'kg',
-    //   quantity: 98,
-    //   type: 'fish',
-    // });
-  
 
   return (
     <tbody>
