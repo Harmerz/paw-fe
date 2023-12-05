@@ -11,10 +11,10 @@ export function LayoutAuth({ children }) {
       }}
     >
       <div className="flex w-2/3 items-center justify-center">
-        <Image src="/assets/auth/Auth.png" alt="Auth Image" width={572} height={456} />
+        <Image src="/assets/page/auth/signin.png" alt="Auth Image" fill/>
       </div>
       <div className="w-1/3">
-        <Card className="absolute right-0 flex h-[100vh] w-1/3 items-center justify-center rounded-l-3xl">
+        <Card className="absolute right-0 flex h-[100vh] w-1/3 items-center justify-center rounded-l-lg">
           {children}
         </Card>
       </div>
