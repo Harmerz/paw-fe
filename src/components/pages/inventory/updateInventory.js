@@ -43,7 +43,7 @@ export function Update({ id }) {
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
             defaultValue={dataDetail?.name}
-            onChange={(e) => setName(e.target.defaultValue)}
+            onChange={(e) => setName(e.target.value)}
             />
         </div>
 
@@ -53,7 +53,7 @@ export function Update({ id }) {
             type="text"
             className="w-full rounded-md bg-gray-200 p-2 pb-28 text-black"
             defaultValue={dataDetail?.desc}
-            onChange={(e) => setDescription(e.target.defaultValue)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
@@ -63,7 +63,7 @@ export function Update({ id }) {
             type="text"
             className="w-32 rounded-md bg-gray-200 p-2 text-black"
             defaultValue={dataDetail?.quantity}
-            onChange={(e) => setQuantity(e.target.defaultValue)}
+            onChange={(e) => setQuantity(e.target.value)}
           />
           <div className="relative">
             <button
@@ -109,7 +109,7 @@ export function Update({ id }) {
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
             defaultValue={dataDetail?.type}
-            onChange={(e) => setType(e.target.defaultValue)}
+            onChange={(e) => setType(e.target.value)}
             />
         </div>
 
@@ -119,7 +119,7 @@ export function Update({ id }) {
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
             defaultValue={dataDetail?.price}
-            onChange={(e) => setPrice(e.target.defaultValue)}
+            onChange={(e) => setPrice(e.target.value)}
             />
         </div>
       </div>
