@@ -1,9 +1,9 @@
-import { BodyTable, Delivery } from '@/components/pages/delivery'
+import { BodyTable, ShowDelivery } from '@/components/pages/delivery'
 
 export default function showDelivery() {
   return (
-    <Delivery>
+    <ShowDelivery>
       <BodyTable />
-    </Delivery>
+    </ShowDelivery>
   )
 }

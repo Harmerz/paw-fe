@@ -165,9 +165,11 @@ export function Update({ deliveryData }) {
 }
 
 // need some fix
-export async function getServerSideProps() {
+export async function getServerSideProps({ params }) {
+  const { id } = params
   try {
-    const { mutate: delivery } = useGetDeliveryById
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { mutate: delivery } = useGetDeliveryById(id)
     return {
       props: {
         delivery,

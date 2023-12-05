@@ -2,33 +2,22 @@
 
 import { useRouter } from 'next/navigation'
 import { IoSearch } from 'react-icons/io5'
+import Link from 'next/link'
 
 import { useGetDelivery } from '@/hooks/delivery'
+import { NavBar } from '@/components/elements/navbar'
 
-export function ShowDelivery() {
-  const router = useRouter()
-  const { data: deliveryData, isLoading, isError } = useGetDelivery()
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error loading data</div>
-  }
-
-  console.log(deliveryData)
-
-  const deliveryCard = deliveryData || []
-
+export function ShowDelivery({ children }) {
   return (
     <div className="min-h-screen bg-white bg-contain">
+      <NavBar />
       <div className="p-8">
         <div className="flex flex-col items-start">
           <div className="mb-12 ml-auto">
-            <button
-              type="button"
-              onClick={() => router.push(`/delivery/create`)}
-              className="font-poppins 
+            <Link href={'/delivery/create'}>
+              <button
+                type="button"
+                className="font-poppins 
               cursor-pointer 
               rounded 
               bg-ijo1 
@@ -38,9 +27,10 @@ export function ShowDelivery() {
               text-white
               md:text-base
               lg:text-xl"
-            >
-              +Add Delivery
-            </button>
+              >
+                +Add Delivery
+              </button>
+            </Link>
           </div>
           <div className="relative mt-4 w-fit">
             <input
@@ -88,37 +78,7 @@ export function ShowDelivery() {
                   <th className="py-2 pl-3 text-ijo4">Delete</th>
                 </tr>
               </thead>
-              <tbody>
-                {deliveryCard.map((data) => (
-                  <tr key={data.id}>
-                    <td className="py-2 pl-3">{data.id}</td>
-                    <td className="py-2 pl-3">{data.recipient}</td>
-                    <td className="py-2 pl-3">{data.items}</td>
-                    <td className="py-2 pl-3">{data.courier}</td>
-                    <td className="py-2 pl-3">{data.estimedtime}</td>
-                    <td className="py-2 pl-3">
-                      <button
-                        // eslint-disable-next-line no-underscore-dangle
-                        onClick={() => router.push(`/delivery/put/${data._id}`)}
-                        type="button"
-                        className="duration-150 hover:text-green-700 hover:underline"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className="py-2 pl-3">
-                      <button
-                        // eslint-disable-next-line no-underscore-dangle
-                        onClick={() => router.push(`/delivery/delete/${data._id}`)}
-                        type="button"
-                        className="duration-150 hover:text-green-700 hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              {children}
             </table>
           </div>
         </div>
