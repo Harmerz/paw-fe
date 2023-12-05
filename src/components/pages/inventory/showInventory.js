@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect,useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 
+import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory, usePostInventory } from '@/hooks/inventory';
 
 export function Inventory({ children, selectedCategory, setSelectedCategory, searchTerm, setSearchTerm }) {
@@ -56,6 +57,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
 
   return (
     <div className="min-h-screen bg-white bg-contain">
+      <NavBar />
       <div className="p-8">
         <div className="flex flex-col items-start">
           <div className="mb-4 sm:mb-12 ml-auto">
