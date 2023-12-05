@@ -6,11 +6,12 @@ import { BodyTable, Inventory } from '@/components/pages/inventory'
 
 export default function ShowInventory() {
   const [ selectedCategory, setSelectedCategory ] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   return (
     
-    <Inventory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}>
-      <BodyTable category={selectedCategory} />
+    <Inventory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} searchTerm={searchTerm} setSearchTerm={setSearchTerm}>
+      <BodyTable category={selectedCategory} search={searchTerm}/>
     </Inventory>
   )
 }

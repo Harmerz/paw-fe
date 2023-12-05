@@ -9,19 +9,29 @@ import {
   useGetInventory,
 } from '@/hooks/inventory';
 
-export function BodyTable({category}) {
+export function BodyTable({category, search}) {
   const { data: inventoryData, isLoading, refetch } = useGetInventory();
   const { mutate: InventoryDelete, isError } = useDeleteInvetory();
-  const [tableData, setTableData] = useState(inventoryData ?? [])
+  const [tableData, setTableData] = useState(inventoryData ?? []);
   // const { mutate: PostInventory } = usePostInventory();
   console.log(inventoryData)
   console.log(tableData, category)
+
   useEffect(()=>{
-    if(category){
-    setTableData(inventoryData?.filter((e)=>e.type === category?.toLowerCase()))}else{
-      setTableData(inventoryData)
-    }
-  },[inventoryData, category])
+let filteredData = inventoryData;
+
+if (category) {
+  filteredData = filteredData.filter((e) => e.type === category?.toLowerCase());
+}
+
+if (search) {
+  const regex = new RegExp(search, 'i');
+  console.log(regex.test("Salmonela"))
+  filteredData = filteredData.filter((e) => regex.test(e.name));
+}
+
+setTableData(filteredData);
+}, [inventoryData, category, search]);
 
   if (isLoading) {
     return <div>Loading...</div>;

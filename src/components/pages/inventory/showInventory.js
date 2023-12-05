@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 
 import { useGetInventory, usePostInventory } from '@/hooks/inventory';
 
-export function Inventory({ children, selectedCategory, setSelectedCategory }) {
+export function Inventory({ children, selectedCategory, setSelectedCategory, searchTerm, setSearchTerm }) {
   const categories = [
     'Meat',
     'Fish',
@@ -22,12 +22,26 @@ export function Inventory({ children, selectedCategory, setSelectedCategory }) {
   ];
 
   const { mutate: addInventory } = usePostInventory();
- 
+  
 
   function handleClick() {
     addInventory();
   }
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Trigger filter or search action here
+    }
+  };
+ 
+
+  useEffect(() => {
+    console.log('Search term:', searchTerm);
+  }, [searchTerm]);
 
   return (
     <div className="min-h-screen bg-white bg-contain">
@@ -49,6 +63,9 @@ export function Inventory({ children, selectedCategory, setSelectedCategory }) {
             <input
               type="text"
               className="mx-2 w-full sm:w-96 rounded-md bg-gray-200 p-2 pl-8 text-black"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="flex flex-wrap mt-4">
