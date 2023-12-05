@@ -1,34 +1,25 @@
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
 import { usePostDelivery } from '@/hooks/delivery'
 
 export function Create() {
+  const postDeliveryMutation = usePostDelivery()
+
   const [recipient, setRecipient] = useState('')
-  const [items, setItems] = useState('')
+  const [orderItems, setOrderItems] = useState('')
   const [courier, setCourier] = useState('')
-  const [estimedtime, setEstimedTime] = useState('')
-  const router = useRouter()
+  const [estimedTime, setEstimedTime] = useState('')
 
-  const { mutate: addDelivery } = usePostDelivery()
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const formData = new FormData()
-    formData.append('recipient', recipient)
-    formData.append('items', items)
-    formData.append('courier', courier)
-    formData.append('estimedtime', estimedtime)
-    const jsonObject = Object.fromEntries(formData)
-    try {
-      await addDelivery(jsonObject)
-      router.push('/delivery')
-    } catch (error) {
-      console.log(error)
+  function handleSubmit() {
+    const updatedData = {
+      recipient,
+      orderItems,
+      courier,
+      estimedTime,
     }
+    postDeliveryMutation.mutate(updatedData)
   }
-
-  console.log(addDelivery)
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -62,7 +53,6 @@ export function Create() {
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
             placeholder="Recipient"
           />
@@ -86,8 +76,7 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={items}
-            onChange={(e) => setItems(e.target.value)}
+            onChange={(e) => setOrderItems(e.target.value)}
             placeholder="Ordered Items"
           />
         </div>
@@ -110,7 +99,6 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={courier}
             onChange={(e) => setCourier(e.target.value)}
             placeholder="Courier"
           />
@@ -134,7 +122,6 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={estimedtime}
             onChange={(e) => setEstimedTime(e.target.value)}
             placeholder="Estimed Time"
           />
