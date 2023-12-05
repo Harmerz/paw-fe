@@ -10,11 +10,11 @@ export function Update({ id }) {
   const { data } = useGetInventory();
   const dataDetail = data?.filter((e) => e._id === id[0])[0];
 
-  const [name, setName] = useState(dataDetail?.name || '');
-  const [description, setDescription] = useState(dataDetail?.desc || '');
-  const [quantity, setQuantity] = useState(dataDetail?.quantity || '');
-  const [type, setType] = useState(dataDetail?.type || '');
-  const [price, setPrice] = useState(dataDetail?.price || '');
+  const [name, setName] = useState(dataDetail?.name);
+  const [description, setDescription] = useState(dataDetail?.desc);
+  const [quantity, setQuantity] = useState(dataDetail?.quantity);
+  const [type, setType] = useState(dataDetail?.type);
+  const [price, setPrice] = useState(dataDetail?.price);
 
   function handleUpdate() {
     const updatedData = {

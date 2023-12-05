@@ -32,11 +32,11 @@ export const useUpdateInventory = () => {
       console.log('id', id);
       const res = await axios.put(`/inventory/${id}`, data, {
         headers,
-      });
+      })
       return res?.data;
     },
-  });
-};
+  })
+}
 
 export const useDeleteInvetory = () => {
   const { accessToken, headers } = useAccessToken()
