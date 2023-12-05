@@ -13,14 +13,16 @@ export function Update({ id }) {
   const [name, setName] = useState(dataDetail?.name);
   const [description, setDescription] = useState(dataDetail?.desc);
   const [quantity, setQuantity] = useState(dataDetail?.quantity);
+  const [qtype, setQType] = useState(dataDetail?.qtype);
   const [type, setType] = useState(dataDetail?.type);
   const [price, setPrice] = useState(dataDetail?.price);
 
   function handleUpdate() {
     const updatedData = {
       name,
-      description,
+      desc: description,
       quantity,
+      qtype,
       type,
       price,
     };
@@ -65,8 +67,10 @@ export function Update({ id }) {
             defaultValue={dataDetail?.quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
+
           <div className="relative">
-            <button
+            {/* change this qtype */}
+            {/* <button
               type="button"
               className="flex h-[66px] w-44 cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
               onClick={() => setQuantity(!quantity)}
@@ -74,32 +78,38 @@ export function Update({ id }) {
               <div />
               {quantity}
               <IoChevronDownSharp className="text-black" />
-            </button>
-            {quantity && (
+            </button> */}
+            {/* {quantity && (
               <div className="absolute w-full bg-yellow-200 text-black">
                 <button
-                  onClick={() => setTypeQty('kg')}
+                  onClick={() => setQType('kg')}
                   type="button"
                   className="w-full p-2 hover:bg-yellow-400"
                 >
                   kg
                 </button>
                 <button
-                  onClick={() => setTypeQty('pcs')}
+                  onClick={() => setQType('pcs')}
                   type="button"
                   className="w-full p-2 hover:bg-yellow-400"
                 >
                   pcs
                 </button>
                 <button
-                  onClick={() => setTypeQty('bottles')}
+                  onClick={() => setQType('bottles')}
                   type="button"
                   className="w-full p-2 hover:bg-yellow-400"
                   >
                   bottles
                 </button>
               </div>
-            )}{' '}
+            )}{' '} */}
+            <input
+              type="text"
+              className="w-32 rounded-md bg-gray-200 p-2 text-black"
+              defaultValue={dataDetail?.qtype}
+              onChange={(e) => setQType(e.target.value)}
+          />
           </div>
         </div>
 
