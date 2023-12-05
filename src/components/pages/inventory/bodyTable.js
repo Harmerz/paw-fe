@@ -56,7 +56,7 @@ export function BodyTable() {
           <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.qtype}</td>
           <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data.type}</td>
           <td className="py-2 pl-3 sm:py-4 sm:pl-4">
-            <Link href={`/updateInventory/${data.id}`} passHref>
+            <Link href={`/inventory/${data._id}`} passHref>
               <button
                 type="button"
                 className="flex cursor-pointer items-center rounded bg-ijo3 px-2 py-1 text-white sm:px-4 sm:py-2 mb-2 sm:mb-0"

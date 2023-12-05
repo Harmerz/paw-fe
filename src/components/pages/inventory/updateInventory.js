@@ -1,23 +1,34 @@
 'use client'
 
-import { useState } from 'react'
-import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5'
+import { useEffect, useState } from 'react';
+import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5';
 
-import { useUpdateInventory } from '@/hooks/inventory';
+import { useGetInventory, useUpdateInventory } from '@/hooks/inventory';
 
-
-export function Update() {
+export function Update({ id }) {
   const updateInventoryMutation = useUpdateInventory();
-  const [quantity, setQuantity] = useState(false)
-  const [typeQty, setTypeQty] = useState(' ')
+  const { data } = useGetInventory();
+  const dataDetail = data?.filter((e) => e._id === id[0])[0];
 
-  function handleUpdate(id) {
-    
+  const [name, setName] = useState(dataDetail?.name || '');
+  const [description, setDescription] = useState(dataDetail?.desc || '');
+  const [quantity, setQuantity] = useState(dataDetail?.quantity || '');
+  const [type, setType] = useState(dataDetail?.type || '');
+  const [price, setPrice] = useState(dataDetail?.price || '');
+
+  function handleUpdate() {
     const updatedData = {
-     
+      name,
+      description,
+      quantity,
+      type,
+      price,
     };
+
+    // Call the update mutation function
     updateInventoryMutation.mutate({ id, data: updatedData });
   }
+
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -31,7 +42,8 @@ export function Update() {
           <input
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
-            placeholder="Daging kambing"
+            defaultValue={dataDetail?.name}
+            onChange={(e) => setName(e.target.defaultValue)}
             />
         </div>
 
@@ -40,7 +52,8 @@ export function Update() {
           <input
             type="text"
             className="w-full rounded-md bg-gray-200 p-2 pb-28 text-black"
-            placeholder="Daging kambing merupakan salah satu sumber protein yang berfungsi untuk..."
+            defaultValue={dataDetail?.desc}
+            onChange={(e) => setDescription(e.target.defaultValue)}
           />
         </div>
 
@@ -49,7 +62,8 @@ export function Update() {
           <input
             type="text"
             className="w-32 rounded-md bg-gray-200 p-2 text-black"
-            placeholder="500"
+            defaultValue={dataDetail?.quantity}
+            onChange={(e) => setQuantity(e.target.defaultValue)}
           />
           <div className="relative">
             <button
@@ -58,7 +72,7 @@ export function Update() {
               onClick={() => setQuantity(!quantity)}
             >
               <div />
-              {typeQty}
+              {quantity}
               <IoChevronDownSharp className="text-black" />
             </button>
             {quantity && (
@@ -94,16 +108,18 @@ export function Update() {
           <input
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
-            placeholder="Daging"
+            defaultValue={dataDetail?.type}
+            onChange={(e) => setType(e.target.defaultValue)}
             />
         </div>
 
-        <div className="pb-2 font-bold text-black">Price</div>
+        <div className="pb-2 font-bold text-black">Price (in USD)</div>
         <div className="pb-12">
           <input
             type="text"
             className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
-            placeholder="Rp 10.000"
+            defaultValue={dataDetail?.price}
+            onChange={(e) => setPrice(e.target.defaultValue)}
             />
         </div>
       </div>
@@ -111,7 +127,7 @@ export function Update() {
       <div className="white relative w-1/6 flex-none">
         <button
           type="button"
-          onClick={() => handleUpdate(data.id)}
+          onClick={handleUpdate}
           className="absolute bottom-5 left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
         >
           <IoSaveSharp className="mr-2" /> Save
