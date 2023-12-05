@@ -1,10 +1,12 @@
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
-import { NavBar } from '@/components/elements/navbar'
-import { useGetDelivery } from '@/hooks/delivery'
+
+import { useDeleteDelivery, useGetDelivery } from '@/hooks/delivery'
+
 export function BodyTable() {
-  const router = useRouter()
-  const { data: deliveryData, isLoading, isError } = useGetDelivery()
+  const { data: deliveryData, isLoading, refetch } = useGetDelivery()
+  const { mutate: deleteDelivery, isError } = useDeleteDelivery()
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -17,6 +19,16 @@ export function BodyTable() {
 
   const deliveryCard = deliveryData || []
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteDelivery(id)
+      // After successful deletion, you may want to refetch the data or update the state.
+      refetch()
+    } catch (error) {
+      console.error('Error deleting delivery:', error)
+    }
+  }
+
   return (
     <tbody>
       {deliveryCard.map((data, index) => (
@@ -27,9 +39,10 @@ export function BodyTable() {
           <td className="py-2 pl-3">{data.courier}</td>
           <td className="py-2 pl-3">{data.estimedTime}</td>
           <td className="font-poppins cursor-pointer rounded">
-            <button
-              type="button"
-              className="flex items-center 
+            <Link href={`/delivery/${data._id}`} passHref>
+              <button
+                type="button"
+                className="flex items-center 
               items-center rounded 
               rounded 
               bg-ijo1 px-4 
@@ -37,10 +50,10 @@ export function BodyTable() {
               py-2 
               pl-3 
               text-white"
-              onClick={() => router.push(`/delivery/put/${data._id}`)}
-            >
-              <IoColorWandSharp className="mr-2" /> Edit
-            </button>
+              >
+                <IoColorWandSharp className="mr-2" /> Edit
+              </button>
+            </Link>
           </td>
           <td className="font-poppins cursor-pointer rounded">
             <button
@@ -54,7 +67,7 @@ export function BodyTable() {
               py-2 
               pl-3 
               text-white"
-              onClick={() => router.push(`/delivery/put/${data._id}`)}
+              onClick={() => handleDelete(data._id)}
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>

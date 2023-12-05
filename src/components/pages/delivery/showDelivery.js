@@ -1,10 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { IoSearch } from 'react-icons/io5'
 import Link from 'next/link'
+import { IoSearch } from 'react-icons/io5'
 
-import { useGetDelivery } from '@/hooks/delivery'
 import { NavBar } from '@/components/elements/navbar'
 
 export function ShowDelivery({ children }) {
@@ -14,7 +12,7 @@ export function ShowDelivery({ children }) {
       <div className="p-8">
         <div className="flex flex-col items-start">
           <div className="mb-12 ml-auto">
-            <Link href={'/delivery/create'}>
+            <Link href="/delivery/create">
               <button
                 type="button"
                 className="font-poppins 
