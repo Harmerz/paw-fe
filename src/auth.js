@@ -26,7 +26,7 @@ export const options = {
                 'Content-Type': 'application/json',
               },
             },
-            )
+          )
           const user = await axios.get('/api/user', {
             headers: {
               'Content-Type': 'application/json',
@@ -34,6 +34,8 @@ export const options = {
             },
           })
           const { data } = res
+          console.log(data)
+          console.log(user.data)
           return {
             id: user.data.id,
             email: user.data.email,
@@ -44,7 +46,7 @@ export const options = {
             accessTokenExpires: Date.now() + ACCESS_TOKEN_EXP_AUTH_OPTION_IN_MS,
           }
         } catch (err) {
-          // console.log(err)
+          console.log(err)
           // Backend is NOT okay, so we directly throw the error from backend
           const errMessage = err.response
           if (errMessage) {
@@ -73,6 +75,7 @@ export const options = {
       if (user) {
         return {
           ...token,
+          id: user.id,
           username: user.username,
           role: user.role,
           accessToken: user.accessToken,
@@ -94,10 +97,12 @@ export const options = {
       return token
     },
     async session({ session, token }) {
+      console.log(token)
       return {
         ...session,
         user: {
           ...session.user,
+          id: token.id,
           username: token.username,
           role: token.role,
           accessToken: token.accessToken,
