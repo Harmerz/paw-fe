@@ -1,11 +1,28 @@
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 import { useDeleteOrder, useGetOrder } from '@/hooks/order'
 
-export function BodyTable() {
+export function BodyTable({search}) {
   const { data: orderData, isLoading } = useGetOrder()
   const { mutate: OrderDelete, isError } = useDeleteOrder()
+  const [tableData, setTableData] = useState(orderData ?? [])
+
+  useEffect(() => {
+    let filteredData = orderData
+    if (search) {
+      const regex = new RegExp(search, 'i')
+      filteredData = orderData.filter((order) => {
+        const hasMatchingItem = order.items.some((item) => regex.test(item.inventory.name))
+        return hasMatchingItem
+      })
+    }
+
+    setTableData(filteredData)
+  }, [orderData, search])
+
+  console.log(orderData)
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -14,13 +31,10 @@ export function BodyTable() {
   if (isError) {
     return <div>Error loading data</div>
   }
-  console.log(orderData)
 
   function handleDelete(id) {
-    console.log('delete', id)
     OrderDelete(id)
   }
-  console.log(isError)
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)
@@ -47,10 +61,9 @@ export function BodyTable() {
 
     return displayedItems.map((item) => item.inventory.name).join(', ')
   }
-  console.log(orderData)
   return (
     <tbody>
-      {orderData?.map((data, index) => (
+      {tableData?.map((data, index) => (
         <tr key={data.id} className="text-xs font-medium text-black md:text-base lg:text-xl">
           <td className="py-4 pl-3 font-bold">{index + 1}</td>
           <td className="py-2 pl-3">{formatDate(data.date)}</td>
