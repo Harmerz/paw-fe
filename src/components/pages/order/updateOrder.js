@@ -1,28 +1,30 @@
-import { DatePicker } from 'antd'
+import 'react-datepicker/dist/react-datepicker.css'
+
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { IoAdd, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
+import DatePicker from 'react-datepicker'
+import { IoAdd, IoCalendarSharp,IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory } from '@/hooks/inventory'
-import { useGetOneOrder, usePutOrder } from '@/hooks/order'
+import { useGetOneOrder, useUpdateOrder } from '@/hooks/order'
 
 export function Update({ id }) {
-  const [isShowItemDropdown, setShowItemDropdown] = useState(false)
-  const [items, setItems] = useState([{}])
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [totalPrice, setTotalPrice] = useState(null)
-  const { mutate: UpdateOrder } = usePutOrder()
+  const router = useRouter()
+
+  const { mutate: UpdateOrder } = useUpdateOrder()
 
   const { data } = useGetOneOrder(id)
-  console.log(data)
-  console.log(selectedDate)
-  console.log(new Date(data?.date))
+
+  const [isShowItemDropdown, setShowItemDropdown] = useState(false)
+  const [items, setItems] = useState(data?.items)
+  const [selectedDate, setSelectedDate] = useState()
+
   console.log(items)
 
   useEffect(() => {
-    // setSelectedDate(new Date(data?.date))
+    setSelectedDate(new Date(data?.date))
     setItems(data?.items)
-    setTotalPrice(data?.totalPrice)
   }, [data])
 
   const { data: inventoryData, isLoading } = useGetInventory()
@@ -32,10 +34,9 @@ export function Update({ id }) {
   }
 
   const InventoryData = inventoryData || []
-  // console.log(InventoryData)
 
   const addItem = () => {
-    setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])
+    setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, price: null, inventory: null }])
   }
 
   const removeItem = (index) => {
@@ -63,25 +64,47 @@ export function Update({ id }) {
       return 'Rp 0,00'
     }
 
-    const total = item.price * item.quantity
+    let total
+    if (item.inventory && item.inventory.price) {
+      total = item.inventory.price * item.quantity
+    } else {
+      total = item.price * item.quantity
+    }
+
     return formatCurrency(total)
   }
+
 
   const updateQuantityAndRecalculate = (index, newQuantity) => {
     const newItem = { ...items[index], quantity: newQuantity }
     updateItem(index, newItem)
   }
-  const updateName = (index, _id, _name) => {
-    const newItem = { ...items[index], inventory: { id: _id, name: _name } }
-    updateItem(index, newItem)
+  
+  const getPrice = (item) => {
+    if (item.inventory && item.inventory.price) {
+      return `@Rp ${item.inventory.price}/${item.inventory.qtype || 'Unit'}`
+    } if (item && item.price) {
+      return `@Rp ${item.price}/Unit`
+    } 
+      return ''
+    
   }
 
   const calculateTotalPrice = () => {
-    return items.reduce((total, item) => {
-      const itemPrice = item ? item.price * item.quantity : 0
+    return items?.reduce((total, item) => {
+      if (!item || Number.isNaN(item.quantity)) {
+        return total
+      }
+
+      const itemPrice =
+        item.inventory && item.inventory.price
+          ? item.inventory.price * item.quantity
+          : item.price * item.quantity
+
       return total + itemPrice
     }, 0)
   }
+
 
   function handleUpdateData() {
     const orderData = {
@@ -89,17 +112,19 @@ export function Update({ id }) {
       date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
       items: items.map((item) => ({
         inventory: {
-          inventoryId: item.inventory.id,
+          inventoryId: item.inventory.id ? item.inventory.id : item.inventory._id,
           name: item.inventory.name,
         },
-        inventoryId: item.id,
+        inventoryId: item.inventory.id ? item.inventory.id : item.inventory._id,
         quantity: item.quantity,
         price: item.price,
       })),
       totalPrice: calculateTotalPrice(),
     }
 
-    UpdateOrder(orderData.id, orderData)
+    UpdateOrder({ id, data: orderData })
+    
+    router.replace('/order')
   }
 
   return (
@@ -116,10 +141,24 @@ export function Update({ id }) {
           <div className="pb-2 font-bold text-black">Date</div>
           <div className="relative w-full pb-4">
             <DatePicker
-              defaultValue={selectedDate}
+              selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
+              dateFormat="dd-MM-yyyy"
               className="w-full rounded-md bg-gray-200 text-black"
               placeholderText="Select Date"
+              customInput={
+                <div className="relative w-full">
+                  <input
+                    className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
+                    value={selectedDate ? selectedDate.toLocaleDateString('id-ID') : ''}
+                    placeholder="Select Date"
+                    readOnly
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                    <IoCalendarSharp className="text-black" />
+                  </div>
+                </div>
+              }
             />
           </div>
 
@@ -130,39 +169,36 @@ export function Update({ id }) {
                 <button
                   type="button"
                   className="flex h-[66px] cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
-                  onClick={() => {
-                    setShowItemDropdown(!isShowItemDropdown)
-                    updateName(index, item.inventory.id, item.inventory.name)
-                  }}
+                  onClick={() => setShowItemDropdown(!isShowItemDropdown)}
                 >
                   <div />
-                  {item.inventory && (
-                    <span className="text-left text-black">{item.inventory.name}</span>
-                  )}
+                  {item.inventory && <span className="text-left text-black">{item.inventory.name}</span>}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
                 {isShowItemDropdown && (
                   <div className="absolute mt-1 w-full rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (
                       <div
-                        key={inventoryItem.id}
+                        key={inventoryItem._id}
                         className="cursor-pointer p-2 hover:bg-gray-200"
                         onClick={() => {
                           updateItem(index, {
-                            ...item,
-                            item: inventoryItem,
-                            id: inventoryItem.id,
+                            ...items[index],
+                            inventory: inventoryItem,
+                            id: inventoryItem._id,
                             quantity: 1,
+                            price: inventoryItem.price
                           })
                           setShowItemDropdown(false)
                         }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             updateItem(index, {
-                              ...item,
-                              item: inventoryItem,
-                              id: inventoryItem.id,
+                              ...items[index],
+                              inventory: inventoryItem,
+                              id: inventoryItem._id,
                               quantity: 1,
+                              price: inventoryItem.price
                             })
                             setShowItemDropdown(false)
                           }
@@ -188,7 +224,7 @@ export function Update({ id }) {
                     }}
                   />
                   <span className="ml-2 font-medium text-black">
-                    @Rp {item ? item.price : ''}/{item.inventory ? item.inventory.qtype : 'Unit'}
+                    {getPrice(item)}
                   </span>
                 </div>
 
@@ -220,7 +256,7 @@ export function Update({ id }) {
 
           <div className="pb-2 font-bold text-black">Total Price</div>
           <div className="flex h-[66px] w-full items-center rounded-md bg-gray-200 p-3 text-black">
-            {formatCurrency(totalPrice)}
+            {formatCurrency(calculateTotalPrice())}
           </div>
         </div>
       </div>

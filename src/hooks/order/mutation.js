@@ -20,12 +20,12 @@ export const usePostOrder = () => {
   })
 }
 
-export const usePutOrder = (id) => {
+export const useUpdateOrder = () => {
   const { accessToken, headers } = useAccessToken()
 
   return useApiMutation2({
-    queryKey: ['order', id],
-    mutationFun: async (orderId, data) => {
+    queryKey: ['order', 'update'],
+    mutationFun: async (_, {id, data}) => {
       if (!accessToken) {
         return null
       }
@@ -62,6 +62,6 @@ export const useDeleteOrder = () => {
   })
 }
 
-const exportedFunctions = { usePostOrder, useDeleteOrder, usePutOrder }
+const exportedFunctions = { usePostOrder, useDeleteOrder, useUpdateOrder }
 
 export default exportedFunctions
