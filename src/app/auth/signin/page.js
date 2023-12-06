@@ -1,6 +1,6 @@
 import { LayoutAuth, LoginForm } from '@/components/pages/auth'
 
-export default function signin() {
+export default function SignIn() {
   return (
     <LayoutAuth>
       <LoginForm />

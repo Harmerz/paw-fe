@@ -63,9 +63,7 @@ export function LoginForm() {
         >
           <Input.Password />
         </Form.Item>
-         <div className='text-red-500 text-center'>
-        {wrong && "Wrong Username or Password!"}
-      </div>
+        <div className="text-center text-red-500">{wrong && 'Wrong Username or Password!'}</div>
         <button
           className="flex w-full justify-center rounded-lg bg-ijo1 py-3 text-center text-white"
           type="submit"
@@ -73,13 +71,11 @@ export function LoginForm() {
           Log In
         </button>
       </Form>
-     
-      <div className='flex flex-row gap-1 mt-2 w-full justify-center'>
+
+      <div className="mt-2 flex w-full flex-row justify-center gap-1">
         <div className="font-inter text-center">Don’t have an Account? </div>
         <Link href="/auth/signup">
-          <div className="font-inter text-ijo3">
-            {' '}Sign Up
-          </div>
+          <div className="font-inter text-ijo3"> Sign Up</div>
         </Link>
       </div>
     </Flex>

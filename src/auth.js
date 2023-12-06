@@ -26,7 +26,7 @@ export const options = {
                 'Content-Type': 'application/json',
               },
             },
-            )
+          )
           const user = await axios.get('/api/user', {
             headers: {
               'Content-Type': 'application/json',
