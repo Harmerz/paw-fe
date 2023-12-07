@@ -25,7 +25,6 @@ export function Create() {
   }
 
   const InventoryData = inventoryData || []
-  console.log(InventoryData)
 
   const addItem = () => {
     setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])

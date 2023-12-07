@@ -11,7 +11,6 @@ export const usePostInventory = () => {
       if (!accessToken) {
         return null
       }
-      console.log(data)
       const res = await axios.post('/inventory', data, {
         headers,
       })
@@ -21,19 +20,18 @@ export const usePostInventory = () => {
 }
 
 export const useUpdateInventory = () => {
-  const { accessToken, headers } = useAccessToken();
+  const { accessToken, headers } = useAccessToken()
 
   return useApiMutation2({
     queryKey: ['inventory', 'update'],
     mutationFun: async (_, { id, data }) => {
       if (!accessToken) {
-        return null;
+        return null
       }
-      console.log('id', id);
       const res = await axios.put(`/inventory/${id}`, data, {
         headers,
       })
-      return res?.data;
+      return res?.data
     },
   })
 }
@@ -46,7 +44,6 @@ export const useDeleteInvetory = () => {
       if (!accessToken) {
         return null
       }
-      console.log('id', id)
       const res = await axios.delete(`/inventory/${id}`, {
         headers,
       })

@@ -1,13 +1,18 @@
 'use client'
 
-import Link from 'next/link';
-import { useEffect,useState } from 'react';
-import { IoSearch } from 'react-icons/io5';
+import Link from 'next/link'
+import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
-import { useGetInventory, usePostInventory } from '@/hooks/inventory';
+import { usePostInventory } from '@/hooks/inventory'
 
-export function Inventory({ children, selectedCategory, setSelectedCategory, searchTerm, setSearchTerm }) {
+export function Inventory({
+  children,
+  selectedCategory,
+  setSelectedCategory,
+  searchTerm,
+  setSearchTerm,
+}) {
   const categories = [
     'Meat',
     'Fish',
@@ -22,10 +27,10 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
     'Snack',
     'Noodles',
     'Others',
-  ];
+  ]
 
-  const { mutate: addInventory } = usePostInventory();
- 
+  const { mutate: addInventory } = usePostInventory()
+
   function handleClick() {
     addInventory()
   }
@@ -33,39 +38,34 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
   const handleClickFilter = (category) => {
     // Toggle the category filter
     if (selectedCategory && selectedCategory.toLowerCase() === category.toLowerCase()) {
-      setSelectedCategory(null); // Turn off the filter if the same category is clicked again
+      setSelectedCategory(null) // Turn off the filter if the same category is clicked again
     } else {
-      setSelectedCategory(category);
+      setSelectedCategory(category)
     }
-  };
+  }
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+    setSearchTerm(event.target.value)
+  }
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       // Trigger filter or search action here
     }
-  };
- 
-
-  useEffect(() => {
-    console.log('Search term:', searchTerm);
-  }, [searchTerm]);
+  }
 
   return (
     <div className="min-h-screen bg-white bg-contain">
       <NavBar />
       <div className="p-8">
         <div className="flex flex-col items-start">
-          <div className="mb-4 sm:mb-12 ml-auto">
+          <div className="mb-4 ml-auto sm:mb-12">
             <Link href="/inventory/create" passHref>
               <button
                 onClick={handleClick}
                 type="button"
                 className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
-            >
+              >
                 +Add Inventory
               </button>
             </Link>
@@ -74,7 +74,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
             <IoSearch className="absolute mx-4 mr-2 text-black" />
             <input
               type="text"
-              className="mx-2 w-full sm:w-96 rounded-md bg-gray-200 p-2 pl-8 text-black"
+              className="mx-2 w-full rounded-md bg-gray-200 p-2 pl-8 text-black sm:w-96"
               value={searchTerm}
               onChange={handleSearchChange}
               onKeyPress={handleKeyPress}
@@ -82,13 +82,13 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
           </div>
           <div className="mt-4 flex flex-wrap">
             {categories.map((category) => (
-              <button type='button'
+              <button
+                type="button"
                 key={category}
-                className={`font-poppins mx-2 my-2 sm:my-0 cursor-pointer rounded-full border ${
-                  selectedCategory &&
-                  category.toLowerCase() === selectedCategory.toLowerCase()
-                  ? 'border-white bg-orange-tumbas text-white'
-                  : 'border-black bg-gray-200 text-black'
+                className={`font-poppins mx-2 my-2 cursor-pointer rounded-full border sm:my-0 ${
+                  selectedCategory && category.toLowerCase() === selectedCategory.toLowerCase()
+                    ? 'border-white bg-orange-tumbas text-white'
+                    : 'border-black bg-gray-200 text-black'
                 } p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white`}
                 onClick={() => handleClickFilter(category)}
               >

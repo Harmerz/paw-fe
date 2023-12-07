@@ -1,48 +1,41 @@
 'use client'
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5';
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
-import {
-  useDeleteInvetory,
-  useGetInventory,
-} from '@/hooks/inventory';
+import { useDeleteInvetory, useGetInventory } from '@/hooks/inventory'
 
-export function BodyTable({category, search}) {
-  const { data: inventoryData, isLoading, refetch } = useGetInventory();
-  const { mutate: InventoryDelete, isError } = useDeleteInvetory();
-  const [tableData, setTableData] = useState(inventoryData ?? []);
-  console.log(inventoryData)
-  console.log(tableData, category)
+export function BodyTable({ category, search }) {
+  const { data: inventoryData, isLoading, refetch } = useGetInventory()
+  const { mutate: InventoryDelete, isError } = useDeleteInvetory()
+  const [tableData, setTableData] = useState(inventoryData ?? [])
 
-  useEffect(()=>{
-let filteredData = inventoryData;
+  useEffect(() => {
+    let filteredData = inventoryData
 
-if (category) {
-  filteredData = filteredData.filter((e) => e.type === category?.toLowerCase());
-}
+    if (category) {
+      filteredData = filteredData.filter((e) => e.type === category?.toLowerCase())
+    }
 
-if (search) {
-  const regex = new RegExp(search, 'i');
-  filteredData = filteredData.filter((e) => regex.test(e.name));
-}
+    if (search) {
+      const regex = new RegExp(search, 'i')
+      filteredData = filteredData.filter((e) => regex.test(e.name))
+    }
 
-setTableData(filteredData);
-}, [inventoryData, category, search]);
+    setTableData(filteredData)
+  }, [inventoryData, category, search])
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (isError) {
-    return <div>Error loading data</div>;
+    return <div>Error loading data</div>
   }
 
-
   function handleDelete(id) {
-    console.log('delete', id);
-    InventoryDelete(id);
+    InventoryDelete(id)
     refetch()
   }
 
@@ -61,8 +54,8 @@ setTableData(filteredData);
             <Link href={`/inventory/${data._id}`} passHref>
               <button
                 type="button"
-                className="flex cursor-pointer items-center rounded bg-ijo3 px-2 py-1 text-white sm:px-4 sm:py-2 mb-2 sm:mb-0"
-                >
+                className="mb-2 flex cursor-pointer items-center rounded bg-ijo3 px-2 py-1 text-white sm:mb-0 sm:px-4 sm:py-2"
+              >
                 <IoColorWandSharp className="mr-2" /> Edit
               </button>
             </Link>
@@ -79,7 +72,7 @@ setTableData(filteredData);
         </tr>
       ))}
     </tbody>
-  );
+  )
 }
 
-export default BodyTable;
+export default BodyTable

@@ -4,7 +4,7 @@ import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
 import { useDeleteOrder, useGetOrder } from '@/hooks/order'
 
-export function BodyTable({search}) {
+export function BodyTable({ search }) {
   const { data: orderData, isLoading } = useGetOrder()
   const { mutate: OrderDelete, isError } = useDeleteOrder()
   const [tableData, setTableData] = useState(orderData ?? [])
@@ -21,8 +21,6 @@ export function BodyTable({search}) {
 
     setTableData(filteredData)
   }, [orderData, search])
-
-  console.log(orderData)
 
   if (isLoading) {
     return <div>Loading...</div>

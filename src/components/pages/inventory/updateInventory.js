@@ -1,21 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5'
+import { useState } from 'react'
+import { IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
-import { useGetInventory, useUpdateInventory } from '@/hooks/inventory';
+import { useGetInventory, useUpdateInventory } from '@/hooks/inventory'
 
 export function Update({ id }) {
   const updateInventoryMutation = useUpdateInventory()
   const { data } = useGetInventory()
   const dataDetail = data?.filter((e) => e._id === id[0])[0]
-  const [name, setName] = useState(dataDetail?.name);
-  const [description, setDescription] = useState(dataDetail?.desc);
-  const [quantity, setQuantity] = useState(dataDetail?.quantity);
-  const [qtype, setQType] = useState(dataDetail?.qtype);
-  const [type, setType] = useState(dataDetail?.type);
-  const [price, setPrice] = useState(dataDetail?.price);
+  const [name, setName] = useState(dataDetail?.name)
+  const [description, setDescription] = useState(dataDetail?.desc)
+  const [quantity, setQuantity] = useState(dataDetail?.quantity)
+  const [qtype, setQType] = useState(dataDetail?.qtype)
+  const [type, setType] = useState(dataDetail?.type)
+  const [price, setPrice] = useState(dataDetail?.price)
 
   function handleUpdate() {
     const updatedData = {
@@ -32,7 +32,8 @@ export function Update({ id }) {
   }
 
   return (
-    <div className='bg-white'><NavBar />
+    <div className="bg-white">
+      <NavBar />
       <div className="flex min-h-screen bg-white">
         <div className="w-1/6 flex-none" />
 
@@ -45,7 +46,8 @@ export function Update({ id }) {
               type="text"
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               defaultValue={dataDetail?.name}
-              onChange={(e) => setName(e.target.value)} />
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Description</div>
@@ -54,7 +56,8 @@ export function Update({ id }) {
               type="text"
               className="w-full rounded-md bg-gray-200 p-2 pb-28 text-black"
               defaultValue={dataDetail?.desc}
-              onChange={(e) => setDescription(e.target.value)} />
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Quantity</div>
@@ -63,7 +66,8 @@ export function Update({ id }) {
               type="text"
               className="w-32 rounded-md bg-gray-200 p-2 text-black"
               defaultValue={dataDetail?.quantity}
-              onChange={(e) => setQuantity(e.target.value)} />
+              onChange={(e) => setQuantity(e.target.value)}
+            />
 
             <div className="relative">
               {/* change this qtype */}
@@ -105,7 +109,8 @@ export function Update({ id }) {
                 type="text"
                 className="w-32 rounded-md bg-gray-200 p-2 text-black"
                 defaultValue={dataDetail?.qtype}
-                onChange={(e) => setQType(e.target.value)} />
+                onChange={(e) => setQType(e.target.value)}
+              />
             </div>
           </div>
 
@@ -115,7 +120,8 @@ export function Update({ id }) {
               type="text"
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               defaultValue={dataDetail?.type}
-              onChange={(e) => setType(e.target.value)} />
+              onChange={(e) => setType(e.target.value)}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Price (in USD)</div>
@@ -124,7 +130,8 @@ export function Update({ id }) {
               type="text"
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               defaultValue={dataDetail?.price}
-              onChange={(e) => setPrice(e.target.value)} />
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
         </div>
 
@@ -133,11 +140,12 @@ export function Update({ id }) {
             type="button"
             onClick={handleUpdate}
             className="absolute bottom-5 left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
-        >
+          >
             <IoSaveSharp className="mr-2" /> Save
           </button>
         </div>
-      </div></div>
+      </div>
+    </div>
   )
 }
 

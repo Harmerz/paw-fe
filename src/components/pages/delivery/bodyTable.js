@@ -15,8 +15,6 @@ export function BodyTable() {
     return <div>Error loading data</div>
   }
 
-  console.log(deliveryData)
-
   const deliveryCard = deliveryData || []
 
   const handleDelete = async (id) => {

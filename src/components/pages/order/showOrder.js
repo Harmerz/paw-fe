@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
@@ -22,10 +21,6 @@ export function Order({ children, searchTerm, setSearchTerm }) {
       // Trigger search action here
     }
   }
-
-  useEffect(() => {
-    console.log('Search term:', searchTerm)
-  }, [searchTerm])
 
   return (
     <div className="min-h-screen bg-white bg-contain">

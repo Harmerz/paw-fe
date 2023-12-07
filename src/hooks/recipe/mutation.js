@@ -11,7 +11,6 @@ export const usePostRecipe = () => {
       if (!accessToken) {
         return null
       }
-      console.log(data)
       const res = await axios.post('/recipe', data, {
         headers,
       })
@@ -53,7 +52,6 @@ export const useDeleteRecipe = () => {
       if (!accessToken) {
         return null
       }
-      console.log('id', id)
       const res = await axios.delete(`/recipe/${id}`, {
         headers,
       })

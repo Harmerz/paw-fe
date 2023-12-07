@@ -2,10 +2,9 @@ import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
-import { usePostInventory } from '@/hooks/inventory';
+import { usePostInventory } from '@/hooks/inventory'
 
 export function Create() {
-  
   const [inventoryData, setInventoryData] = useState({
     name: '',
     desc: '',
@@ -13,33 +12,30 @@ export function Create() {
     qtype: '',
     type: '',
     price: '',
-  });
+  })
 
-  const postInventoryMutation = usePostInventory();
+  const postInventoryMutation = usePostInventory()
 
   const handleSave = async () => {
-
-    try{
-    await postInventoryMutation.mutateAsync(inventoryData);
-    console.log('Inventory Data:', inventoryData);
-
-    // Optionally, you can reset the form after saving
-    setInventoryData({
-      name: '',
-      desc: '',
-      quantity: '',
-      qtype: '',
-      type: '',
-      price: '',
-    });
-  } catch (error) {
-    console.error('Error posting inventory:', error)
+    try {
+      await postInventoryMutation.mutateAsync(inventoryData)
+      // Optionally, you can reset the form after saving
+      setInventoryData({
+        name: '',
+        desc: '',
+        quantity: '',
+        qtype: '',
+        type: '',
+        price: '',
+      })
+    } catch (error) {
+      console.error('Error posting inventory:', error)
+    }
   }
-  };
-
 
   return (
-    <div className='bg-white'><NavBar />
+    <div className="bg-white">
+      <NavBar />
       <div className="flex min-h-screen bg-white">
         <div className="w-1/6 flex-none" />
 
@@ -53,8 +49,8 @@ export function Create() {
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               placeholder="Daging kambing"
               value={inventoryData.name}
-              onChange={(e) => setInventoryData({ ...inventoryData, name: e.target.value})}
-          />
+              onChange={(e) => setInventoryData({ ...inventoryData, name: e.target.value })}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Description</div>
@@ -64,8 +60,8 @@ export function Create() {
               className="w-full rounded-md bg-gray-200 p-2 pb-28 text-black"
               placeholder="Daging kambing merupakan salah satu sumber protein yang berfungsi untuk..."
               value={inventoryData.desc}
-              onChange={(e) => setInventoryData({ ...inventoryData, desc: e.target.value})}
-          />
+              onChange={(e) => setInventoryData({ ...inventoryData, desc: e.target.value })}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Quantity</div>
@@ -75,16 +71,16 @@ export function Create() {
               className="w-32 rounded-md bg-gray-200 p-2 text-black"
               placeholder="500"
               value={inventoryData.quantity}
-              onChange={(e) => setInventoryData({ ...inventoryData, quantity: e.target.value})}
-          />
+              onChange={(e) => setInventoryData({ ...inventoryData, quantity: e.target.value })}
+            />
             <div className="relative">
               <input
                 type="text"
                 className="w-32 rounded-md bg-gray-200 p-2 text-black"
                 placeholder="kg"
                 value={inventoryData.qtype}
-                onChange={(e) => setInventoryData({ ...inventoryData, qtype: e.target.value})}
-          />
+                onChange={(e) => setInventoryData({ ...inventoryData, qtype: e.target.value })}
+              />
             </div>
           </div>
 
@@ -95,8 +91,8 @@ export function Create() {
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               placeholder="Meat"
               value={inventoryData.type}
-              onChange={(e) => setInventoryData({ ...inventoryData, type: e.target.value})}
-          />
+              onChange={(e) => setInventoryData({ ...inventoryData, type: e.target.value })}
+            />
           </div>
 
           <div className="pb-2 font-bold text-black">Price (in USD)</div>
@@ -106,8 +102,8 @@ export function Create() {
               className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
               placeholder="15"
               value={inventoryData.price}
-              onChange={(e) => setInventoryData({ ...inventoryData, price: e.target.value})}
-          />
+              onChange={(e) => setInventoryData({ ...inventoryData, price: e.target.value })}
+            />
           </div>
         </div>
 
@@ -116,11 +112,12 @@ export function Create() {
             type="button"
             onClick={handleSave}
             className="absolute bottom-5 left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
-        >
+          >
             <IoSaveSharp className="mr-2" /> Save
           </button>
         </div>
-      </div></div>
+      </div>
+    </div>
   )
 }
 

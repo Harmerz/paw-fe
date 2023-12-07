@@ -31,8 +31,6 @@ export function Create() {
     }
   }
 
-  console.log(addRecipe)
-
   return (
     <div className="bg-white">
       <NavBar />

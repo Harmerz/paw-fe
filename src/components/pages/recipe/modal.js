@@ -15,7 +15,6 @@ export default function Modal({ data, show, onClose, children }) {
   const [imgUrl, setImgUrl] = useState(data.imgUrl)
   const router = useRouter()
   const { data: session } = useSession()
-  console.log(session)
 
   useEffect(() => {
     const modalRoot = document.createElement('div')
@@ -47,8 +46,6 @@ export default function Modal({ data, show, onClose, children }) {
       console.log(error)
     }
   }
-
-  console.log(editRecipe)
 
   const handleClose = (e) => {
     e.preventDefault()

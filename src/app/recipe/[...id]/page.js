@@ -25,7 +25,6 @@ export function RecipeDetail({ params }) {
   }
 
   const recipeDetail = recipeData || []
-  console.log(recipeDetail)
 
   const handleDelete = () => {
     try {
@@ -59,7 +58,6 @@ export function RecipeDetail({ params }) {
     }
     return []
   }
-  console.log(recipeDetail)
 
   return (
     <div className="bg-white">

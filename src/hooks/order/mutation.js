@@ -11,7 +11,6 @@ export const usePostOrder = () => {
       if (!accessToken) {
         return null
       }
-      console.log(data)
       const res = await axios.post('/orders', data, {
         headers,
       })
@@ -25,7 +24,7 @@ export const useUpdateOrder = () => {
 
   return useApiMutation2({
     queryKey: ['order', 'update'],
-    mutationFun: async (_, {id, data}) => {
+    mutationFun: async (_, { id, data }) => {
       if (!accessToken) {
         return null
       }
@@ -53,7 +52,6 @@ export const useDeleteOrder = () => {
       if (!accessToken) {
         return null
       }
-      console.log('id', id)
       const res = await axios.delete(`/orders/${id}`, {
         headers,
       })

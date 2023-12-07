@@ -3,7 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import { IoAdd, IoCalendarSharp,IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
+import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory } from '@/hooks/inventory'
@@ -20,8 +20,6 @@ export function Update({ id }) {
   const [items, setItems] = useState(data?.items)
   const [selectedDate, setSelectedDate] = useState()
 
-  console.log(items)
-
   useEffect(() => {
     setSelectedDate(new Date(data?.date))
     setItems(data?.items)
@@ -36,7 +34,10 @@ export function Update({ id }) {
   const InventoryData = inventoryData || []
 
   const addItem = () => {
-    setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, price: null, inventory: null }])
+    setItems((prevItems) => [
+      ...prevItems,
+      { id: Date.now(), quantity: 1, price: null, inventory: null },
+    ])
   }
 
   const removeItem = (index) => {
@@ -74,20 +75,19 @@ export function Update({ id }) {
     return formatCurrency(total)
   }
 
-
   const updateQuantityAndRecalculate = (index, newQuantity) => {
     const newItem = { ...items[index], quantity: newQuantity }
     updateItem(index, newItem)
   }
-  
+
   const getPrice = (item) => {
     if (item.inventory && item.inventory.price) {
       return `@Rp ${item.inventory.price}/${item.inventory.qtype || 'Unit'}`
-    } if (item && item.price) {
+    }
+    if (item && item.price) {
       return `@Rp ${item.price}/Unit`
-    } 
-      return ''
-    
+    }
+    return ''
   }
 
   const calculateTotalPrice = () => {
@@ -104,7 +104,6 @@ export function Update({ id }) {
       return total + itemPrice
     }, 0)
   }
-
 
   function handleUpdateData() {
     const orderData = {
@@ -123,7 +122,7 @@ export function Update({ id }) {
     }
 
     UpdateOrder({ id, data: orderData })
-    
+
     router.replace('/order')
   }
 
@@ -172,7 +171,9 @@ export function Update({ id }) {
                   onClick={() => setShowItemDropdown(!isShowItemDropdown)}
                 >
                   <div />
-                  {item.inventory && <span className="text-left text-black">{item.inventory.name}</span>}
+                  {item.inventory && (
+                    <span className="text-left text-black">{item.inventory.name}</span>
+                  )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
                 {isShowItemDropdown && (
@@ -187,7 +188,7 @@ export function Update({ id }) {
                             inventory: inventoryItem,
                             id: inventoryItem._id,
                             quantity: 1,
-                            price: inventoryItem.price
+                            price: inventoryItem.price,
                           })
                           setShowItemDropdown(false)
                         }}
@@ -198,7 +199,7 @@ export function Update({ id }) {
                               inventory: inventoryItem,
                               id: inventoryItem._id,
                               quantity: 1,
-                              price: inventoryItem.price
+                              price: inventoryItem.price,
                             })
                             setShowItemDropdown(false)
                           }
@@ -223,9 +224,7 @@ export function Update({ id }) {
                       updateQuantityAndRecalculate(index, newQuantity)
                     }}
                   />
-                  <span className="ml-2 font-medium text-black">
-                    {getPrice(item)}
-                  </span>
+                  <span className="ml-2 font-medium text-black">{getPrice(item)}</span>
                 </div>
 
                 <div className="flex h-[66px] items-center rounded-md bg-gray-200 p-3">

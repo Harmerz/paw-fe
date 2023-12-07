@@ -14,8 +14,6 @@ export function AllRecipe() {
     return <div>Loading...</div>
   }
 
-  console.log(recipeData)
-
   const recipeCard = recipeData || []
 
   return (
