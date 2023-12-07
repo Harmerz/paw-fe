@@ -33,12 +33,19 @@ export const options = {
               Authorization: `Bearer ${res.data.accessToken}`,
             },
           })
+          let roles = 'user'
+          if (user.data.roles[0] === '65147aedb2c4d57d24860f31') {
+            roles = 'koki'
+          } else if (user.data.roles[0] === '65147aedb2c4d57d24860f32') {
+            roles = 'admin'
+          }
+
           const { data } = res
           return {
             id: user.data.id,
             email: user.data.email,
             name: user.data.name ?? '',
-            role: user.data.roles[0],
+            role: roles,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
             accessTokenExpires: Date.now() + ACCESS_TOKEN_EXP_AUTH_OPTION_IN_MS,
