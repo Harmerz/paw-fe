@@ -41,7 +41,7 @@ export function BodyTable() {
               <button
                 type="button"
                 className="flex items-center 
-              items-center rounded 
+              items-center 
               rounded 
               bg-ijo1 px-4 
               px-4
