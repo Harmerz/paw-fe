@@ -14,6 +14,7 @@ export function Order({ children, searchTerm, setSearchTerm }) {
     router.push('/order/create')
   }
 
+  // Send the search query to the callback
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value)
   }

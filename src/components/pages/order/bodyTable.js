@@ -14,6 +14,7 @@ export function BodyTable({ search }) {
 
   useEffect(() => {
     let filteredData = orderData
+    // Filter the data if search query exists
     if (search) {
       const regex = new RegExp(search, 'i')
       filteredData = orderData.filter((order) => {
@@ -25,6 +26,7 @@ export function BodyTable({ search }) {
     setTableData(filteredData)
   }, [orderData, search])
 
+  // Show loading content if it is in loading state
   if (isLoading) {
     return (
       <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto">
@@ -33,6 +35,7 @@ export function BodyTable({ search }) {
     )
   }
 
+  // Show error message if it exists
   if (isError) {
     return (
       <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto border">
@@ -46,6 +49,7 @@ export function BodyTable({ search }) {
     OrderDelete(id)
   }
 
+  // Format date to dd/mm/yyyy
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)
     const day = date.getDate()
@@ -55,6 +59,7 @@ export function BodyTable({ search }) {
     return `${day}/${month}/${year}`
   }
 
+  // Format to USD Currency
   const formatCurrency = (amount) => {
     const formattedAmount = new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -63,6 +68,7 @@ export function BodyTable({ search }) {
     return formattedAmount
   }
 
+  // Join all inventory name into String
   const joinItemsToString = (items) => {
     const displayedItems = items.slice(
       0,

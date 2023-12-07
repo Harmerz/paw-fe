@@ -2,6 +2,7 @@ import { useAccessToken } from '@/hooks/auth'
 import { useApiMutation2 } from '@/hooks/useApiMutation'
 import { axios } from '@/lib/axios'
 
+// Create new order by hit the POST api, specifying the data, and require access token
 export const usePostOrder = () => {
   const { accessToken, headers } = useAccessToken()
 
@@ -19,6 +20,7 @@ export const usePostOrder = () => {
   })
 }
 
+// Create new order by hit the PUT api, specifying the data & id,  and require access token
 export const useUpdateOrder = () => {
   const { accessToken, headers } = useAccessToken()
 
@@ -44,6 +46,7 @@ export const useUpdateOrder = () => {
   })
 }
 
+// Delete order by hit DELETE api and specifying the id
 export const useDeleteOrder = () => {
   const { accessToken, headers } = useAccessToken()
   return useApiMutation2({

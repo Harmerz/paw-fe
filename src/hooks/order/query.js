@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useAccessToken } from '@/hooks/auth'
 import { axios } from '@/lib/axios'
 
+// Get all orders
 export const useGetOrder = () => {
   const { accessToken, headers } = useAccessToken()
   return useQuery({
@@ -21,6 +22,7 @@ export const useGetOrder = () => {
   })
 }
 
+// Get one order by id
 export const useGetOneOrder = (id) => {
   const { accessToken, headers } = useAccessToken()
   return useQuery({
