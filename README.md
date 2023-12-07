@@ -1,19 +1,23 @@
 <h1 align="center">
-  Tumbas
+  Tumbas - Kelompok 8
 </h1>
-<p align="center">Web App Frontend | Pengembangan Aplikasi Web | NEXTJS 13</p>
-
-## Deployments
-https://paw-fe.vercel.app/
-Email and password on the video and slides ppt
+<p align="center">Web App Frontend | Pengembangan Aplikasi Web 2023 | NEXTJS 13</p>
 
 ## 📃 Table of Contents
 
+- Deployments
 - About
 - Features
 - Meet Our Team #8
 - Documentation
 - Set Up
+
+## ✅ Deployments
+[Tumbas Web](https://paw-fe.vercel.app/auth/signin)
+
+[Presentation File](https://www.canva.com/design/DAF2SK5hvP8/AmLq3Wj1Asd-cK6vzOTnIQ/view?utm_content=DAF2SK5hvP8&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+
+[Presentation Video](https://paw-fe.vercel.app/auth/signin)
 
 ## ⁉️ About
 
@@ -84,4 +88,3 @@ npm start
 ```
 ### Folder structuring
 ![image](https://github.com/Harmerz/paw-fe/assets/54217524/e6d67075-514e-4806-b8a8-3e816d213243)
-
