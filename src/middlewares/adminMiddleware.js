@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
-export const adminPages = ['/inventory/create']
+export const adminPages = ['/inventory/create', '/recipe/create']
 
 const adminPathNameRegex = RegExp(`^/?(${adminPages.join('|')})?/?$`, 'i')
 

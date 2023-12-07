@@ -2,29 +2,28 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { LuLoader } from 'react-icons/lu'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
-  const router = useRouter()
   const { data: recipeData, isLoading } = useGetRecipe()
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const { data: session } = useSession()
 
   const recipeCard = recipeData || []
 
   return (
-    <div className="bg-white p-8">
+    <div className="min-h-screen w-full bg-white p-8">
       <NavBar />
-      <div className="flex flex-col items-start">
-        <div className="mb-8 ml-auto">
-          <Link href="/recipe/create">
-            <button
-              type="button"
-              className="font-poppins 
+      <div className="flex flex-col items-center">
+        {session?.user?.role === 'admin' && (
+          <div className="mb-8 ml-auto">
+            <Link href="/recipe/create">
+              <button
+                type="button"
+                className="font-poppins 
               cursor-pointer 
               rounded 
               bg-ijo1 
@@ -34,41 +33,46 @@ export function AllRecipe() {
               text-white
               md:text-base
               lg:text-base"
-            >
-              + Add Recipe
-            </button>
-          </Link>
-        </div>
-        <div className="mt-4 flex">
-          <div className="mt-4 flex-col">
-            {recipeCard.map((data) => (
-              <div key={data.name} className="font-poppins my-2 p-4 text-base text-black md:flex">
-                <Image
-                  src={data.imgUrl}
-                  alt={data.name}
-                  width={200}
-                  height={150}
-                  className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
-                  style={{
-                    height: '100%', // Set the image width to 100% on small screens
-                    maxHeight: '150px', // Set a maximum width for the image on larger screens
-                  }}
-                />
-                <div>
-                  <h2 className="mb-2 text-xl font-bold">
-                    <button
-                      onClick={() => router.push(`/recipe/${data._id}`)}
-                      type="button"
-                      className="duration-150 hover:text-green-700 hover:underline"
-                    >
-                      {data.name}
-                    </button>
-                  </h2>
-                  <p>{data.description}</p>
-                </div>
-              </div>
-            ))}
+              >
+                + Add Recipe
+              </button>
+            </Link>
           </div>
+        )}
+        <div className="mt-4 flex">
+          {isLoading ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <LuLoader className=" h-10 w-10 animate-spin text-black" />
+            </div>
+          ) : (
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {recipeCard.map((data) => (
+                <Link key={data._id} href={`/recipe/${data._id}`} className="h-full w-full">
+                  <div className="font-poppins group h-full cursor-pointer rounded-lg border p-4 text-base text-black shadow-lg hover:bg-slate-100 md:flex">
+                    <Image
+                      src={data.imgUrl}
+                      alt={data.name}
+                      width={200}
+                      height={150}
+                      className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
+                      style={{
+                        height: '100%', // Set the image width to 100% on small screens
+                        maxHeight: '150px', // Set a maximum width for the image on larger screens
+                      }}
+                    />
+                    <div>
+                      <h2 className="mb-2 text-xl font-bold">
+                        <div className="duration-150 group-hover:text-green-700 group-hover:underline">
+                          {data.name}
+                        </div>
+                      </h2>
+                      <p className="text-sm">{data.description}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

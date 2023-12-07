@@ -56,18 +56,18 @@ export default function Modal({ data, show, onClose, children }) {
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-70 bg-center">
       <div className="z-10 h-4/5 max-h-[80vh] w-3/4 overflow-y-auto rounded-lg bg-white p-4">
         <div className="flex justify-end text-base">
-          <button type="button" onClick={handleClose} className="text-ijo2">
-            Close
+          <button type="button" onClick={handleClose} className="text-black">
+            X
           </button>
         </div>
         <div>
           {children}
-          <div className="flex-grow bg-white">
+          <div className="flex-grow bg-white text-black">
             <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
               Update Recipe
             </div>
             <div>
-              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
+              <div className="md:text-md text-sm font-bold lg:text-lg">Name</div>
               <div className="pb-4">
                 <input
                   type="text"
@@ -78,7 +78,7 @@ export default function Modal({ data, show, onClose, children }) {
                 />
               </div>
 
-              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Description</div>
+              <div className="md:text-md text-sm font-bold lg:text-lg">Description</div>
               <div className="pb-4">
                 <input
                   type="text"
@@ -89,7 +89,7 @@ export default function Modal({ data, show, onClose, children }) {
                 />
               </div>
 
-              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Ingredients</div>
+              <div className="md:text-md text-sm font-bold lg:text-lg">Ingredients</div>
               <div className="pb-4">
                 <input
                   type="text"
@@ -100,7 +100,7 @@ export default function Modal({ data, show, onClose, children }) {
                 />
               </div>
 
-              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
+              <div className="md:text-md text-sm font-bold lg:text-lg">Instruction</div>
               <div className="pb-4">
                 <input
                   type="text"
@@ -111,7 +111,7 @@ export default function Modal({ data, show, onClose, children }) {
                 />
               </div>
 
-              <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
+              <div className="md:text-md text-sm font-bold lg:text-lg">Image</div>
               <div className="pb-4">
                 <input
                   type="text"
