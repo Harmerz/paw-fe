@@ -1,57 +1,99 @@
-import { IoSearch } from 'react-icons/io5'
+'use client'
 
-import { useGetInventory, usePostInventory } from '@/hooks/inventory'
+import Link from 'next/link';
+import { useEffect,useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
 
-export function Inventory({ children }) {
+import { NavBar } from '@/components/elements/navbar'
+import { useGetInventory, usePostInventory } from '@/hooks/inventory';
+
+export function Inventory({ children, selectedCategory, setSelectedCategory, searchTerm, setSearchTerm }) {
   const categories = [
-    'Meat & Egg',
+    'Meat',
     'Fish',
-    'Fruits',
+    'Fruit',
     'Vegetables',
     'Sauce',
-    'Grain',
+    'Grains',
     'Spices',
     'Dairy',
     'Herbs',
     'Bakery',
     'Snack',
-  ]
+    'Noodles',
+    'Others',
+  ];
 
-  const { mutate: addInventory } = usePostInventory()
-  const { data: DataKris } = useGetInventory()
-  console.log(DataKris)
+  const { mutate: addInventory } = usePostInventory();
+ 
   function handleClick() {
     addInventory()
   }
 
+  const handleClickFilter = (category) => {
+    // Toggle the category filter
+    if (selectedCategory && selectedCategory.toLowerCase() === category.toLowerCase()) {
+      setSelectedCategory(null); // Turn off the filter if the same category is clicked again
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Trigger filter or search action here
+    }
+  };
+ 
+
+  useEffect(() => {
+    console.log('Search term:', searchTerm);
+  }, [searchTerm]);
+
   return (
     <div className="min-h-screen bg-white bg-contain">
+      <NavBar />
       <div className="p-8">
         <div className="flex flex-col items-start">
-          <div className="mb-4 ml-auto sm:mb-12">
-            <button
-              onClick={handleClick}
-              type="button"
-              className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
+          <div className="mb-4 sm:mb-12 ml-auto">
+            <Link href="/inventory/create" passHref>
+              <button
+                onClick={handleClick}
+                type="button"
+                className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-base text-white sm:text-lg lg:text-xl"
             >
-              +Add Inventory
-            </button>
+                +Add Inventory
+              </button>
+            </Link>
           </div>
           <div className="mb-4 flex items-center sm:mb-8">
             <IoSearch className="absolute mx-4 mr-2 text-black" />
             <input
               type="text"
-              className="mx-2 w-full rounded-md bg-gray-200 p-2 pl-8 text-black sm:w-96"
+              className="mx-2 w-full sm:w-96 rounded-md bg-gray-200 p-2 pl-8 text-black"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="mt-4 flex flex-wrap">
             {categories.map((category) => (
-              <div
+              <button type='button'
                 key={category}
-                className="font-poppins mx-2 my-2 cursor-pointer rounded-full border border-black bg-gray-200 p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white sm:my-0"
+                className={`font-poppins mx-2 my-2 sm:my-0 cursor-pointer rounded-full border ${
+                  selectedCategory &&
+                  category.toLowerCase() === selectedCategory.toLowerCase()
+                  ? 'border-white bg-orange-tumbas text-white'
+                  : 'border-black bg-gray-200 text-black'
+                } p-2 text-base font-bold text-black transition-colors duration-300 hover:border-white hover:bg-orange-tumbas hover:text-white`}
+                onClick={() => handleClickFilter(category)}
               >
                 {category}
-              </div>
+              </button>
             ))}
           </div>
           <table className="mx-2 mt-5 table w-full overflow-x-auto text-left">
