@@ -10,7 +10,7 @@ export const useGetOrder = () => {
   return useQuery({
     queryKey: ['order'],
     queryFn: async () => {
-      const res = await axios.get('/order', {
+      const res = await axios.get('/orders', {
         headers,
       })
       return res.data
@@ -20,4 +20,21 @@ export const useGetOrder = () => {
   })
 }
 
-export default useGetOrder
+export const useGetOneOrder = (id) => {
+  const { accessToken, headers } = useAccessToken()
+  return useQuery({
+    queryKey: ['order', id],
+    queryFn: async () => {
+      const res = await axios.get(`/orders/${id}`, {
+        headers,
+      })
+      return res.data
+    },
+    staleTime: 15 * 60 * 1000,
+    enabled: !!accessToken && !!id,
+  })
+}
+
+const exportedFunctions = { useGetOneOrder, useGetOrder }
+
+export default exportedFunctions

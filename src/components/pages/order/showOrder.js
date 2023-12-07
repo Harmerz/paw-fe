@@ -1,14 +1,31 @@
+'use client'
+
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 
-export function Order({ children }) {
+export function Order({ children, searchTerm, setSearchTerm }) {
   const router = useRouter()
 
   const handleAddOrderClick = () => {
     router.push('/order/create')
   }
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Trigger search action here
+    }
+  }
+
+  useEffect(() => {
+    console.log('Search term:', searchTerm)
+  }, [searchTerm])
 
   return (
     <div className="min-h-screen bg-white bg-contain">
@@ -46,6 +63,9 @@ export function Order({ children }) {
             lg:pl-11
             lg:text-xl"
                 placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onKeyPress={handleKeyPress}
               />
               <IoSearch
                 className="absolute left-5 top-1/2 
