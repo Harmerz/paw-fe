@@ -16,6 +16,7 @@ export const useGetDelivery = () => {
       return res.data
     },
     staleTime: 15 * 60 * 1000,
+    refetchInterval: 5 * 1000, // 5 seconds
     enabled: !!accessToken,
   })
 }
