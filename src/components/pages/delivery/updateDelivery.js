@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
+import { NavBar } from '@/components/elements/navbar'
 import { useGetDeliveryById, usePutDelivery } from '@/hooks/delivery'
 
 export function Update({ id }) {
@@ -29,6 +30,7 @@ export function Update({ id }) {
       <div className="w-1/6 flex-none" />
 
       <div className="w-2/3 flex-grow bg-white">
+        <NavBar />
         <div
           className="pb-6 pt-8 text-xl 
         font-bold text-black  
