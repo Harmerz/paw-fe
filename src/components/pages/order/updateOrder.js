@@ -37,11 +37,7 @@ export function Update({ id }) {
     setItems(data?.items)
   }, [data])
 
-  const { data: inventoryData, isLoading } = useGetInventory()
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const { data: inventoryData } = useGetInventory()
 
   const InventoryData = inventoryData || []
 
