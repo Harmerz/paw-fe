@@ -25,11 +25,9 @@ export async function adminMiddleware(req) {
     if (token?.role === 'admin') {
       return NextResponse.next()
     }
-    // If the user isn't an admin, return an error response
-    return NextResponse.json(
-      { error: "You don't have permission to access this resource" },
-      { status: 403 },
-    )
+    // If the user isn't an admin, return to inventory
+    const url = new URL('/inventory', req.url)
+    return NextResponse.redirect(url)
   }
 
   return undefined
