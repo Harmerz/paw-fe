@@ -10,6 +10,8 @@ export function SignupForm() {
   const [messageApi, contextHolder] = message.useMessage()
   const { mutate: SignUp, isError, isSuccess, error: errored } = useSignUp()
   const router = useRouter()
+
+  // context when success and error
   const success = useCallback(() => {
     messageApi.open({
       type: 'success',
@@ -28,6 +30,7 @@ export function SignupForm() {
     [messageApi],
   )
 
+  // Handle if mutation to API SignUp
   const handleDone = useCallback(() => {
     if (isSuccess) {
       success()
@@ -43,6 +46,7 @@ export function SignupForm() {
     handleDone()
   }, [isSuccess, isError, handleDone])
 
+  // OnClick Finish
   const onFinish = async (values) => {
     try {
       setLoading(true)
@@ -54,6 +58,7 @@ export function SignupForm() {
     if (isError) error(errored)
   }
 
+  // Handle Error client
   const onFinishFailed = (errorInfo) => {
     error(errorInfo)
     setLoading(false)

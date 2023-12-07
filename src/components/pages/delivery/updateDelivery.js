@@ -8,14 +8,15 @@ import { useGetDeliveryById, usePutDelivery } from '@/hooks/delivery'
 
 export function Update({ id }) {
   const updateDeliveryMutation = usePutDelivery()
+  // get data & stored data by id
   const { data: deliveryData } = useGetDeliveryById(id)
   const deliveryDetail = deliveryData || {}
-
   const [recipient, setRecipient] = useState(deliveryDetail.recipient)
   const [orderItems, setOrderItems] = useState(deliveryDetail.orderItems)
   const [courier, setCourier] = useState(deliveryDetail.courier)
   const [estimedTime, setEstimedTime] = useState(deliveryDetail.estimedTime)
 
+  // update data
   function handleUpdate() {
     const updatedData = {
       recipient,

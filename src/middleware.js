@@ -3,12 +3,15 @@ import { NextResponse } from 'next/server'
 import { adminMiddleware, authMiddleware, publicMiddleware } from './middlewares'
 
 export default async function middleware(req) {
+  // Check if public routes
   const resPub = await publicMiddleware(req)
   if (resPub) return resPub
 
+  // Check if user still login
   const resAuth = await authMiddleware(req)
   if (!resAuth.ok) return resAuth
 
+  // Check if routes is for admin role
   const admin = await adminMiddleware(req)
   if (admin) return admin
 

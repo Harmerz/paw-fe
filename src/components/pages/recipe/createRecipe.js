@@ -14,6 +14,8 @@ export function Create() {
   const router = useRouter()
 
   const { mutate: addRecipe } = usePostRecipe()
+
+  // Function to handle form submission for adding a new recipe
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()

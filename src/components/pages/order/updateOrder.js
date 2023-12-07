@@ -33,6 +33,7 @@ export function Update({ id }) {
   const [selectedDate, setSelectedDate] = useState()
 
   useEffect(() => {
+    // Set the order to default value for input
     setSelectedDate(new Date(data?.date))
     setItems(data?.items)
   }, [data])
@@ -60,6 +61,7 @@ export function Update({ id }) {
     })
   }
 
+  // Format to USD Currency
   const formatCurrency = (amount) => {
     const formattedAmount = new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -68,6 +70,7 @@ export function Update({ id }) {
     return formattedAmount
   }
 
+  // Calculate total price for an item
   const calculatePrice = (item) => {
     if (!item || !item.price || Number.isNaN(item.quantity)) {
       return 'Rp 0,00'
@@ -83,11 +86,13 @@ export function Update({ id }) {
     return formatCurrency(total)
   }
 
+  // Update the quantity of items and recalculate the price
   const updateQuantityAndRecalculate = (index, newQuantity) => {
     const newItem = { ...items[index], quantity: newQuantity }
     updateItem(index, newItem)
   }
 
+  // Get the price from inventory, if not exist the get from the item
   const getPrice = (item) => {
     if (item.inventory && item.inventory.price) {
       return `@Rp ${item.inventory.price}/${item.inventory.qtype || 'Unit'}`
@@ -113,6 +118,7 @@ export function Update({ id }) {
     }, 0)
   }
 
+  // Get the updated input and put to api
   function handleUpdateData() {
     const orderData = {
       id: data?._id,
@@ -170,6 +176,7 @@ export function Update({ id }) {
                   )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
+                {/* Show or hide dropdown */}
                 {isShowItemDropdown && (
                   <div className="absolute mt-1 w-full rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (

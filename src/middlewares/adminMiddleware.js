@@ -17,6 +17,7 @@ const adminPathNameRegex = RegExp(
 )
 
 export async function adminMiddleware(req) {
+  // Check if the user is authenticated and has an admin role
   const isAdminPage = adminPathNameRegex.test(req.nextUrl.pathname)
   const token = await getToken({ req })
 
@@ -24,11 +25,9 @@ export async function adminMiddleware(req) {
     if (token?.role === 'admin') {
       return NextResponse.next()
     }
-    // If the user isn't an admin, return an error response
-    return NextResponse.json(
-      { error: "You don't have permission to access this resource" },
-      { status: 403 },
-    )
+    // If the user isn't an admin, return to inventory
+    const url = new URL('/inventory', req.url)
+    return NextResponse.redirect(url)
   }
 
   return undefined

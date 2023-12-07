@@ -18,6 +18,7 @@ export function Create() {
 
   const { mutate: PostOrder } = usePostOrder()
 
+  // Get all inventory data for dropdown items
   const { data: inventoryData } = useGetInventory()
   const ref = useRef(null)
   useEffect(() => {
@@ -44,6 +45,7 @@ export function Create() {
     })
   }
 
+  // Format to USD Currency
   const formatCurrency = (amount) => {
     const formattedAmount = new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -52,6 +54,7 @@ export function Create() {
     return formattedAmount
   }
 
+  // Calculate total price for an item
   const calculatePrice = (item) => {
     if (!item.item || !item.item.price || Number.isNaN(item.quantity)) {
       return 'Rp 0,00'
@@ -61,11 +64,12 @@ export function Create() {
     return formatCurrency(totalPrice)
   }
 
+  // Update the quantity of items and recalculate the price
   const updateQuantityAndRecalculate = (index, newQuantity) => {
     const newItem = { ...items[index], quantity: newQuantity }
     updateItem(index, newItem)
   }
-
+  
   const calculateTotalPrice = () => {
     return items.reduce((total, item) => {
       const itemPrice = item.item ? item.item.price * item.quantity : 0
@@ -73,6 +77,7 @@ export function Create() {
     }, 0)
   }
 
+  // Get the input and post to api
   function handleAddData() {
     const orderData = {
       date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
@@ -146,6 +151,7 @@ export function Create() {
                   )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
+                {/* Show or hide dropdown */}
                 {isShowItemDropdown && (
                   <div className="absolute top-[100%] mt-1 max-h-[400px] w-fit overflow-y-scroll rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (
@@ -200,7 +206,7 @@ export function Create() {
                 <div className="flex h-[66px] items-center rounded-md bg-gray-200 p-3">
                   <span className="font-regular ml-2 text-black">{calculatePrice(item)}</span>
                 </div>
-
+                
                 {index === items.length - 1 && (
                   <>
                     <button

@@ -9,15 +9,16 @@ import { NavBar } from '@/components/elements/navbar'
 import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
-  const { data: recipeData, isLoading } = useGetRecipe()
+  const { data: recipeData, isLoading } = useGetRecipe() // Fetch recipe data using custom hook
   const { data: session } = useSession()
 
-  const recipeCard = recipeData || []
+  const recipeCard = recipeData || [] // Store recipe data or an empty array if no data is available
 
   return (
     <div className="min-h-screen w-full bg-white">
       <NavBar />
       <div className="flex flex-col items-center">
+        {/* Conditionally render 'Add Recipe' button for admin users */}
         {session?.user?.role === 'admin' && (
           <div className="m-8 ml-auto">
             <Link href="/recipe/create">
@@ -40,6 +41,7 @@ export function AllRecipe() {
           </div>
         )}
         <div className="mt-4 flex">
+          {/* Conditional rendering of loading spinner */}
           {isLoading ? (
             <div className="flex h-full w-full items-center justify-center">
               <LuLoader className=" h-10 w-10 animate-spin text-black" />

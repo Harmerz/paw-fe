@@ -9,6 +9,8 @@ export function LoginForm() {
   const router = useRouter()
   const [wrong, setWrong] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  // Set Loading and using Signin credentials on next-auth define in src/auth.js
   const onFinish = async (e) => {
     try {
       const res = await signIn('credentials', {
@@ -68,7 +70,7 @@ export function LoginForm() {
         </Form.Item>
         <div className="text-center text-red-500">{wrong && 'Wrong Username or Password!'}</div>
         <button
-          className={`flex w-full items-center justify-between gap-4 rounded-lg px-4 py-3 text-center text-white ${
+          className={`flex w-full items-center gap-4 rounded-lg px-4 py-3 text-center text-white ${
             loading ? 'justify-between bg-ijo3' : 'justify-center bg-ijo1'
           }`}
           type="submit"
