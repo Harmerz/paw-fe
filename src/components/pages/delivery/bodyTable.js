@@ -59,7 +59,7 @@ export function BodyTable() {
                     type="button"
                     className="flex items-center
               rounded 
-              bg-ijo1 
+              bg-ijo3
               px-4
               py-2 
               pl-3 
