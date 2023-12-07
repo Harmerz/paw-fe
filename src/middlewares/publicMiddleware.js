@@ -1,19 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
-export const publicPages = [
-  '/',
-  '/auth/signin',
-  '/auth/signup',
-  '/need-verify',
-  '/unverified',
-  '/verified',
-  '/verify-email',
-  '/resend-activation',
-  '/forget-password',
-  '/forget-password-email-sent',
-  '/reset-password',
-]
+export const publicPages = ['/', '/auth/signin', '/auth/signup']
 
 const publicPathnameRegex = RegExp(`^/?(${publicPages.join('|')})?/?$`, 'i')
 

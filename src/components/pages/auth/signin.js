@@ -3,22 +3,26 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
+import { LuLoader2 } from 'react-icons/lu'
 
 export function LoginForm() {
   const router = useRouter()
   const [wrong, setWrong] = useState(false)
+  const [loading, setLoading] = useState(false)
   const onFinish = async (e) => {
     try {
       const res = await signIn('credentials', {
         redirect: false,
-        email: e.email,
+        username: e.username,
         password: e.password,
       })
+      setLoading(true)
       if (!res?.error) {
         router.refresh()
       }
       if (res.status === 401 || res.status === 404) {
         setWrong(true)
+        setLoading(false)
         setTimeout(() => {
           setWrong(false)
         }, 3000)
@@ -47,9 +51,9 @@ export function LoginForm() {
       >
         <Form.Item
           className="font-inter"
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!', type: 'username' }]}
         >
           <Input />
         </Form.Item>
@@ -64,10 +68,14 @@ export function LoginForm() {
         </Form.Item>
         <div className="text-center text-red-500">{wrong && 'Wrong Username or Password!'}</div>
         <button
-          className="flex w-full justify-center rounded-lg bg-ijo1 py-3 text-center text-white"
+          className={`flex w-full items-center justify-between gap-4 rounded-lg px-4 py-3 text-center text-white ${
+            loading ? 'justify-between bg-ijo3' : 'justify-center bg-ijo1'
+          }`}
           type="submit"
         >
-          Log In
+          {loading && <div className="flex h-5 w-5 animate-spin text-white" />}
+          <span>Sign In</span>
+          {loading && <LuLoader2 className="flex h-5 w-5 animate-spin text-white" />}
         </button>
       </Form>
 

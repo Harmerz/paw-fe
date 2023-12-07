@@ -1,7 +1,8 @@
 import { Flex, Form, Input, message, Typography } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { LuLoader2 } from 'react-icons/lu'
 
 import { useSignUp } from '@/hooks/user'
 
@@ -15,6 +16,7 @@ export function SignupForm() {
       content: 'User was registered successfully!',
     })
   }, [messageApi])
+  const [loading, setLoading] = useState(false)
 
   const error = useCallback(
     (err) => {
@@ -29,10 +31,12 @@ export function SignupForm() {
   const handleDone = useCallback(() => {
     if (isSuccess) {
       success()
+      setLoading(false)
       router.push('/auth/signin')
     }
     if (isError) {
       error(errored?.response?.data?.message || '')
+      setLoading(false)
     }
   }, [error, errored?.response?.data?.message, isError, isSuccess, router, success])
   useEffect(() => {
@@ -41,15 +45,18 @@ export function SignupForm() {
 
   const onFinish = async (values) => {
     try {
+      setLoading(true)
       SignUp(values)
     } catch (err) {
-      console.log(errored)
+      setLoading(false)
+      error(err)
     }
     if (isError) error(errored)
   }
 
   const onFinishFailed = (errorInfo) => {
     error(errorInfo)
+    setLoading(false)
   }
   return (
     <>
@@ -101,10 +108,14 @@ export function SignupForm() {
             <Input.Password />
           </Form.Item>
           <button
-            className="flex w-full justify-center rounded-lg bg-ijo1 py-3 text-center text-white"
+            className={`flex w-full items-center gap-4 rounded-lg px-4 py-3 text-center text-white ${
+              loading ? 'justify-between bg-ijo3' : 'justify-center bg-ijo1'
+            }`}
             type="submit"
           >
-            Sign Up
+            {loading && <div className="flex h-5 w-5 animate-spin text-white" />}
+            <span>Sign Up</span>
+            {loading && <LuLoader2 className="flex h-5 w-5 animate-spin text-white" />}
           </button>
         </Form>
 
