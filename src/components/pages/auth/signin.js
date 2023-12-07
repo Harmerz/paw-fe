@@ -1,10 +1,12 @@
-import { Flex, Form, Input, Space, Typography } from 'antd'
+import { Flex, Form, Input, Typography } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { useState } from 'react'
 
 export function LoginForm() {
   const router = useRouter()
+  const [wrong, setWrong] = useState(false)
   const onFinish = async (e) => {
     try {
       const res = await signIn('credentials', {
@@ -15,11 +17,16 @@ export function LoginForm() {
       if (!res?.error) {
         router.refresh()
       }
+      if (res.status === 401 || res.status === 404) {
+        setWrong(true)
+        setTimeout(() => {
+          setWrong(false)
+        }, 3000)
+      }
     } catch (err) {
       throw Error.message(err)
     }
   }
-  // axios.get('/ping').then((res) => console.log(res))
 
   const onFinishFailed = (errorInfo) => {
     throw Error.message('Failed:', errorInfo)
@@ -27,9 +34,9 @@ export function LoginForm() {
   const [form] = Form.useForm()
   return (
     <Flex vertical justify="center">
-      <Typography.Title className=" font-dmsans">Log In to Your Account</Typography.Title>
-      <Typography.Text className="font-inter" type="secondary">
-        Welcome back! Enter your credentials to access your personalized experience.
+      <Typography.Title className=" font-dmsans">Welcome back!</Typography.Title>
+      <Typography.Text className="font-inter mb-10" type="secondary">
+        Please login to access Tumbas
       </Typography.Text>
       <Form
         form={form}
@@ -55,15 +62,21 @@ export function LoginForm() {
         >
           <Input.Password />
         </Form.Item>
+        <div className="text-center text-red-500">{wrong && 'Wrong Username or Password!'}</div>
+        <button
+          className="flex w-full justify-center rounded-lg bg-ijo1 py-3 text-center text-white"
+          type="submit"
+        >
+          Log In
+        </button>
       </Form>
-      <Space direction="horizontal">
-        <Typography.Text className="font-inter">Don’t have an Account?</Typography.Text>
-        <Link href="/signup">
-          <Typography.Text className="font-inter text-bluey-500" strong>
-            Register
-          </Typography.Text>
+
+      <div className="mt-2 flex w-full flex-row justify-center gap-1">
+        <div className="font-inter text-center">Don’t have an Account? </div>
+        <Link href="/auth/signup">
+          <div className="font-inter text-ijo3"> Sign Up</div>
         </Link>
-      </Space>
+      </div>
     </Flex>
   )
 }

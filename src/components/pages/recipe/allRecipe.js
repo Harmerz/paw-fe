@@ -1,72 +1,78 @@
+'use client'
+
 import Image from 'next/image'
-import { useState } from 'react'
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { LuLoader } from 'react-icons/lu'
+
+import { NavBar } from '@/components/elements/navbar'
+import { useGetRecipe } from '@/hooks/recipe'
 
 export function AllRecipe() {
-  const [data, setData] = useState([
-    {
-      img: 'https://th.bing.com/th/id/OIP.8kg0jQPbYYkcrYK9pJ1k8AAAAA?w=272&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      name: 'Telur Balado Pedas Cabe Hijau',
-      description:
-        'Telur Balado Pedas Cabe Hijau adalah hidangan lezat dan pedas yang terdiri dari telur rebus yang dimasak dengan bumbu balado khas Indonesia. Telur Balado Pedas Cabe Hijau sering dihidangkan sebagai lauk pendamping nasi putih hangat. Rasanya yang pedas dan sedikit manis membuat hidangan ini menjadi pilihan yang populer di berbagai acara makan, baik sehari-hari maupun pada kesempatan khusus.',
-    },
-    {
-      img: 'https://live.staticflickr.com/5163/5330506374_1ea38e8783_b.jpg',
-      name: 'Nasi Goreng Special',
-      description:
-        'Nasi Goreng Special adalah hidangan nasi yang digoreng dengan bumbu-bumbu khusus dan dicampur dengan daging ayam, udang, dan sayuran. Rasanya yang gurih dan sedikit pedas membuat nasi goreng ini menjadi favorit banyak orang.',
-    },
-  ])
+  const { data: recipeData, isLoading } = useGetRecipe()
+  const { data: session } = useSession()
+
+  const recipeCard = recipeData || []
 
   return (
-    <div className="bg-white p-8">
-      <div className="flex flex-col items-start">
-        <div className="mb-8 ml-auto">
-          <button
-            type="button"
-            href="recipe/create"
-            className="font-poppins 
-            cursor-pointer 
-            rounded 
-            bg-ijo1 
-            px-4 
-            py-2 
-            text-xs 
-            text-white
-            md:text-base
-            lg:text-xl"
-          >
-            + Add Recipe
-          </button>
-        </div>
-        <div className="mt-4 flex">
-          <div className="mt-4 flex-col">
-            {data.map((item, index) => (
-              <div key={index} className="font-poppins my-2 p-4 text-base text-black md:flex">
-                <Image
-                  src={item.img}
-                  alt={item.name}
-                  width={200}
-                  height={150}
-                  className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
-                  style={{
-                    height: '100%', // Set the image width to 100% on small screens
-                    maxHeight: '150px', // Set a maximum width for the image on larger screens
-                  }}
-                />
-                <div>
-                  <h2 className="mb-2 text-xl font-bold">
-                    <a
-                      href={`#link-to-${index}`}
-                      className="duration-150 hover:text-green-700 hover:underline"
-                    >
-                      {item.name}
-                    </a>
-                  </h2>
-                  <p>{item.description}</p>
-                </div>
-              </div>
-            ))}
+    <div className="min-h-screen w-full bg-white">
+      <NavBar />
+      <div className="flex flex-col items-center">
+        {session?.user?.role === 'admin' && (
+          <div className="m-8 ml-auto">
+            <Link href="/recipe/create">
+              <button
+                type="button"
+                className="font-poppins 
+              cursor-pointer 
+              rounded 
+              bg-ijo1 
+              px-4 
+              py-2 
+              text-xs 
+              text-white
+              md:text-base
+              lg:text-base"
+              >
+                + Add Recipe
+              </button>
+            </Link>
           </div>
+        )}
+        <div className="mt-4 flex">
+          {isLoading ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <LuLoader className=" h-10 w-10 animate-spin text-black" />
+            </div>
+          ) : (
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {recipeCard.map((data) => (
+                <Link key={data._id} href={`/recipe/${data._id}`} className="h-full w-full">
+                  <div className="font-poppins group h-full cursor-pointer rounded-lg border p-4 text-base text-black shadow-lg hover:bg-slate-100 md:flex">
+                    <Image
+                      src={data.imgUrl}
+                      alt={data.name}
+                      width={200}
+                      height={150}
+                      className="mb-4 sm:mb-0 sm:mr-4 sm:flex-none"
+                      style={{
+                        height: '100%', // Set the image width to 100% on small screens
+                        maxHeight: '150px', // Set a maximum width for the image on larger screens
+                      }}
+                    />
+                    <div>
+                      <h2 className="mb-2 text-xl font-bold">
+                        <div className="duration-150 group-hover:text-green-700 group-hover:underline">
+                          {data.name}
+                        </div>
+                      </h2>
+                      <p className="text-sm">{data.description}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

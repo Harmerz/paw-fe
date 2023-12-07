@@ -1,95 +1,85 @@
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
+import { LuLoader } from 'react-icons/lu'
+
+import { useDeleteDelivery, useGetDelivery } from '@/hooks/delivery'
 
 export function BodyTable() {
-  // example
-  const tableData = [
-    {
-      id: 1,
-      recipient: 'Dadang',
-      items: 'tempe, tahu, rendang',
-      courier: 'Dudung',
-      estimedtime: '22-11-2023',
-    },
-    {
-      id: 2,
-      recipient: 'Roy',
-      items: 'rendang, tomat, tempe',
-      courier: 'Dudung',
-      estimedtime: '23-11-2023',
-    },
-    {
-      id: 3,
-      recipient: 'Glory',
-      items: 'Tempe Pindang, rendang goreng',
-      courier: 'Dudung',
-      estimedtime: '24-11-2023',
-    },
-    {
-      id: 4,
-      recipient: 'Adit',
-      items: 'Santan goreng',
-      courier: 'Dudung',
-      estimedtime: '27-11-2023',
-    },
-    {
-      id: 5,
-      recipient: 'Natasha',
-      items: 'Ikan Pindang',
-      courier: 'Dudung',
-      estimedtime: '27-11-2023',
-    },
-    {
-      id: 6,
-      recipient: 'Bella',
-      items: 'Rendang Pindang yang dikukus',
-      courier: 'Dudung',
-      estimedtime: '28-11-2023',
-    },
-    {
-      id: 7,
-      recipient: 'Dina',
-      items: 'Es teh panas',
-      courier: 'Dudung',
-      estimedtime: '29-11-2023',
-    },
-    {
-      id: 8,
-      recipient: 'Dona',
-      items: 'Sate goreng krispi kuah',
-      courier: 'Kasian Dudung kerja Rodi',
-      estimedtime: '30-11-2023',
-    },
-  ]
+  const { data: deliveryData, isLoading, refetch } = useGetDelivery()
+  const { mutate: deleteDelivery, isError } = useDeleteDelivery()
+  const { data: session } = useSession()
+
+  if (isLoading) {
+    return (
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto">
+        <LuLoader className=" h-10 w-10 animate-spin text-black" />
+      </tbody>
+    )
+  }
+
+  if (isError) {
+    return (
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto">
+        <LuLoader className=" h-10 w-10 animate-spin text-black" />
+        There is Error when fetch the data
+      </tbody>
+    )
+  }
+
+  const deliveryCard = deliveryData || []
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDelivery(id)
+      // After successful deletion, you may want to refetch the data or update the state.
+      refetch()
+    } catch (error) {
+      console.error('Error deleting delivery:', error)
+    }
+  }
 
   return (
     <tbody>
-      {tableData.map((data) => (
-        <tr key={data.id} className="text-xs font-bold text-black md:text-base lg:text-xl">
-          <td className="py-2 pl-3">{data.id}</td>
+      {deliveryCard.map((data, index) => (
+        <tr
+          key={data._id}
+          className="border text-xs font-bold text-black hover:bg-slate-200 md:text-base lg:text-xl"
+        >
+          <td className="py-2 pl-3">{index + 1}</td>
           <td className="py-4 pl-3">{data.recipient}</td>
-          <td className="py-2 pl-3">{data.items}</td>
+          <td className="py-2 pl-3">{data.orderItems}</td>
           <td className="py-2 pl-3">{data.courier}</td>
-          <td className="py-2 pl-3">{data.estimedtime}</td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="bg-ijo3 flex 
-              cursor-pointer items-center 
+          <td className="py-2 pl-3">{data.estimedTime}</td>
+          {session?.user?.role === 'admin' && (
+            <>
+              <td className="font-poppins cursor-pointer rounded">
+                <Link href={`/delivery/${data._id}`} passHref>
+                  <button
+                    type="button"
+                    className="flex items-center
               rounded 
-              px-4 py-2 
+              bg-ijo1 
+              px-4
+              py-2 
+              pl-3 
               text-white"
-            >
-              <IoColorWandSharp className="mr-2" /> Edit
-            </button>
-          </td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="bg-merah-tumbas flex cursor-pointer items-center rounded px-4 py-2 text-white"
-            >
-              <IoTrashBinSharp className="mr-2" /> Delete
-            </button>
-          </td>
+                  >
+                    <IoColorWandSharp className="mr-2" /> Edit
+                  </button>
+                </Link>
+              </td>
+              <td className="font-poppins cursor-pointer rounded">
+                <button
+                  type="button"
+                  className="item-center flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 pl-3 text-white"
+                  onClick={() => handleDelete(data._id)}
+                >
+                  <IoTrashBinSharp className="mr-2" /> Delete
+                </button>
+              </td>
+            </>
+          )}
         </tr>
       ))}
     </tbody>

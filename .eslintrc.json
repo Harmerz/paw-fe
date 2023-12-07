@@ -23,7 +23,7 @@
     "ecmaVersion": 6
   },
   "rules": {
-    "prettier/prettier": ["warn"],
+    "prettier/prettier": 0,
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
@@ -42,6 +42,7 @@
     "react/jsx-props-no-spreading": 0,
     "react/prop-types": 0,
     "import/no-unresolved": 0,
-    "import/extensions": 0
+    "import/extensions": 0,
+    "no-underscore-dangle": 0
   }
 }

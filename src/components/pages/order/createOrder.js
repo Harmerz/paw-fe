@@ -1,15 +1,32 @@
 import 'react-datepicker/dist/react-datepicker.css'
 
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
+import { useGetInventory } from '@/hooks/inventory'
+import { usePostOrder } from '@/hooks/order'
 
 export function Create() {
+  const router = useRouter()
+
   const [isShowItemDropdown, setShowItemDropdown] = useState(false)
   const [items, setItems] = useState([{}])
   const [selectedDate, setSelectedDate] = useState(null)
+
+  const { mutate: PostOrder } = usePostOrder()
+
+  const { data: inventoryData } = useGetInventory()
+  const ref = useRef(null)
+  useEffect(() => {
+    window.addEventListener('click', (e) => {
+      if (!ref?.current?.contains(e.target) && isShowItemDropdown) setShowItemDropdown(false)
+    })
+  })
+
+  const InventoryData = inventoryData || []
 
   const addItem = () => {
     setItems((prevItems) => [...prevItems, { id: Date.now(), quantity: 1, item: null }])
@@ -56,98 +73,25 @@ export function Create() {
     }, 0)
   }
 
-  const InventoryData = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 3,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 4,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 5,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 6,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 7,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 8,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-    {
-      id: 9,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: 10.0, // Now it's a number
-    },
-    {
-      id: 10,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: 15.0, // Now it's a number
-    },
-  ]
+  function handleAddData() {
+    const orderData = {
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      items: items.map((item) => ({
+        inventory: {
+          inventoryId: item.item._id,
+          name: item.item.name,
+        },
+        inventoryId: item.id,
+        quantity: item.quantity,
+        price: item.item.price,
+      })),
+      totalPrice: calculateTotalPrice(),
+    }
+
+    PostOrder(orderData)
+
+    router.replace('/order')
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -189,25 +133,30 @@ export function Create() {
             {items.map((item, index) => (
               <div key={item.id} className="relative flex flex-row items-center gap-2">
                 <button
+                  ref={ref}
                   type="button"
-                  className="flex h-[66px] cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
+                  className="flex h-[66px] w-40 cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
                   onClick={() => setShowItemDropdown(!isShowItemDropdown)}
                 >
                   <div />
-                  {item.item && <span className="text-left text-black">{item.item.name}</span>}
+                  {item.item ? (
+                    <span className="text-left text-black">{item.item.name}</span>
+                  ) : (
+                    <span className="text-left text-gray-400">Item Name</span>
+                  )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
                 {isShowItemDropdown && (
-                  <div className="absolute mt-1 w-full rounded border border-gray-300 bg-white">
+                  <div className="absolute top-[100%] mt-1 max-h-[400px] w-fit overflow-y-scroll rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (
                       <div
-                        key={inventoryItem.id}
+                        key={inventoryItem._id}
                         className="cursor-pointer p-2 hover:bg-gray-200"
                         onClick={() => {
                           updateItem(index, {
                             ...item,
                             item: inventoryItem,
-                            id: inventoryItem.id,
+                            id: inventoryItem._id,
                             quantity: 1,
                           })
                           setShowItemDropdown(false)
@@ -217,7 +166,7 @@ export function Create() {
                             updateItem(index, {
                               ...item,
                               item: inventoryItem,
-                              id: inventoryItem.id,
+                              id: inventoryItem._id,
                               quantity: 1,
                             })
                             setShowItemDropdown(false)
@@ -244,7 +193,7 @@ export function Create() {
                     }}
                   />
                   <span className="ml-2 font-medium text-black">
-                    {item.item ? item.item.unit : 'Unit'}
+                    @Rp {item.item ? item.item.price : ''}/{item.item ? item.item.qtype : 'Unit'}
                   </span>
                 </div>
 
@@ -284,6 +233,7 @@ export function Create() {
         <button
           type="button"
           className="fixed bottom-8 right-8 flex h-[48px] -translate-x-1/2 -translate-y-1/2 transform cursor-pointer items-center rounded bg-ijo3 px-4 py-2 font-bold text-white"
+          onClick={handleAddData}
         >
           <IoSaveSharp className="mr-2" /> Save
         </button>

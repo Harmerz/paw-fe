@@ -1,127 +1,93 @@
-import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
+'use client'
 
-export function BodyTable() {
-  // example
-  const tableData = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: '$10.00',
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: '$15.00',
-    },
-    {
-      id: 3,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: '$10.00',
-    },
-    {
-      id: 4,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: '$15.00',
-    },
-    {
-      id: 5,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: '$10.00',
-    },
-    {
-      id: 6,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: '$15.00',
-    },
-    {
-      id: 7,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: '$10.00',
-    },
-    {
-      id: 8,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: '$15.00',
-    },
-    {
-      id: 9,
-      name: 'Product 1',
-      description: 'Description 1',
-      type: 'Type 1',
-      qty: 10,
-      unit: 'kg',
-      price: '$10.00',
-    },
-    {
-      id: 10,
-      name: 'Product 2',
-      description: 'Description 2',
-      type: 'Type 2',
-      qty: 20,
-      unit: 'pcs',
-      price: '$15.00',
-    },
-  ]
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
+import { LuLoader } from 'react-icons/lu'
+
+import { useDeleteInvetory, useGetInventory } from '@/hooks/inventory'
+
+export function BodyTable({ category, search }) {
+  const { data: inventoryData, isLoading, refetch } = useGetInventory()
+  const { mutate: InventoryDelete, isError } = useDeleteInvetory()
+  const [tableData, setTableData] = useState(inventoryData ?? [])
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    let filteredData = inventoryData
+
+    if (category) {
+      filteredData = filteredData.filter((e) => e.type === category?.toLowerCase())
+    }
+
+    if (search) {
+      const regex = new RegExp(search, 'i')
+      filteredData = filteredData.filter((e) => regex.test(e.name) || regex.test(e.desc))
+    }
+
+    setTableData(filteredData)
+  }, [inventoryData, category, search])
+
+  if (isLoading) {
+    return (
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto border">
+        <LuLoader className=" h-10 w-10 animate-spin text-black" />
+      </tbody>
+    )
+  }
+
+  if (isError) {
+    return (
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto border">
+        <LuLoader className=" h-10 w-10 animate-spin text-black" />
+        There is Error when fetch the data
+      </tbody>
+    )
+  }
+
+  function handleDelete(id) {
+    InventoryDelete(id)
+    refetch()
+  }
 
   return (
-    <tbody>
-      {tableData.map((data) => (
-        <tr key={data.id} className="font-bold text-black">
-          <td className="py-4 pl-3">{data.id}</td>
-          <td className="py-2 pl-3">{data.name}</td>
-          <td className="py-2 pl-3">{data.description}</td>
-          <td className="py-2 pl-3">{data.type}</td>
-          <td className="py-2 pl-3">{data.qty}</td>
-          <td className="py-2 pl-3">{data.unit}</td>
-          <td className="py-2 pl-3">{data.price}</td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="flex cursor-pointer items-center rounded bg-ijo3 px-4 py-2 text-white"
-            >
-              <IoColorWandSharp className="mr-2" /> Edit
-            </button>
-          </td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="flex cursor-pointer items-center rounded bg-merah-tumbas px-4 py-2 text-white"
-            >
-              <IoTrashBinSharp className="mr-2" /> Delete
-            </button>
-          </td>
+    <tbody className="block h-[60vh] max-h-[60vh] w-full overflow-auto border">
+      {tableData?.map((data, index) => (
+        <tr
+          key={data?._id}
+          className="table w-full table-fixed border-b font-bold text-black hover:bg-slate-200"
+        >
+          <td className="w-[40px] py-2 pl-3 sm:py-4 sm:pl-4">{index + 1}</td>
+          <td className="w-[15%] py-2 pl-3 sm:py-4 sm:pl-4">{data?.name}</td>
+          <td className="py-2 pl-3 sm:py-4 sm:pl-4">{data?.desc}</td>
+          <td className="w-[100px] py-2 pl-3 sm:py-4 sm:pl-4">{data?.price}</td>
+          <td className="w-[100px] py-2 pl-3 sm:py-4 sm:pl-4">{data?.quantity}</td>
+          <td className="w-[100px] py-2 pl-3 sm:py-4 sm:pl-4">{data?.qtype}</td>
+          <td className="w-[100px] py-2 pl-3 sm:py-4 sm:pl-4">{data?.type}</td>
+          {session?.user?.role === 'admin' && (
+            <>
+              <td className="py-2 pl-3 sm:py-4 sm:pl-4">
+                <Link href={`/inventory/${data?._id}`} passHref>
+                  <button
+                    type="button"
+                    className="mb-2 flex cursor-pointer items-center rounded bg-ijo3 px-2 py-1 text-white sm:mb-0 sm:px-4 sm:py-2"
+                  >
+                    <IoColorWandSharp className="mr-2" /> Edit
+                  </button>
+                </Link>
+              </td>
+              <td className="py-2 pl-3 sm:py-4 sm:pl-4">
+                <button
+                  onClick={() => handleDelete(data._id)}
+                  type="button"
+                  className="flex cursor-pointer items-center rounded bg-merah-tumbas px-2 py-1 text-white sm:px-4 sm:py-2"
+                >
+                  <IoTrashBinSharp className="mr-2" /> Delete
+                </button>
+              </td>
+            </>
+          )}
         </tr>
       ))}
     </tbody>

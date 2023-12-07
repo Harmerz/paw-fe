@@ -1,138 +1,167 @@
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { IoMenuSharp, IoPersonCircleSharp } from 'react-icons/io5'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
+import { useEffect, useRef, useState } from 'react'
+import { IoLogOutOutline, IoPersonCircle } from 'react-icons/io5'
 
-import TumbasLogo from '../../../../public/assets/page/tumbas_logo.svg'
-import Order from '../../../app/order/page'
-import { NavLink } from './NavLink'
+import { axios } from '@/lib/axios'
 
-export function NavBarLarge() {
-  const router = useRouter()
-
-  const handleLogoClick = () => {
-    router.push('/')
-  }
-
-  const handleProfileClick = () => {
-    // Navigate to profile
-  }
-
-  const isActive = (path) => path === router.pathname
-
+function Icon({ active, top }) {
   return (
-    <div className="flex items-center justify-between p-6">
-      <div
-        className="cursor-pointer"
-        onClick={handleLogoClick}
-        onKeyDown={handleLogoClick}
-        role="button"
-        tabIndex={0}
-      >
-        <Image src={TumbasLogo} alt="Tumbas Logo" style={{ height: '42px' }} />
-      </div>
-      <div className="flex items-center gap-12">
-        <NavLink path="/inventory" isActive={isActive}>
-          Inventory
-        </NavLink>
-        <NavLink path="/recipe" isActive={isActive}>
-          Recipe
-        </NavLink>
-        <NavLink path="/order" isActive={isActive}>
-          Order
-        </NavLink>
-        <NavLink path="/delivery" isActive={isActive} element={<Order />}>
-          Delivery
-        </NavLink>
-      </div>
-      <div
-        className="flex cursor-pointer items-center text-black"
-        onClick={handleProfileClick}
-        onKeyDown={handleProfileClick}
-        role="button"
-        tabIndex={0}
-      >
-        <IoPersonCircleSharp size={40} />
-      </div>
-    </div>
-  )
-}
-
-export function NavBarSmall() {
-  const router = useRouter()
-  const [isMenuOpen, setMenuOpen] = useState(false)
-
-  const handleProfileClick = () => {
-    // Navigate to profile
-  }
-
-  const handleMenuClick = () => {
-    setMenuOpen(!isMenuOpen)
-  }
-
-  const isActive = (path) => path === router.pathname
-
-  return (
-    <div className="flex flex-col items-center p-6">
-      <div className="flex w-full flex-row items-center justify-between">
-        <div
-          className="cursor-pointer"
-          onClick={handleMenuClick}
-          onKeyDown={handleMenuClick}
-          tabIndex={0}
-          role="button"
-        >
-          <IoMenuSharp size={30} className="text-ijo1" />
-        </div>
-        <div
-          className="flex cursor-pointer items-center text-black"
-          onClick={handleProfileClick}
-          onKeyDown={handleProfileClick}
-          role="button"
-          tabIndex={0}
-        >
-          <IoPersonCircleSharp size={40} />
-        </div>
-      </div>
-      <div className={`flex w-full justify-start gap-4 ${isMenuOpen ? 'flex-col' : 'hidden'}`}>
-        <NavLink path="/inventory" isActive={isActive}>
-          Inventory
-        </NavLink>
-        <NavLink path="/recipe" isActive={isActive}>
-          Recipe
-        </NavLink>
-        <NavLink path="/order" isActive={isActive}>
-          Order
-        </NavLink>
-        <NavLink path="/delivery" isActive={isActive} element={<Order />}>
-          Delivery
-        </NavLink>
-      </div>
+    <div
+      className={`toggle__container ${active ? 'active' : ''} ${
+        top
+          ? '[&>*]:bg-white [&>*]:[transition:background-color_300ms_0ms]'
+          : '[&>*]:bg-black [&>*]:[transition:background-color_500ms_500ms]'
+      }`}
+    >
+      <div className={`toggle ${active ? 'no-animation active' : ''} toggle__one `} />
+      <div className={`toggle ${active ? 'no-animation active' : 'active'} toggle__two `} />
+      <div className={`toggle ${active ? 'no-animation active' : 'active'} toggle__three `} />
     </div>
   )
 }
 
 export function NavBar() {
-  const [isLargeScreen, setIsLargeScreen] = useState(true)
+  const { data: session } = useSession()
+  const pathname = usePathname()
+  const [dropDown, setDropDown] = useState(false)
+  const [yOffset, setYOffset] = useState(typeof window !== 'undefined' ? window?.scrollY : 0)
+  const [top, setTop] = useState(pathname === '/')
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(true)
+  const [logout, setLogout] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 768)
-    }
+    window.addEventListener('click', (e) => {
+      if (!ref?.current?.contains(e.target)) setDropDown(false)
+    })
+  })
+  useEffect(() => {
+    setTop(yOffset < 100 && pathname === '/' && !dropDown)
+  }, [dropDown, pathname, yOffset])
+  function handleScroll() {
+    const currentYOffset = window.scrollY
+    const naik = yOffset >= currentYOffset || currentYOffset < 100
 
-    // Initial check on mount
-    handleResize()
-
-    // Add event listener for resize
-    window.addEventListener('resize', handleResize)
-
-    // Cleanup event listener on unmount
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  return isLargeScreen ? <NavBarLarge /> : <NavBarSmall />
+    setYOffset(currentYOffset)
+    setVisible(naik)
+    setDropDown(dropDown && visible)
+  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  })
+  const route = [
+    {
+      name: 'Order',
+      path: '/order',
+    },
+    {
+      name: 'Inventory',
+      path: '/inventory',
+    },
+    {
+      name: 'Delivery',
+      path: '/delivery',
+    },
+    {
+      name: 'Recipe',
+      path: '/recipe',
+    },
+  ]
+  async function HandleLogout(refreshToken) {
+    signOut()
+    await axios.delete('/auth/logout', {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    })
+  }
+  return (
+    <nav className="relative flex h-full w-full flex-row justify-between border-b lg:px-10 lg:py-5">
+      <Link href="/">
+        <Image src="/assets/page/tumbas_logo.svg" width={140} height={42} alt="Logo" />
+      </Link>
+      <div className="hidden flex-row gap-8 lg:flex">
+        {route.map((item) => (
+          <Link
+            className={`font-poppins flex flex-col items-center justify-center text-sm font-bold lg:text-xl  ${
+              pathname.includes(item.path) ? 'text-ijo1' : 'text-black hover:text-ijo3'
+            }`}
+            key={item.path}
+            href={item.path}
+          >
+            {item.name}
+            {pathname.includes(item.path) && (
+              <div className="h-[3px] w-5 rounded-full bg-ijo1" />
+            )}{' '}
+          </Link>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={() => setLogout(!logout)}
+        className="relative flex flex-row items-center gap-3 text-black"
+      >
+        <IoPersonCircle className="hidden h-10 w-10 text-xl text-black lg:flex" />{' '}
+        {session?.user?.name}
+        {logout && (
+          <div className="absolute top-[100%] bg-white px-4 py-3 hover:bg-slate-200">
+            <button
+              key="Logout"
+              type="button"
+              onClick={() => HandleLogout(session?.user?.refreshToken)}
+              className=" flex w-[90px] flex-row items-center gap-2 text-red-600 hover:text-red-500"
+            >
+              <IoLogOutOutline className="h-5 w-5 text-xl" /> Log Out
+            </button>
+          </div>
+        )}
+      </button>
+      <button
+        ref={ref}
+        type="button"
+        className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 focus:outline-none lg:hidden "
+        onClick={() => setDropDown(!dropDown)}
+      >
+        <Icon active={dropDown} top={top} />
+      </button>
+      <div
+        className={`absolute top-[100%] flex w-full flex-col items-center justify-center gap-4 bg-white ${
+          dropDown ? '' : 'hidden'
+        }`}
+      >
+        <div className="w-full">
+          <IoPersonCircle className="hidden h-10 w-10 text-xl text-black lg:flex" />{' '}
+          {session?.user?.name}
+        </div>
+        {route.map((item) => (
+          <Link
+            className={`font-poppins flex w-full flex-col items-center justify-center text-sm font-bold lg:text-xl  ${
+              pathname.includes(item.path) ? 'text-ijo1' : 'text-black hover:text-ijo3'
+            }`}
+            key={item.path}
+            href={item.path}
+          >
+            {item.name}
+            {pathname.includes(item.path) && (
+              <div className="h-[3px] w-5 rounded-full bg-ijo1" />
+            )}{' '}
+          </Link>
+        ))}
+        <button
+          key="Logout"
+          type="button"
+          onClick={() => HandleLogout(session?.user?.refreshToken)}
+          className=" flex w-[90px] flex-row items-center gap-2 text-red-600 hover:text-red-500"
+        >
+          <IoLogOutOutline className="h-5 w-5 text-xl" /> Log Out
+        </button>
+      </div>
+    </nav>
+  )
 }
 
 export default NavBar

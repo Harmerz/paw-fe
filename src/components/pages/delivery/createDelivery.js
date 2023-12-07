@@ -1,11 +1,33 @@
+import { useState } from 'react'
 import { IoSaveSharp } from 'react-icons/io5'
 
+import { NavBar } from '@/components/elements/navbar'
+import { usePostDelivery } from '@/hooks/delivery'
+
 export function Create() {
+  const postDeliveryMutation = usePostDelivery()
+
+  const [recipient, setRecipient] = useState('')
+  const [orderItems, setOrderItems] = useState('')
+  const [courier, setCourier] = useState('')
+  const [estimedTime, setEstimedTime] = useState('')
+
+  function handleSubmit() {
+    const updatedData = {
+      recipient,
+      orderItems,
+      courier,
+      estimedTime,
+    }
+    postDeliveryMutation.mutate(updatedData)
+  }
+
   return (
     <div className="flex min-h-screen bg-white">
       <div className="w-1/6 flex-none" />
 
       <div className="w-2/3 flex-grow bg-white">
+        <NavBar />
         <div
           className="pb-6 pt-8 text-xl 
         font-bold text-black  
@@ -33,7 +55,8 @@ export function Create() {
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            placeholder="Tono"
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="Recipient"
           />
         </div>
 
@@ -55,7 +78,8 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            placeholder="Sate rendang Kukus"
+            onChange={(e) => setOrderItems(e.target.value)}
+            placeholder="Ordered Items"
           />
         </div>
 
@@ -77,7 +101,8 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            placeholder="Dudung"
+            onChange={(e) => setCourier(e.target.value)}
+            placeholder="Courier"
           />
         </div>
 
@@ -99,7 +124,8 @@ export function Create() {
             text-black 
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            placeholder="23-11-2023"
+            onChange={(e) => setEstimedTime(e.target.value)}
+            placeholder="Estimed Time"
           />
         </div>
       </div>
@@ -107,9 +133,10 @@ export function Create() {
       <div className="white relative w-1/6 flex-none">
         <button
           type="button"
+          onClick={handleSubmit}
           className="absolute bottom-12  left-1/2 flex h-[48px] -translate-x-1/2 transform cursor-pointer 
-          items-center rounded bg-ijo3 px-4 py-2 font-bold text-white
-          text-xs
+          items-center rounded bg-ijo3 px-4 py-2 text-xs font-bold
+          text-white
           md:text-sm
           lg:text-base"
         >
