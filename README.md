@@ -18,7 +18,7 @@ Tumbas is a web app made specifically for grocery store, in which people can bro
 ## 😵‍💫 Features
 
 - ### Sign In dan Sign Up<br>
-  In this web app, there are user side and admin side with different authorization, therefore sign up and sign in are needed. There is usign next-auth for get the session to choose between user or admin for using the service<br>
+  In this web app, there are user side and admin side with different authorization, therefore sign up and sign in are needed. There is using next-auth for get the session to choose between user or admin for using the service<br>
 - ### Choosing Groceries<br>
   Users can browse and selecte grocery, this feature is stored as inventory in the folder<br>
 - ### Order Management<br>
@@ -78,3 +78,6 @@ npm install
 ```
 npm start
 ```
+### Folder structuring
+![image](https://github.com/Harmerz/paw-fe/assets/54217524/e6d67075-514e-4806-b8a8-3e816d213243)
+
