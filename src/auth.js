@@ -33,18 +33,24 @@ export const options = {
               Authorization: `Bearer ${res.data.accessToken}`,
             },
           })
+          let roles = 'user'
+          if (user.data.roles[0] === '65147aedb2c4d57d24860f31') {
+            roles = 'koki'
+          } else if (user.data.roles[0] === '65147aedb2c4d57d24860f32') {
+            roles = 'admin'
+          }
+
           const { data } = res
           return {
             id: user.data.id,
             email: user.data.email,
             name: user.data.name ?? '',
-            role: user.data.roles[0],
+            role: roles,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
             accessTokenExpires: Date.now() + ACCESS_TOKEN_EXP_AUTH_OPTION_IN_MS,
           }
         } catch (err) {
-          // console.log(err)
           // Backend is NOT okay, so we directly throw the error from backend
           const errMessage = err.response
           if (errMessage) {
@@ -73,6 +79,7 @@ export const options = {
       if (user) {
         return {
           ...token,
+          id: user.id,
           username: user.username,
           role: user.role,
           accessToken: user.accessToken,
@@ -98,6 +105,7 @@ export const options = {
         ...session,
         user: {
           ...session.user,
+          id: token.id,
           username: token.username,
           role: token.role,
           accessToken: token.accessToken,

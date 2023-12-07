@@ -27,7 +27,6 @@ export function LoginForm() {
       throw Error.message(err)
     }
   }
-  // axios.get('/ping').then((res) => console.log(res))
 
   const onFinishFailed = (errorInfo) => {
     throw Error.message('Failed:', errorInfo)

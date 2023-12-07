@@ -27,7 +27,6 @@ export const useDeleteDelivery = () => {
       if (!accessToken) {
         return null
       }
-      console.log('id', id)
       const res = await axios.delete(`/delivery/${id}`, {
         headers,
       })
@@ -44,7 +43,6 @@ export const usePutDelivery = () => {
   return useApiMutation2({
     queryKey: ['delivery'],
     mutationFun: async (_, data) => {
-      console.log(data)
       if (!accessToken) {
         return null
       }

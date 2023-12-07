@@ -21,3 +21,123 @@ body {
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
 }
+
+.toggle__container {
+  cursor: pointer;
+  transition: 3s;
+}
+
+.toggle {
+  width: 20px;
+  height: 2px;
+  margin: 3px 0px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 1s;
+}
+
+.toggle__one {
+  animation: toggleone__rev 1s;
+}
+
+.toggle__two {
+  animation: toggletwo__rev 1s;
+}
+
+.toggle__three {
+  animation: togglethree__rev 1s;
+}
+
+.no-animation {
+  animation: none;
+}
+
+.active .toggle__one {
+  animation: toggleone 1s forwards;
+}
+
+.active .toggle__two {
+  animation: toggletwo 1s forwards;
+}
+
+.active .toggle__three {
+  animation: togglethree 1s forwards;
+}
+
+@keyframes toggleone {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(5px) rotate(135deg);
+  }
+}
+
+@keyframes toggleone__rev {
+  0% {
+    transform: translateY(5px) rotate(135deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes toggletwo {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes toggletwo__rev {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes togglethree {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-5px) rotate(45deg);
+  }
+}
+
+@keyframes togglethree__rev {
+  0% {
+    transform: translateY(-5px) rotate(45deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}

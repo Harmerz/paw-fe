@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { authMiddleware, publicMiddleware } from './middlewares'
+import { adminMiddleware, authMiddleware, publicMiddleware } from './middlewares'
 
 export default async function middleware(req) {
   const resPub = await publicMiddleware(req)
@@ -8,6 +8,10 @@ export default async function middleware(req) {
 
   const resAuth = await authMiddleware(req)
   if (!resAuth.ok) return resAuth
+
+  const admin = await adminMiddleware(req)
+  if (admin) return admin
+
   return NextResponse.next()
 }
 
