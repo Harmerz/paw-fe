@@ -16,6 +16,7 @@ export default function Modal({ data, show, onClose, children }) {
   const router = useRouter()
   const { data: session } = useSession()
 
+  // Create modal DOM node on component mount and remove it on unmount
   useEffect(() => {
     const modalRoot = document.createElement('div')
     document.body.appendChild(modalRoot)
@@ -27,6 +28,8 @@ export default function Modal({ data, show, onClose, children }) {
   }, [])
 
   const { mutate: editRecipe } = usePutRecipe(data._id)
+
+  // Function to handle form submission for updating recipe
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
@@ -47,11 +50,13 @@ export default function Modal({ data, show, onClose, children }) {
     }
   }
 
+  // Function to handle modal closure
   const handleClose = (e) => {
     e.preventDefault()
     onClose()
   }
 
+  // Render modal content based on 'show' prop
   const modalContent = show ? (
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-70 bg-center">
       <div className="z-10 h-4/5 max-h-[80vh] w-3/4 overflow-y-auto rounded-lg bg-white p-4">
@@ -138,5 +143,6 @@ export default function Modal({ data, show, onClose, children }) {
     </div>
   ) : null
 
+  // Create a portal for rendering the modal outside of the component hierarchy
   return modalNode && show ? createPortal(modalContent, modalNode) : null
 }

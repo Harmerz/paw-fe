@@ -13,18 +13,19 @@ import { useDeleteRecipe, useGetOneRecipe } from '@/hooks/recipe'
 
 export function RecipeDetail({ params }) {
   const router = useRouter()
-  const { data: recipeData, isLoading, refetch } = useGetOneRecipe(params.id)
+  const { data: recipeData, isLoading, refetch } = useGetOneRecipe(params.id) // Fetch single recipe data
 
   const [showModal, setShowModal] = useState(false)
   const { mutate } = useDeleteRecipe()
   const { data: session } = useSession()
 
   useEffect(() => {
-    refetch()
+    refetch() // Refetch recipe data when ID changes or on component mount
   }, [params.id, refetch])
 
-  const recipeDetail = recipeData || []
+  const recipeDetail = recipeData || [] // Store recipe data or an empty object if no data is available
 
+  // Function to handle recipe deletion
   const handleDelete = () => {
     try {
       mutate(params.id)
@@ -34,6 +35,7 @@ export function RecipeDetail({ params }) {
     }
   }
 
+  // Function to format ingredients into an array
   const ingrArray = () => {
     if (recipeDetail.ingredient && recipeDetail.ingredient.length > 0) {
       const elements = recipeDetail.ingredient[0].split(',') // Memisahkan string menjadi array dengan satu elemen
@@ -46,6 +48,7 @@ export function RecipeDetail({ params }) {
     return []
   }
 
+  // Function to format instructions into an array
   const insArray = () => {
     if (recipeDetail.instruction && recipeDetail.instruction.length > 0) {
       const elements = recipeDetail.instruction[0].split('.') // Memisahkan string menjadi array dengan satu elemen
