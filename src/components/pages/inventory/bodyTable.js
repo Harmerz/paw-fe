@@ -9,15 +9,27 @@ import {
   useGetInventory,
 } from '@/hooks/inventory';
 
-export function BodyTable() {
+export function BodyTable({category, search}) {
   const { data: inventoryData, isLoading, refetch } = useGetInventory();
   const { mutate: InventoryDelete, isError } = useDeleteInvetory();
-  const [tableData, setTableData] = useState(inventoryData ?? [])
-  // const { mutate: PostInventory } = usePostInventory();
-  useEffect(()=>{
+  const [tableData, setTableData] = useState(inventoryData ?? []);
+  console.log(inventoryData)
+  console.log(tableData, category)
 
-    setTableData(inventoryData)
-  },[inventoryData])
+  useEffect(()=>{
+let filteredData = inventoryData;
+
+if (category) {
+  filteredData = filteredData.filter((e) => e.type === category?.toLowerCase());
+}
+
+if (search) {
+  const regex = new RegExp(search, 'i');
+  filteredData = filteredData.filter((e) => regex.test(e.name));
+}
+
+setTableData(filteredData);
+}, [inventoryData, category, search]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,16 +45,6 @@ export function BodyTable() {
     InventoryDelete(id);
     refetch()
   }
-  
-    // PostInventory({
-    //   desc: 'Ikan yang ada di promosi KFC Malaysia',
-    //   name: 'Ikan Bilis',
-    //   price: 2.2,
-    //   qtype: 'kg',
-    //   quantity: 98,
-    //   type: 'fish',
-    // });
-  
 
   return (
     <tbody>
