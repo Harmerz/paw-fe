@@ -70,7 +70,7 @@ export function LoginForm() {
         </Form.Item>
         <div className="text-center text-red-500">{wrong && 'Wrong Username or Password!'}</div>
         <button
-          className={`flex w-full items-center justify-between gap-4 rounded-lg px-4 py-3 text-center text-white ${
+          className={`flex w-full items-center gap-4 rounded-lg px-4 py-3 text-center text-white ${
             loading ? 'justify-between bg-ijo3' : 'justify-center bg-ijo1'
           }`}
           type="submit"
