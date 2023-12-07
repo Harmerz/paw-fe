@@ -104,7 +104,7 @@ export function NavBar() {
         className="relative flex flex-row items-center gap-3 text-black"
       >
         <IoPersonCircle className="hidden h-10 w-10 text-xl text-black lg:flex" />{' '}
-        {session.user.name}
+        {session?.user?.name}
         {logout && (
           <div className="absolute top-[100%] bg-white px-4 py-3 hover:bg-slate-200">
             <button
@@ -131,6 +131,10 @@ export function NavBar() {
           dropDown ? '' : 'hidden'
         }`}
       >
+        <div className="w-full">
+          <IoPersonCircle className="hidden h-10 w-10 text-xl text-black lg:flex" />{' '}
+          {session?.user?.name}
+        </div>
         {route.map((item) => (
           <Link
             className={`font-poppins flex w-full flex-col items-center justify-center text-sm font-bold lg:text-xl  ${
@@ -143,6 +147,14 @@ export function NavBar() {
             {pathname === item.path && <div className="h-[3px] w-5 rounded-full bg-ijo1" />}{' '}
           </Link>
         ))}
+        <button
+          key="Logout"
+          type="button"
+          onClick={() => HandleLogout(session?.user?.refreshToken)}
+          className=" flex w-[90px] flex-row items-center gap-2 text-red-600 hover:text-red-500"
+        >
+          <IoLogOutOutline className="h-5 w-5 text-xl" /> Log Out
+        </button>
       </div>
     </nav>
   )
