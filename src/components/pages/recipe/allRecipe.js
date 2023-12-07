@@ -15,11 +15,11 @@ export function AllRecipe() {
   const recipeCard = recipeData || []
 
   return (
-    <div className="min-h-screen w-full bg-white p-8">
+    <div className="min-h-screen w-full bg-white">
       <NavBar />
       <div className="flex flex-col items-center">
         {session?.user?.role === 'admin' && (
-          <div className="mb-8 ml-auto">
+          <div className="m-8 ml-auto">
             <Link href="/recipe/create">
               <button
                 type="button"

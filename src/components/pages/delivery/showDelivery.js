@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 
 export function ShowDelivery({ children }) {
+  const { data: session } = useSession()
   return (
     <div className="min-h-screen bg-white bg-contain">
       <NavBar />
@@ -34,16 +36,18 @@ export function ShowDelivery({ children }) {
             lg:h-[24px] lg:w-[24px] lg:text-xl"
               />
             </div>
-            <div className="flex">
-              <Link href="/delivery/create">
-                <button
-                  type="button"
-                  className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-xs text-white md:text-base lg:text-xl"
-                >
-                  +Add Delivery
-                </button>
-              </Link>
-            </div>
+            {session?.user?.role === 'admin' && (
+              <div className="flex">
+                <Link href="/delivery/create">
+                  <button
+                    type="button"
+                    className="font-poppins cursor-pointer rounded bg-ijo1 px-4 py-2 text-xs text-white md:text-base lg:text-xl"
+                  >
+                    +Add Delivery
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
           <div className="w-full overflow-x-auto rounded-lg shadow">
             <table className="mx-2 mt-5 table w-full text-left">

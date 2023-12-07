@@ -1,13 +1,25 @@
-import 'react-datepicker/dist/react-datepicker.css'
-
+import { DatePicker } from 'antd'
+import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import localeData from 'dayjs/plugin/localeData'
+import weekday from 'dayjs/plugin/weekday'
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+import weekYear from 'dayjs/plugin/weekYear'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import DatePicker from 'react-datepicker'
-import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
+import { IoAdd, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory } from '@/hooks/inventory'
 import { useGetOneOrder, useUpdateOrder } from '@/hooks/order'
+
+dayjs.extend(customParseFormat)
+dayjs.extend(advancedFormat)
+dayjs.extend(weekday)
+dayjs.extend(localeData)
+dayjs.extend(weekOfYear)
+dayjs.extend(weekYear)
 
 export function Update({ id }) {
   const router = useRouter()
@@ -108,7 +120,7 @@ export function Update({ id }) {
   function handleUpdateData() {
     const orderData = {
       id: data?._id,
-      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      date: selectedDate ? new Date(selectedDate)?.toISOString() : new Date().toISOString(),
       items: items.map((item) => ({
         inventory: {
           inventoryId: item.inventory.id ? item.inventory.id : item.inventory._id,
@@ -123,7 +135,7 @@ export function Update({ id }) {
 
     UpdateOrder({ id, data: orderData })
 
-    router.replace('/order')
+    router.push('/order')
   }
 
   return (
@@ -140,24 +152,10 @@ export function Update({ id }) {
           <div className="pb-2 font-bold text-black">Date</div>
           <div className="relative w-full pb-4">
             <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              dateFormat="dd-MM-yyyy"
-              className="w-full rounded-md bg-gray-200 text-black"
-              placeholderText="Select Date"
-              customInput={
-                <div className="relative w-full">
-                  <input
-                    className="h-[66px] w-full rounded-md bg-gray-200 p-2 text-black"
-                    value={selectedDate ? selectedDate.toLocaleDateString('id-ID') : ''}
-                    placeholder="Select Date"
-                    readOnly
-                  />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
-                    <IoCalendarSharp className="text-black" />
-                  </div>
-                </div>
-              }
+              defaultValue={dayjs(data?.date?.split('T')[0] ?? '')}
+              onChange={(_, e) => {
+                setSelectedDate(e)
+              }}
             />
           </div>
 

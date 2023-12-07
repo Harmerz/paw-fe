@@ -1,7 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { IoAdd, IoCalendarSharp, IoChevronDownSharp, IoRemove, IoSaveSharp } from 'react-icons/io5'
 
@@ -18,11 +18,13 @@ export function Create() {
 
   const { mutate: PostOrder } = usePostOrder()
 
-  const { data: inventoryData, isLoading } = useGetInventory()
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const { data: inventoryData } = useGetInventory()
+  const ref = useRef(null)
+  useEffect(() => {
+    window.addEventListener('click', (e) => {
+      if (!ref?.current?.contains(e.target) && isShowItemDropdown) setShowItemDropdown(false)
+    })
+  })
 
   const InventoryData = inventoryData || []
 
@@ -131,16 +133,21 @@ export function Create() {
             {items.map((item, index) => (
               <div key={item.id} className="relative flex flex-row items-center gap-2">
                 <button
+                  ref={ref}
                   type="button"
-                  className="flex h-[66px] cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
+                  className="flex h-[66px] w-40 cursor-pointer flex-row items-center justify-between rounded bg-gray-200 px-4 py-4 text-black"
                   onClick={() => setShowItemDropdown(!isShowItemDropdown)}
                 >
                   <div />
-                  {item.item && <span className="text-left text-black">{item.item.name}</span>}
+                  {item.item ? (
+                    <span className="text-left text-black">{item.item.name}</span>
+                  ) : (
+                    <span className="text-left text-gray-400">Item Name</span>
+                  )}
                   <IoChevronDownSharp className="ml-2 text-black" />
                 </button>
                 {isShowItemDropdown && (
-                  <div className="absolute mt-1 w-full rounded border border-gray-300 bg-white">
+                  <div className="absolute top-[100%] mt-1 max-h-[400px] w-fit overflow-y-scroll rounded border border-gray-300 bg-white">
                     {InventoryData.map((inventoryItem) => (
                       <div
                         key={inventoryItem._id}

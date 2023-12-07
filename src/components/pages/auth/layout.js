@@ -19,6 +19,7 @@ export function LayoutAuth({ children }) {
           src={`/assets/page/auth/${router === '/auth/signin' ? 'signin' : 'signup'}.png`}
           alt="Auth Image"
           fill
+          objectFit="cover"
         />
       </div>
       <div className="w-1/3">

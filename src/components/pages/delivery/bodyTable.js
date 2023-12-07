@@ -12,7 +12,7 @@ export function BodyTable() {
 
   if (isLoading) {
     return (
-      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto border">
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto">
         <LuLoader className=" h-10 w-10 animate-spin text-black" />
       </tbody>
     )
@@ -20,7 +20,7 @@ export function BodyTable() {
 
   if (isError) {
     return (
-      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto border">
+      <tbody className="flex h-[60vh] max-h-[60vh] w-full items-center justify-center overflow-auto">
         <LuLoader className=" h-10 w-10 animate-spin text-black" />
         There is Error when fetch the data
       </tbody>
@@ -42,7 +42,10 @@ export function BodyTable() {
   return (
     <tbody>
       {deliveryCard.map((data, index) => (
-        <tr key={data._id} className="text-xs font-bold text-black md:text-base lg:text-xl">
+        <tr
+          key={data._id}
+          className="border text-xs font-bold text-black hover:bg-slate-200 md:text-base lg:text-xl"
+        >
           <td className="py-2 pl-3">{index + 1}</td>
           <td className="py-4 pl-3">{data.recipient}</td>
           <td className="py-2 pl-3">{data.orderItems}</td>
