@@ -3,6 +3,10 @@
 </h1>
 <p align="center">Web App Frontend | Pengembangan Aplikasi Web</p>
 
+## Deployments
+https://paw-fe.vercel.app/
+Email and password on the video and slides ppt
+
 ## 📃 Table of Contents
 
 - About
