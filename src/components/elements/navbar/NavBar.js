@@ -88,13 +88,15 @@ export function NavBar() {
         {route.map((item) => (
           <Link
             className={`font-poppins flex flex-col items-center justify-center text-sm font-bold lg:text-xl  ${
-              pathname === item.path ? 'text-ijo1' : 'text-black hover:text-ijo3'
+              pathname.includes(item.path) ? 'text-ijo1' : 'text-black hover:text-ijo3'
             }`}
             key={item.path}
             href={item.path}
           >
             {item.name}
-            {pathname === item.path && <div className="h-[3px] w-5 rounded-full bg-ijo1" />}{' '}
+            {pathname.includes(item.path) && (
+              <div className="h-[3px] w-5 rounded-full bg-ijo1" />
+            )}{' '}
           </Link>
         ))}
       </div>
@@ -138,13 +140,15 @@ export function NavBar() {
         {route.map((item) => (
           <Link
             className={`font-poppins flex w-full flex-col items-center justify-center text-sm font-bold lg:text-xl  ${
-              pathname === item.path ? 'text-ijo1' : 'text-black hover:text-ijo3'
+              pathname.includes(item.path) ? 'text-ijo1' : 'text-black hover:text-ijo3'
             }`}
             key={item.path}
             href={item.path}
           >
             {item.name}
-            {pathname === item.path && <div className="h-[3px] w-5 rounded-full bg-ijo1" />}{' '}
+            {pathname.includes(item.path) && (
+              <div className="h-[3px] w-5 rounded-full bg-ijo1" />
+            )}{' '}
           </Link>
         ))}
         <button
