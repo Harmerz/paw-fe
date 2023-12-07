@@ -1,7 +1,7 @@
 <h1 align="center">
   Tumbas
 </h1>
-<p align="center">Web App Frontend | Pengembangan Aplikasi Web</p>
+<p align="center">Web App Frontend | Pengembangan Aplikasi Web | NEXTJS 13</p>
 
 ## Deployments
 https://paw-fe.vercel.app/
