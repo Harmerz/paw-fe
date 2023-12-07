@@ -7,11 +7,13 @@ import { usePostDelivery } from '@/hooks/delivery'
 export function Create() {
   const postDeliveryMutation = usePostDelivery()
 
+  // stored data from user input
   const [recipient, setRecipient] = useState('')
   const [orderItems, setOrderItems] = useState('')
   const [courier, setCourier] = useState('')
   const [estimedTime, setEstimedTime] = useState('')
 
+  // submit data from frontend
   function handleSubmit() {
     const updatedData = {
       recipient,

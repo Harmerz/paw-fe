@@ -16,15 +16,5 @@ export const ACCESS_TOKEN_EXP_AUTH_REVALIDATE = ACCESS_TOKEN_EXP - 3
 export const PUBLIC_PAGES_OBJ = {
   signIn: '/auth/signin',
   signUp: '/auth/signup',
-  needVerify: '/need-verify',
-  unverified: '/unverified',
-  verified: '/verified',
-  verifyEmail: '/verify-email',
-  resendActivation: '/resend-activation',
-
-  // forget password
-  forgetPassword: '/forget-password',
-  forgetPasswordEmailSent: '/forget-password-email-sent',
-  resetPassword: '/reset-password',
 }
 export const PUBLIC_PAGES = Object.values(PUBLIC_PAGES_OBJ).map((v) => v)

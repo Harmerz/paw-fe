@@ -6,6 +6,7 @@ import { IoSearch } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 
+// fetch data from bodytable
 export function ShowDelivery({ children }) {
   const { data: session } = useSession()
   return (
