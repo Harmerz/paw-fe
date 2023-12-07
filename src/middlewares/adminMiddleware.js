@@ -17,6 +17,7 @@ const adminPathNameRegex = RegExp(
 )
 
 export async function adminMiddleware(req) {
+  // Check if the user is authenticated and has an admin role
   const isAdminPage = adminPathNameRegex.test(req.nextUrl.pathname)
   const token = await getToken({ req })
 
