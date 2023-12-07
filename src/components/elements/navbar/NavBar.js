@@ -33,11 +33,13 @@ export function NavBar() {
   const [visible, setVisible] = useState(true)
   const [logout, setLogout] = useState(false)
 
+  // Close dropdown if click outside the box
   useEffect(() => {
     window.addEventListener('click', (e) => {
       if (!ref?.current?.contains(e.target)) setDropDown(false)
     })
   })
+
   useEffect(() => {
     setTop(yOffset < 100 && pathname === '/' && !dropDown)
   }, [dropDown, pathname, yOffset])
@@ -49,6 +51,8 @@ export function NavBar() {
     setVisible(naik)
     setDropDown(dropDown && visible)
   }
+
+  // handle the scroll
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -71,6 +75,8 @@ export function NavBar() {
       path: '/recipe',
     },
   ]
+
+  // Delete all session on cookies for logout
   async function HandleLogout(refreshToken) {
     signOut()
     await axios.delete('/auth/logout', {

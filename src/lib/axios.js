@@ -5,12 +5,9 @@ const axios = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
 })
 
+// This is for fetching WITH access token
 const api = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-})
-
-const crawler = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_CRAWLER_URL,
 })
 
 const setTokenApi = (token) => {
@@ -21,4 +18,4 @@ const setTokenApi = (token) => {
   })
 }
 
-export { api, axios, crawler, setTokenApi }
+export { api, axios, setTokenApi }

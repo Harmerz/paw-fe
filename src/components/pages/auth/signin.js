@@ -9,6 +9,8 @@ export function LoginForm() {
   const router = useRouter()
   const [wrong, setWrong] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  // Set Loading and using Signin credentials on next-auth define in src/auth.js
   const onFinish = async (e) => {
     try {
       const res = await signIn('credentials', {

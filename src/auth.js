@@ -6,6 +6,7 @@ import { refreshAccessToken } from '@/lib/refreshAccessToken'
 
 export const options = {
   providers: [
+    // Using define credential custon for login in next-auth
     Credentials({
       id: 'credentials',
       name: 'Credentials',
@@ -33,6 +34,8 @@ export const options = {
               Authorization: `Bearer ${res.data.accessToken}`,
             },
           })
+
+          // Define the roles
           let roles = 'user'
           if (user.data.roles[0] === '65147aedb2c4d57d24860f31') {
             roles = 'koki'
@@ -41,6 +44,7 @@ export const options = {
           }
 
           const { data } = res
+          // Return to session
           return {
             id: user.data.id,
             email: user.data.email,
@@ -87,6 +91,7 @@ export const options = {
           refreshToken: user.refreshToken,
         }
       }
+      // Refetch the access token every Access token is expire
       if (
         Date.now() > token.accessTokenExpires ||
         token.accessToken === 'RefreshAccessTokenError'
@@ -101,6 +106,7 @@ export const options = {
       return token
     },
     async session({ session, token }) {
+      // To get session when call in components/pages
       return {
         ...session,
         user: {

@@ -6,6 +6,7 @@ export const publicPages = ['/', '/auth/signin', '/auth/signup']
 const publicPathnameRegex = RegExp(`^/?(${publicPages.join('|')})?/?$`, 'i')
 
 export async function publicMiddleware(req) {
+  // Is user on a public routes
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname)
   const token = await getToken({ req })
 
