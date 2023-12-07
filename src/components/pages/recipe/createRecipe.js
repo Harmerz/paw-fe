@@ -34,103 +34,104 @@ export function Create() {
   console.log(addRecipe)
 
   return (
-    <div className="relative flex min-h-screen bg-white">
+    <div className="bg-white">
       <NavBar />
-      <div className="w-1/6 flex-none" />
+      <div className="relative flex min-h-screen bg-white">
+        <div className="w-1/6 flex-none" />
+        <div className="w-2/3 flex-grow bg-white">
+          <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
+            Create Recipe
+          </div>
 
-      <div className="w-2/3 flex-grow bg-white">
-        <div className="text-md pb-6 pt-8 font-bold text-black md:text-xl lg:text-3xl">
-          Create Recipe
-        </div>
-
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Name</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Nama masakan"
-          />
-        </div>
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nama masakan"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Description</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Description</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Deskripsi dari masakan"
-          />
-        </div>
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Deskripsi dari masakan"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Ingredients</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Ingredients</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}
-            placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
-          />
-        </div>
+              value={ingredient}
+              onChange={(e) => setIngredient(e.target.value)}
+              placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Instruction</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={instruction}
-            onChange={(e) => setInstruction(e.target.value)}
-            placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
-          />
-        </div>
+              value={instruction}
+              onChange={(e) => setInstruction(e.target.value)}
+              placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
+            />
+          </div>
 
-        <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
-        <div className="pb-4">
-          <input
-            type="text"
-            className="h-[22px]  w-3/4 
+          <div className="md:text-md mt-2 text-sm font-bold lg:text-lg">Image</div>
+          <div className="pb-4">
+            <input
+              type="text"
+              className="h-[22px]  w-3/4 
             rounded-md bg-gray-200 
             p-3 text-xs
             text-black
             md:h-[44px] md:text-sm
             lg:h-[66px] lg:text-base"
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
-            placeholder="Gambar masakan"
-          />
-        </div>
+              value={imgUrl}
+              onChange={(e) => setImgUrl(e.target.value)}
+              placeholder="Link gambar masakan"
+            />
+          </div>
 
-        <div className="white relative w-1/6 flex-none">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="bottom-0 right-0 mb-2 mr-2 flex cursor-pointer items-center justify-end space-x-2 rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
-          >
-            <IoSaveSharp className="mr-2" /> Save
-          </button>
+          <div className="white relative w-1/6 flex-none">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="bottom-0 right-0 mb-2 mr-2 flex cursor-pointer items-center justify-end space-x-2 rounded bg-ijo3 px-4 py-2 text-xs text-white md:text-sm lg:text-base"
+            >
+              <IoSaveSharp className="mr-2" /> Save
+            </button>
+          </div>
         </div>
       </div>
     </div>

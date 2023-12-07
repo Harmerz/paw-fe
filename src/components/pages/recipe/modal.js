@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { IoSaveSharp } from 'react-icons/io5'
@@ -13,6 +14,8 @@ export default function Modal({ data, show, onClose, children }) {
   const [instruction, setInstruction] = useState(data.instruction)
   const [imgUrl, setImgUrl] = useState(data.imgUrl)
   const router = useRouter()
+  const { data: session } = useSession()
+  console.log(session)
 
   useEffect(() => {
     const modalRoot = document.createElement('div')
@@ -33,6 +36,7 @@ export default function Modal({ data, show, onClose, children }) {
     formData.append('ingredient', ingredient)
     formData.append('instruction', instruction)
     formData.append('imgUrl', imgUrl)
+    formData.append('userId', session.user.id)
     const jsonObject = Object.fromEntries(formData)
     try {
       await editRecipe(jsonObject)
@@ -53,7 +57,7 @@ export default function Modal({ data, show, onClose, children }) {
 
   const modalContent = show ? (
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-70 bg-center">
-      <div className="h-600 z-10 w-3/4 rounded-lg bg-white p-4">
+      <div className="z-10 h-4/5 max-h-[80vh] w-3/4 overflow-y-auto rounded-lg bg-white p-4">
         <div className="flex justify-end text-base">
           <button type="button" onClick={handleClose} className="text-ijo2">
             Close
@@ -70,7 +74,7 @@ export default function Modal({ data, show, onClose, children }) {
               <div className="pb-4">
                 <input
                   type="text"
-                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  className="h-[22px] w-full rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama masakan"
@@ -81,7 +85,7 @@ export default function Modal({ data, show, onClose, children }) {
               <div className="pb-4">
                 <input
                   type="text"
-                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  className="h-[22px] w-full rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Deskripsi dari masakan"
@@ -92,7 +96,7 @@ export default function Modal({ data, show, onClose, children }) {
               <div className="pb-4">
                 <input
                   type="text"
-                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  className="h-[22px] w-full rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
                   value={ingredient}
                   onChange={(e) => setIngredient(e.target.value)}
                   placeholder="Bahan-bahan dari masakan (pisahkan dengan tanda koma)"
@@ -103,7 +107,7 @@ export default function Modal({ data, show, onClose, children }) {
               <div className="pb-4">
                 <input
                   type="text"
-                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  className="h-[22px] w-full rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
                   value={instruction}
                   onChange={(e) => setInstruction(e.target.value)}
                   placeholder="Langkah-langkah dalam memasak (pisahkan dengan tanda titik)"
@@ -114,7 +118,7 @@ export default function Modal({ data, show, onClose, children }) {
               <div className="pb-4">
                 <input
                   type="text"
-                  className="h-[22px] w-3/4 rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
+                  className="h-[22px] w-full rounded-md bg-gray-200 p-3 text-xs text-black md:h-[44px] md:text-sm lg:h-[66px] lg:text-base"
                   value={imgUrl}
                   onChange={(e) => setImgUrl(e.target.value)}
                   placeholder="Gambar masakan"

@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { NavBar } from '@/components/elements/navbar'
@@ -22,22 +23,23 @@ export function AllRecipe() {
       <NavBar />
       <div className="flex flex-col items-start">
         <div className="mb-8 ml-auto">
-          <button
-            onClick={() => router.push(`/recipe/create`)}
-            type="button"
-            className="font-poppins 
-            cursor-pointer 
-            rounded 
-            bg-ijo1 
-            px-4 
-            py-2 
-            text-xs 
-            text-white
-            md:text-base
-            lg:text-xl"
-          >
-            + Add Recipe
-          </button>
+          <Link href="/recipe/create">
+            <button
+              type="button"
+              className="font-poppins 
+              cursor-pointer 
+              rounded 
+              bg-ijo1 
+              px-4 
+              py-2 
+              text-xs 
+              text-white
+              md:text-base
+              lg:text-base"
+            >
+              + Add Recipe
+            </button>
+          </Link>
         </div>
         <div className="mt-4 flex">
           <div className="mt-4 flex-col">
