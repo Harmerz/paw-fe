@@ -10,7 +10,7 @@ export const options = {
       id: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'Email' },
+        username: { label: 'Username', type: 'username', placeholder: 'Username' },
         password: { label: 'Password', type: 'password', placeholder: 'Password' },
       },
       async authorize(credentials) {
@@ -18,7 +18,7 @@ export const options = {
           const res = await axios.post(
             '/auth/signin',
             {
-              email: credentials?.email,
+              username: credentials?.username,
               password: credentials?.password,
             },
             {
