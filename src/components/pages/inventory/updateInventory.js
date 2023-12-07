@@ -1,16 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5';
+import { useEffect, useState } from 'react'
+import { IoChevronDownSharp, IoSaveSharp } from 'react-icons/io5'
 
 import { NavBar } from '@/components/elements/navbar'
 import { useGetInventory, useUpdateInventory } from '@/hooks/inventory';
 
 export function Update({ id }) {
-  const updateInventoryMutation = useUpdateInventory();
-  const { data } = useGetInventory();
-  const dataDetail = data?.filter((e) => e._id === id[0])[0];
-
+  const updateInventoryMutation = useUpdateInventory()
+  const { data } = useGetInventory()
+  const dataDetail = data?.filter((e) => e._id === id[0])[0]
   const [name, setName] = useState(dataDetail?.name);
   const [description, setDescription] = useState(dataDetail?.desc);
   const [quantity, setQuantity] = useState(dataDetail?.quantity);
@@ -26,12 +25,11 @@ export function Update({ id }) {
       qtype,
       type,
       price,
-    };
+    }
 
     // Call the update mutation function
-    updateInventoryMutation.mutate({ id, data: updatedData });
+    updateInventoryMutation.mutate({ id, data: updatedData })
   }
-
 
   return (
     <div className='bg-white'><NavBar />

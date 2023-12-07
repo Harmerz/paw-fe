@@ -25,10 +25,9 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
   ];
 
   const { mutate: addInventory } = usePostInventory();
-  
-
+ 
   function handleClick() {
-    addInventory();
+    addInventory()
   }
 
   const handleClickFilter = (category) => {
@@ -71,7 +70,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
               </button>
             </Link>
           </div>
-          <div className="flex items-center mb-4 sm:mb-8">
+          <div className="mb-4 flex items-center sm:mb-8">
             <IoSearch className="absolute mx-4 mr-2 text-black" />
             <input
               type="text"
@@ -81,7 +80,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
               onKeyPress={handleKeyPress}
             />
           </div>
-          <div className="flex flex-wrap mt-4">
+          <div className="mt-4 flex flex-wrap">
             {categories.map((category) => (
               <button type='button'
                 key={category}
@@ -97,7 +96,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
               </button>
             ))}
           </div>
-          <table className="mx-2 mt-5 table w-full text-left overflow-x-auto">
+          <table className="mx-2 mt-5 table w-full overflow-x-auto text-left">
             <thead className="font-poppins bg-ijo4 text-ijo1">
               <tr>
                 <th className="py-2 pl-3">id</th>
@@ -116,7 +115,7 @@ export function Inventory({ children, selectedCategory, setSelectedCategory, sea
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Inventory;
+export default Inventory

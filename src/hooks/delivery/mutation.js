@@ -38,20 +38,21 @@ export const useDeleteDelivery = () => {
   return deleteDeliveryMutation
 }
 
-export const usePutDelivery = (id) => {
+export const usePutDelivery = () => {
   const { accessToken, headers } = useAccessToken()
 
   return useApiMutation2({
-    queryKey: ['delivery', id],
-    mutationFun: async (deliveryId, data) => {
+    queryKey: ['delivery'],
+    mutationFun: async (_, data) => {
+      console.log(data)
       if (!accessToken) {
         return null
       }
 
-      const url = `/delivery/${id}`
+      const url = `/delivery/${data.id[0]}`
 
       try {
-        const res = await axios.put(url, data, {
+        const res = await axios.put(url, data?.data, {
           headers,
         })
         return res?.data

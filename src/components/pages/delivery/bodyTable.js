@@ -1,95 +1,73 @@
+import Link from 'next/link'
 import { IoColorWandSharp, IoTrashBinSharp } from 'react-icons/io5'
 
+import { useDeleteDelivery, useGetDelivery } from '@/hooks/delivery'
+
 export function BodyTable() {
-  // example
-  const tableData = [
-    {
-      id: 1,
-      recipient: 'Dadang',
-      items: 'tempe, tahu, rendang',
-      courier: 'Dudung',
-      estimedtime: '22-11-2023',
-    },
-    {
-      id: 2,
-      recipient: 'Roy',
-      items: 'rendang, tomat, tempe',
-      courier: 'Dudung',
-      estimedtime: '23-11-2023',
-    },
-    {
-      id: 3,
-      recipient: 'Glory',
-      items: 'Tempe Pindang, rendang goreng',
-      courier: 'Dudung',
-      estimedtime: '24-11-2023',
-    },
-    {
-      id: 4,
-      recipient: 'Adit',
-      items: 'Santan goreng',
-      courier: 'Dudung',
-      estimedtime: '27-11-2023',
-    },
-    {
-      id: 5,
-      recipient: 'Natasha',
-      items: 'Ikan Pindang',
-      courier: 'Dudung',
-      estimedtime: '27-11-2023',
-    },
-    {
-      id: 6,
-      recipient: 'Bella',
-      items: 'Rendang Pindang yang dikukus',
-      courier: 'Dudung',
-      estimedtime: '28-11-2023',
-    },
-    {
-      id: 7,
-      recipient: 'Dina',
-      items: 'Es teh panas',
-      courier: 'Dudung',
-      estimedtime: '29-11-2023',
-    },
-    {
-      id: 8,
-      recipient: 'Dona',
-      items: 'Sate goreng krispi kuah',
-      courier: 'Kasian Dudung kerja Rodi',
-      estimedtime: '30-11-2023',
-    },
-  ]
+  const { data: deliveryData, isLoading, refetch } = useGetDelivery()
+  const { mutate: deleteDelivery, isError } = useDeleteDelivery()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error loading data</div>
+  }
+
+  console.log(deliveryData)
+
+  const deliveryCard = deliveryData || []
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDelivery(id)
+      // After successful deletion, you may want to refetch the data or update the state.
+      refetch()
+    } catch (error) {
+      console.error('Error deleting delivery:', error)
+    }
+  }
 
   return (
     <tbody>
-      {tableData.map((data) => (
-        <tr key={data.id} className="text-xs font-bold text-black md:text-base lg:text-xl">
-          <td className="py-2 pl-3">{data.id}</td>
+      {deliveryCard.map((data, index) => (
+        <tr key={data._id} className="text-xs font-bold text-black md:text-base lg:text-xl">
+          <td className="py-2 pl-3">{index + 1}</td>
           <td className="py-4 pl-3">{data.recipient}</td>
-          <td className="py-2 pl-3">{data.items}</td>
+          <td className="py-2 pl-3">{data.orderItems}</td>
           <td className="py-2 pl-3">{data.courier}</td>
-          <td className="py-2 pl-3">{data.estimedtime}</td>
-          <td className="py-2 pl-3">
-            <button
-              type="button"
-              className="flex items-center 
+          <td className="py-2 pl-3">{data.estimedTime}</td>
+          <td className="font-poppins cursor-pointer rounded">
+            <Link href={`/delivery/${data._id}`} passHref>
+              <button
+                type="button"
+                className="flex items-center 
               items-center rounded 
               rounded 
-              px-4 py-2 
+              bg-ijo1 px-4 
+              px-4
+              py-2 
+              pl-3 
               text-white"
-            >
-              <IoColorWandSharp className="mr-2" /> Edit
-            </button>
+              >
+                <IoColorWandSharp className="mr-2" /> Edit
+              </button>
+            </Link>
           </td>
-          <td className="py-2 pl-3">
+          <td className="font-poppins cursor-pointer rounded">
             <button
               type="button"
-              className="cursor-pointer 
+              className="item-center
+              flex cursor-pointer 
               cursor-pointer items-center rounded 
               rounded 
-              px-4 py-2 
+              bg-merah-tumbas px-4 
+              px-4
+              py-2 
+              pl-3 
               text-white"
+              onClick={() => handleDelete(data._id)}
             >
               <IoTrashBinSharp className="mr-2" /> Delete
             </button>

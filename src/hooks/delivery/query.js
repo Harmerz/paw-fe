@@ -10,7 +10,7 @@ export const useGetDelivery = () => {
   return useQuery({
     queryKey: ['delivery'],
     queryFn: async () => {
-      const res = await axios.get('/api/delivery', {
+      const res = await axios.get('/delivery', {
         headers,
       })
       return res.data
